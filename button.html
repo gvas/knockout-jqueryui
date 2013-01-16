@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>knockout-jqueryui button binding demo</title>
+  <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/pepper-grinder/jquery-ui.css" />
+</head>
+<body>
+<p>
+    <button data-bind="button: { disabled: disabled, icons: icons, label: label, text: text }">
+    </button>
+</p>
+<ul>
+    <li>
+        <label for="disabled">
+            Disabled:</label>
+        <input id="disabled" type="checkbox" data-bind="checked: disabled" />
+    </li>
+    <li>
+        <label for="icons">
+            Icons:</label>
+        <ul>
+            <li>
+                <input id="noIcons" type="radio" name="icons" value="0" data-bind="checked: iconsRadio" />
+                <label for="noIcons">
+                    No icons</label>
+            </li>
+            <li>
+                <input id="primaryIcon" type="radio" name="icons" value="1" data-bind="checked: iconsRadio" />
+                <label for="primaryIcon">
+                    { primary: "ui-icon-locked" }</label>
+            </li>
+            <li>
+                <input id="secondaryIcon" type="radio" name="icons" value="2" data-bind="checked: iconsRadio" />
+                <label for="secondaryIcon">
+                    { secondary: "ui-icon-locked" }</label>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <label for="label">
+            Label:</label>
+        <input id="label" type="text" data-bind="value: label, valueUpdate: 'afterkeydown'" />
+    </li>
+    <li>
+        <label for="text">
+            Text:</label>
+        <input id="text" type="checkbox" data-bind="checked: text" />
+    </li>
+</ul>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.0.js"></script>
+  <script type="text/javascript" src="https://github.com/gvas/knockout-jqueryui/raw/master/build/knockout-jqueryui.min.js"></script>
+  <script type="text/javascript" src="js/button.js"></script>
+</body>
+</html>
