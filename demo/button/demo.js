@@ -1,1 +1,3 @@
-ko.applyBindings({});
+$(function () {
+    ko.applyBindings({});
+});
