@@ -1,0 +1,22 @@
+{
+  "name": "knockout-jqueryui",
+  "description": "knockout binding handlers for jQuery UI",
+  "homepage": "https://github.com/gvas/knockout-jqueryui",
+  "version": "0.1.0",
+  "author":
+  {
+	"name": "Vas Gabor <gvas.munka@gmail.com>"
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/gvas/knockout-jqueryui.git"
+  },
+  "keywords": [
+	"knockout",
+	"jquery ui"
+  ],  
+  "license": "MIT",
+  "engines": {
+	"node": ">=0.6"
+  }
+}
