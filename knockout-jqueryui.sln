@@ -54,9 +54,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{A52088C6-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "button", "button", "{F7EB443B-76B7-446C-BCBE-32C0DB745D0E}"
 	ProjectSection(SolutionItems) = preProject
-		demo\button\button.details = demo\button\button.details
-		demo\button\button.html = demo\button\button.html
-		demo\button\button.js = demo\button\button.js
+		demo\button\demo.details = demo\button\demo.details
+		demo\button\demo.html = demo\button\demo.html
+		demo\button\demo.js = demo\button\demo.js
 	EndProjectSection
 EndProject
 Global
