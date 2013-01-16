@@ -5,6 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		grunt.js = grunt.js
+		MIT-LICENSE.md = MIT-LICENSE.md
 		package.json = package.json
 		README.md = README.md
 		SpecRunner.html = SpecRunner.html
@@ -49,11 +50,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "spec", "spec", "{CA0BAF29-7
 		spec\dialog.spec.js = spec\dialog.spec.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{A52088C6-9995-48FF-AE4F-63CF1AD7A80D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "button", "button", "{F7EB443B-76B7-446C-BCBE-32C0DB745D0E}"
+	ProjectSection(SolutionItems) = preProject
+		demo\button\button.details = demo\button\button.details
+		demo\button\button.html = demo\button\button.html
+		demo\button\button.js = demo\button\button.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CF849C9B-9D62-467E-B166-DA7757EAE9C5} = {6001E32E-962A-4C62-8782-0AE62E9C3538}
+		{F7EB443B-76B7-446C-BCBE-32C0DB745D0E} = {A52088C6-9995-48FF-AE4F-63CF1AD7A80D}
 	EndGlobalSection
 EndGlobal
