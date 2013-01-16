@@ -1,1 +1,1 @@
-﻿ko.applyBindings({});
+ko.applyBindings({});
