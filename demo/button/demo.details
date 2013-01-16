@@ -3,8 +3,4 @@ name: button binding
 description: knockout-jqueryui button binding demo
 authors:
   - Vas Gábor
-resources:
-  - http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/pepper-grinder/jquery-ui.css
-  - http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.0.js
-  - https://github.com/gvas/knockout-jqueryui/raw/master/build/knockout-jqueryui.min.js
 ...

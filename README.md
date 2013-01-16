@@ -21,4 +21,4 @@ Each binding has a widget parameter. If set to one of the viewmodel's observable
 Demo
 ---
 
-*	[Button](http://jsfiddle.net/gh/get/jquery/1.9/dependencies/UI/gvas/knockout-jqueryui/tree/master/demo/button/)
+*	[Button](http://jsfiddle.net/gh/get/library/pure/gvas/knockout-jqueryui/tree/master/demo/button/)
