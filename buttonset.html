@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9, IE=8, IE=7" />
+    <title>knockout-jqueryui buttonset binding demo</title>
+    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/pepper-grinder/jquery-ui.css" />
+</head>
+<body>
+    <p>
+        <div data-bind="buttonset: { disabled: disabled, refreshOn: buttons }">
+            <!-- ko foreach: buttons -->
+            <input type="checkbox" data-bind="attr: { id: id }" />
+            <label data-bind="attr: { 'for': id }, text: label"></label>
+            <!-- /ko -->
+        </div>
+    </p>
+    <hr />
+    <ul>
+        <li>
+            <label for="disabled">
+                Disabled:</label>
+            <input id="disabled" type="checkbox" data-bind="checked: disabled" />
+        </li>
+    </ul>
+    <hr />
+    <label for="newButtonLabel">
+        Label:</label>
+    <input id="newButtonLabel" type="text" data-bind="value: newButtonLabel, valueUpdate: 'afterkeydown'" />
+    <button data-bind="click: addButton">
+        Add</button>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.debug.js"></script>
+    <script type="text/javascript" src="js/lib/knockout-jqueryui.js"></script>
+    <script type="text/javascript" src="js/buttonset.js"></script>
+</body>
+</html>

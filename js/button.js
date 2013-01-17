@@ -1,3 +1,4 @@
+/*globals ko*/
 var VM;
 
 VM = function () {
@@ -10,6 +11,7 @@ VM = function () {
     this.text = ko.observable(true);
     this.iconsRadio = ko.observable('0');
     this.iconsRadio.subscribe(function (newValue) {
+        /*jslint white:true*/
         switch (newValue) {
             case '0':
                 this.icons({
@@ -30,6 +32,7 @@ VM = function () {
                 });
                 break;
         }
+        /*jslint white:false*/
     }, this);
 };
 

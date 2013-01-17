@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9, IE=8, IE=7" />
+    <title>knockout-jqueryui dialog binding demo</title>
+    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/pepper-grinder/jquery-ui.css" />
+</head>
+<body>
+    <div data-bind="dialog: {
+        autoOpen: autoOpen,
+        buttons: buttons,
+        closeOnEscape: closeOnEscape,
+        closeText: closeText,
+        dialogClass: dialogClass,
+        draggable: draggable,
+        height: height,
+        hide: hide,
+        maxHeight: maxHeight,
+        maxWidth: maxWidth,
+        minHeight: minHeight,
+        minWidth: minWidth,
+        modal: modal,
+        position: position,
+        resizable: resizable,
+        show: show,
+        stack: stack,
+        title: title,
+        width: width,
+        zIndex: zIndex,
+        isOpen: isOpen,
+        beforeClose: beforeClose,
+        create: create,
+        open: open,
+        focus: focus,
+        dragStart: dragStart,
+        drag: drag,
+        dragStop: dragStop,
+        resizeStart: resizeStart,
+        resize: resize,
+        resizeStop: resizeStop,
+        close: close
+    }">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id tellus sed
+            lacus semper vehicula a id est. Pellentesque dictum nisi ut nunc tristique in consequat
+            metus tempus. Praesent consectetur dictum dignissim. Nulla facilisi. Cras justo
+            lorem, suscipit eleifend fringilla vitae, elementum et eros. Mauris eleifend ornare
+            auctor. Mauris posuere aliquam mauris. Etiam vitae arcu mi, vitae venenatis est.
+            Morbi in tortor eu ante fringilla congue.</p>
+    </div>
+    <h3>
+        Parameters</h3>
+    <ul>
+        <li>
+            <label for="autoOpen">
+                autoOpen:</label>
+            <input id="autoOpen" type="checkbox" data-bind="checked: autoOpen" />
+        </li>
+        <li>
+            <label for="buttons">
+                buttons:</label>
+            <select id="buttons" data-bind="value: numberOfButtons">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+        </li>
+        <li>
+            <label for="closeOnEscape">
+                closeOnEscape:</label>
+            <input id="closeOnEscape" type="checkbox" data-bind="checked: closeOnEscape" />
+        </li>
+        <li>
+            <label for="closeText">
+                closeText:</label>
+            <input id="closeText" type="text" data-bind="value: closeText" />
+        </li>
+        <li>
+            <label for="dialogClass">
+                dialogClass:</label>
+            <input id="dialogClass" type="text" data-bind="value: dialogClass" />
+        </li>
+        <li>
+            <label for="draggable">
+                draggable:</label>
+            <input id="draggable" type="checkbox" data-bind="checked: draggable" />
+        </li>
+        <li>
+            <label for="height">
+                height:</label>
+            <input id="height" type="text" data-bind="value: height" />
+        </li>
+    </ul>
+    <h3>
+        Live parameters</h3>
+    <ul>
+        <li>
+            <label for="isOpen">
+                isOpen:</label>
+            <input id="isOpen" type="checkbox" data-bind="checked: isOpen" />
+        </li>
+    </ul>
+    <h3>
+        Event log</h3>
+    <textarea rows="10" cols="20" data-bind="value: events"></textarea>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.debug.js"></script>
+    <script type="text/javascript" src="js/lib/knockout-jqueryui.js"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+</body>
+</html>
