@@ -3,7 +3,7 @@
 (function () {
     'use strict';
 
-    var filterProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
+    var filterProperties, unwrapProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
         create;
 
     filterProperties = function (source, properties) {
@@ -19,6 +19,28 @@
                 result[property] = source[property];
             }
         });
+
+        return result;
+    };
+
+    unwrapProperties = function (obj) {
+        /// <summary>Returns a new object with obj's unwrapped properties.</summary>
+        /// <param name='obj' type='Object'></param>
+        /// <returns type='Object'></returns>
+
+        var result, prop;
+
+        result = {};
+
+        for (prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                if (ko.isObservable(obj[prop])) {
+                    result[prop] = obj[prop].peek();
+                } else {
+                    result[prop] = obj[prop];
+                }
+            }
+        }
 
         return result;
     };
@@ -99,7 +121,7 @@
                 ko.applyBindingsToDescendants(bindingContext, element);
 
                 // initialize the widget
-                $(element)[widgetName](ko.toJS(widgetOptionsAndEvents));
+                $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
 
                 subscribeToObservableOptions(widgetName, element, widgetOptions);
 
@@ -139,4 +161,4 @@
     ko.jqueryui.bindingFactory = {
         create: create
     };
-}());
+} ());

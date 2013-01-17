@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.1.0 - 1/11/2013
+/*! knockout-jqueryui - v0.1.0 - 1/17/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    var filterProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
+    var filterProperties, unwrapProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
         create;
 
     filterProperties = function (source, properties) {
@@ -23,6 +23,28 @@
                 result[property] = source[property];
             }
         });
+
+        return result;
+    };
+
+    unwrapProperties = function (obj) {
+        /// <summary>Returns a new object with obj's unwrapped properties.</summary>
+        /// <param name='obj' type='Object'></param>
+        /// <returns type='Object'></returns>
+
+        var result, prop;
+
+        result = {};
+
+        for (prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                if (ko.isObservable(obj[prop])) {
+                    result[prop] = obj[prop].peek();
+                } else {
+                    result[prop] = obj[prop];
+                }
+            }
+        }
 
         return result;
     };
@@ -88,7 +110,7 @@
             var value, widgetOptions, widgetOptionsAndEvents;
 
             // prevent multiple inits
-            if (!ko.utils.domData.get(element, flag)) {
+            if (!element[flag]) {
 
                 value = valueAccessor();
                 widgetOptions = filterProperties(value, options.options);
@@ -103,7 +125,7 @@
                 ko.applyBindingsToDescendants(bindingContext, element);
 
                 // initialize the widget
-                $(element)[widgetName](ko.toJS(widgetOptionsAndEvents));
+                $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
 
                 subscribeToObservableOptions(widgetName, element, widgetOptions);
 
@@ -114,9 +136,10 @@
                     value.widget($(element)[widgetName]('widget'));
                 }
 
-                //handle disposal
+                // handle disposal
                 ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                     $(element)[widgetName]('destroy');
+                    delete element[flag];
                 });
 
                 // execute the provided callback after the widget initialization
@@ -124,7 +147,7 @@
                     options.postInit.apply(this, arguments);
                 }
 
-                ko.utils.domData.set(element, flag, true);
+                element[flag] = true;
             }
 
             // the inner elements have already been taken care of
@@ -142,7 +165,7 @@
     ko.jqueryui.bindingFactory = {
         create: create
     };
-}());
+} ());
 (function () {
     'use strict';
 
@@ -183,7 +206,8 @@
     };
 
     postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the isOpen binding property in sync with the dialog's state.</summary>
+        /// <summary>Keeps the isOpen binding property in sync with the dialog's state.
+        /// </summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
