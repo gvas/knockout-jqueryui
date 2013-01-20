@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.1.0 - 1/20/2013
+/*! knockout-jqueryui - v0.1.0 - 1/21/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -99,67 +99,70 @@
         /// <summary>Creates a new binding.</summary>
         /// <param name='options' type='Object'></param>
 
-        var widgetName, flag, init;
+        var widgetName, init;
 
         widgetName = options.name;
-        flag = 'ko_' + widgetName + '_initialized';
 
-        /*jslint unparam:true*/
-        init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        // skip missing widgets
+        if ($.fn[widgetName]) {
+            /*jslint unparam:true*/
+            init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 
-            var value, widgetOptions, widgetOptionsAndEvents;
+                var flag, value, widgetOptions, widgetOptionsAndEvents;
 
-            // prevent multiple inits
-            if (!element[flag]) {
+                // prevent multiple inits
+                flag = 'ko_' + widgetName + '_initialized';
+                if (!element[flag]) {
 
-                value = valueAccessor();
-                widgetOptions = filterProperties(value, options.options);
-                widgetOptionsAndEvents = filterProperties(value, options.options.concat(options.events));
+                    value = valueAccessor();
+                    widgetOptions = filterProperties(value, options.options);
+                    widgetOptionsAndEvents = filterProperties(value, options.options.concat(options.events));
 
-                // execute the provided callback before the widget initialization
-                if (options.preInit) {
-                    options.preInit.apply(this, arguments);
+                    // execute the provided callback before the widget initialization
+                    if (options.preInit) {
+                        options.preInit.apply(this, arguments);
+                    }
+
+                    // allow inner elements' bindings to finish before initializing the widget
+                    ko.applyBindingsToDescendants(bindingContext, element);
+
+                    // initialize the widget
+                    $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
+
+                    subscribeToObservableOptions(widgetName, element, widgetOptions);
+
+                    if (options.hasRefresh) {
+                        subscribeToRefreshOn(widgetName, element, value);
+                    }
+
+                    // store the widget instance in the widget observable
+                    if (ko.isWriteableObservable(value.widget)) {
+                        value.widget($(element)[widgetName]('widget'));
+                    }
+
+                    // handle disposal
+                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                        $(element)[widgetName]('destroy');
+                        delete element[flag];
+                    });
+
+                    // execute the provided callback after the widget initialization
+                    if (options.postInit) {
+                        options.postInit.apply(this, arguments);
+                    }
+
+                    element[flag] = true;
                 }
 
-                // allow inner elements' bindings to finish before initializing the widget
-                ko.applyBindingsToDescendants(bindingContext, element);
+                // the inner elements have already been taken care of
+                return { controlsDescendantBindings: true };
+            };
+            /*jslint unparam:false*/
 
-                // initialize the widget
-                $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
-
-                subscribeToObservableOptions(widgetName, element, widgetOptions);
-
-                if (options.hasRefresh) {
-                    subscribeToRefreshOn(widgetName, element, value);
-                }
-
-                // store the widget instance in the widget observable
-                if (ko.isWriteableObservable(value.widget)) {
-                    value.widget($(element)[widgetName]('widget'));
-                }
-
-                // handle disposal
-                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                    $(element)[widgetName]('destroy');
-                    delete element[flag];
-                });
-
-                // execute the provided callback after the widget initialization
-                if (options.postInit) {
-                    options.postInit.apply(this, arguments);
-                }
-
-                element[flag] = true;
-            }
-
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
-        };
-        /*jslint unparam:false*/
-
-        ko.bindingHandlers[widgetName] = {
-            init: init
-        };
+            ko.bindingHandlers[widgetName] = {
+                init: init
+            };
+        }
     };
 
     ko.jqueryui = ko.jqueryui || {};
@@ -167,7 +170,7 @@
     ko.jqueryui.bindingFactory = {
         create: create
     };
-} ());
+}());
 (function () {
     'use strict';
 

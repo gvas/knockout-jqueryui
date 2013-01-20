@@ -5,10 +5,22 @@
 
     describe('The binding factory', function () {
         afterEach(function () {
+            delete $.fn.test;
             delete ko.bindingHandlers.test;
         });
 
-        it('should create the specified binding', function () {
+        it('should skip non-existent widgets', function () {
+            ko.jqueryui.bindingFactory.create({
+                name: 'test',
+                options: [],
+                events: []
+            });
+
+            expect(ko.bindingHandlers.test).not.toBeDefined();
+        });
+
+        it('should create binding for an existing widget', function () {
+            $.fn.test = jasmine.createSpy();
             ko.jqueryui.bindingFactory.create({
                 name: 'test',
                 options: [],
@@ -250,4 +262,4 @@
             expect($.fn.test).toHaveBeenCalledWith('destroy');
         });
     });
-} ());
+}());
