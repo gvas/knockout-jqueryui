@@ -65,4 +65,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());

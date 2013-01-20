@@ -194,7 +194,7 @@
 (function () {
     'use strict';
 
-    var preInit, postInit;
+    var preInit, postInit, match, options, events;
 
     preInit = function (element) {
         /// <summary>Creates a hidden div before the element. This helps in disposing the
@@ -247,14 +247,34 @@
         });
     };
 
+    match = $.ui.version.match(/^(\d\.\d+)\.\d+$/);
+    /*jslint white:true*/
+    switch (match[1]) {
+        case '1.9':
+            options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+                'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
+                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+                'width', 'zIndex'];
+            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            break;
+        case '1.10':
+            options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
+                'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
+                'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
+                'title', 'width'];
+            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            break;
+        default:
+            throw new Error('knockout-jqueryui doesn\'t support this jQuery UI version.');
+    }
+    /*jslint white:false*/
+
     ko.jqueryui.bindingFactory.create({
         name: 'dialog',
-        options: ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-            'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
-            'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-            'width', 'zIndex'],
-        events: ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'],
+        options: options,
+        events: events,
         preInit: preInit,
         postInit: postInit
     });
