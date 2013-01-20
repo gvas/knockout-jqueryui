@@ -1,9 +1,10 @@
 ---
 layout: default
-bindingName: Buttonset
-bindingDescription: Themable button sets.
+name: buttonset
+description: Themable button sets.
+widgetApi: http://api.jqueryui.com/button
 hasRefresh: true
-exampleView:
+exampleView: |
   <div data-bind="buttonset: { refreshOn: items }">
     <!-- ko foreach: items -->
     <input type="checkbox" data-bind="attr: { id: id }" />
@@ -11,7 +12,7 @@ exampleView:
     <!-- /ko -->
   </div>
   <button data-bind="click: onAdd">Add</button>
-exampleJs:
+exampleViewModel: |
   var counter = 2;
   var ItemViewModel = function(id) {
     this.id = 'chk' + id.toString();

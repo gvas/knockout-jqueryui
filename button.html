@@ -1,11 +1,14 @@
 ---
 layout: default
-bindingName: Button
-bindingDescription: Themable buttons.
+name: button
+description: Themable buttons.
+widgetApi: http://api.jqueryui.com/button
 hasRefresh: true
-exampleView:
-  <input id="chk" type="checkbox" data-bind="button: { icons: icons, text: false, label: label }, checked: checked"><label for="chk">&nbsp;</label></input>
-exampleJs:
+exampleView: |
+  <input id="chk" type="checkbox" data-bind="button: { icons: icons, text: false, label: label }, checked: checked">
+    <label for="chk">&nbsp;</label>
+  </input>
+exampleViewModel: |
   var onCheckedChanged = function(newValue) {
     this.icons({ primary: newValue ? 'ui-icon-play' : 'ui-icon-stop', secondary: null });
     this.label(newValue ? 'Play': 'Stop');

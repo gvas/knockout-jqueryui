@@ -1,27 +1,27 @@
 <h2>
-    {{ page.bindingName }}</h2>
+    {{ page.name | capitalize }}</h2>
 <p>
-    {{ page.bindingDescription }}
+    {{ page.description }}
 </p>
 <h3>
     Parameters</h3>
 <p>
-    There is a corresponding parameter for each of the widget's options. These can be
-    set to either normal or observable properties of the viewmodel.
+    There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
+        widget's options</a>. These can be set to either normal or observable properties
+    of the viewmodel.
 </p>
 <p>
-    There is a corresponding parameter for each of the widget's events. These can be
-    set to functions of the viewmodel. The bindings invoke these functions in the context
-    of the window object.
+    There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
+        widget's events</a>. These can be set to functions of the viewmodel. The bindings
+    invoke these functions in the context of the window object.
 </p>
 <h4>
     refreshOn</h4>
 <p>
     If set to one of the viewmodel's observables, then every time that observable changes,
-    the descendant elements' bindings are refreshed.
-    {% if page.hasRefresh == true %}
-    After that, the widget is also refreshed (it's refresh method is invoked).
-    {% endif %}</p>
+    the descendant elements' bindings are refreshed. {% if page.hasRefresh == true %}
+    After that, the widget is also refreshed (it's refresh method is invoked). {% endif %}
+</p>
 <h4>
     widget</h4>
 <p>
@@ -46,7 +46,7 @@
     <div class="ym-gbox">
         <h4>
             JavaScript</h4>
-        {% highlight js %}{{ page.exampleJs }}{% endhighlight %}
+        {% highlight js %}{{ page.exampleViewModel }}{% endhighlight %}
     </div>
 </div>
 <div class="ym-grid ym-equalize">
@@ -57,7 +57,7 @@
             {{ page.exampleView }}
             <script type="text/javascript">
                 $(function () {
-                    {{ page.exampleJs }}
+                    {{ page.exampleViewModel }}
                     ko.applyBindings(new ViewModel());
                 });
             </script>
