@@ -18,7 +18,10 @@
     refreshOn</h4>
 <p>
     If set to one of the viewmodel's observables, then every time that observable changes,
-    the widget is refreshed.</p>
+    the descendant elements' bindings are refreshed.
+    {% if page.hasRefresh == true %}
+    After that, the widget is also refreshed (it's refresh method is invoked).
+    {% endif %}</p>
 <h4>
     widget</h4>
 <p>
@@ -32,20 +35,18 @@
 {% endfor %}
 <h3>
     Example</h3>
-<div class="ym-grid ym-equalize linearize-level-1">
-    <div class="ym-g50 ym-gl">
-        <div class="ym-gbox">
-            <h4>
-                HTML</h4>
-            {% highlight html %}{{ page.exampleView }}{% endhighlight %}
-        </div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            HTML</h4>
+        {% highlight html %}{{ page.exampleView }}{% endhighlight %}
     </div>
-    <div class="ym-g50 ym-gr">
-        <div class="ym-gbox">
-            <h4>
-                JavaScript</h4>
-            {% highlight js %}{{ page.exampleJs }}{% endhighlight %}
-        </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            JavaScript</h4>
+        {% highlight js %}{{ page.exampleJs }}{% endhighlight %}
     </div>
 </div>
 <div class="ym-grid ym-equalize">

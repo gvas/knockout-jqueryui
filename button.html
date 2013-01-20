@@ -1,45 +1,20 @@
 ---
 layout: default
+bindingName: Button
+bindingDescription: Themable buttons.
+hasRefresh: true
+exampleView:
+  <input id="chk" type="checkbox" data-bind="button: { icons: icons, text: false, label: label }, checked: checked"><label for="chk">&nbsp;</label></input>
+exampleJs:
+  var onCheckedChanged = function(newValue) {
+    this.icons({ primary: newValue ? 'ui-icon-play' : 'ui-icon-stop', secondary: null });
+    this.label(newValue ? 'Play': 'Stop');
+  };
+  var ViewModel = function () {
+    this.checked = ko.observable(false);
+    this.icons = ko.observable({ primary: 'ui-icon-stop', secondary: null });
+    this.label = ko.observable('Stop');
+    this.checked.subscribe(onCheckedChanged, this);
+  };
 ---
-<p>
-    <button data-bind="button: { disabled: disabled, icons: icons, label: label, text: text }">
-    </button>
-</p>
-<ul>
-    <li>
-        <label for="disabled">
-            Disabled:</label>
-        <input id="disabled" type="checkbox" data-bind="checked: disabled" />
-    </li>
-    <li>
-        <label for="icons">
-            Icons:</label>
-        <ul>
-            <li>
-                <input id="noIcons" type="radio" name="icons" value="0" data-bind="checked: iconsRadio" />
-                <label for="noIcons">
-                    No icons</label>
-            </li>
-            <li>
-                <input id="primaryIcon" type="radio" name="icons" value="1" data-bind="checked: iconsRadio" />
-                <label for="primaryIcon">
-                    Primary</label>
-            </li>
-            <li>
-                <input id="secondaryIcon" type="radio" name="icons" value="2" data-bind="checked: iconsRadio" />
-                <label for="secondaryIcon">
-                    Secondary</label>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <label for="label">
-            Label:</label>
-        <input id="label" type="text" data-bind="value: label, valueUpdate: 'afterkeydown'" />
-    </li>
-    <li>
-        <label for="text">
-            Text:</label>
-        <input id="text" type="checkbox" data-bind="checked: text" />
-    </li>
-</ul>
+{% include binding.html %}

@@ -1,22 +1,24 @@
 ---
 layout: default
-bindingName: Dialogg
+bindingName: Dialog
 bindingDescription: Open content in an interactive overlay.
-exampleView: |
+hasRefresh: false
+extraParameters:
+    - name: isOpen
+      description: Controls whether the dialog is visible. If set to a writeable observable property, then the binding will keep it in sync with the widget's state.
+exampleView:
+  <input type="text" data-bind="value: text, valueUpdate: 'afterkeydown'">
   <div data-bind="dialog: { isOpen: isOpen, refreshOn: text }">
     <p data-bind="text: text"></p>
   </div>
   <button data-bind="click: open, disable: isOpen">Open</button>
-exampleJs: |
+exampleJs:
   var ViewModel = function () {
-    this.isOpen = ko.observable(true);
+    this.isOpen = ko.observable(false);
     this.text = ko.observable('Lorem ipsum dolor sit amet.')
   };
   ViewModel.prototype.open = function() {
     this.isOpen(true);
   };
-extraParameters:
-    - name: isOpen
-      description: Controls whether the dialog is visible. If set to a writeable observable property, then the binding will keep it in sync with the widget's state.
 ---
 {% include binding.html %}
