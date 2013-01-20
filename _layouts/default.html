@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Knockout bindings for jQuery UI widgets" />
+    <meta name="author" content="Vas Gábor" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>knockout-jqueryui</title>
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" href="yaml/core/iehacks.min.css" type="text/css"/>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.debug.js"></script>
+    <script type="text/javascript" src="js/lib/knockout-jqueryui.js"></script>
+</head>
+<body>
+    <div class="ym-wrapper">
+        <div class="ym-wbox">
+            <header>
+                <h1>
+                    <a href="http://gvas.github.com/knockout-jqueryui/index.html">Knockout-jQueryUI</a></h1>
+            </header>
+            <div class="ym-column linearize-level-2">
+                <div class="ym-col1">
+                    <div class="ym-cbox">
+                        <nav class="ym-vlist">
+                            <h6 class="ym-vtitle">
+                                API</h6>
+                            <ul>
+                                <li><a href="button.html">Button</a></li>
+                                <li><a href="buttonset.html">Buttonset</a></li>
+                                <li><a href="dialog.html">Dialog</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="ym-col3">
+                    <div class="ym-cbox">
+                    {{ content }}
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <hr />
+                <p>
+                    Vas Gábor | <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+                    | Layout based on <a href="http://www.yaml.de">YAML</a></p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

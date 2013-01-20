@@ -1,0 +1,65 @@
+<h2>
+    {{ page.bindingName }}</h2>
+<p>
+    {{ page.bindingDescription }}
+</p>
+<h3>
+    Parameters</h3>
+<p>
+    There is a corresponding parameter for each of the widget's options. These can be
+    set to either normal or observable properties of the viewmodel.
+</p>
+<p>
+    There is a corresponding parameter for each of the widget's events. These can be
+    set to functions of the viewmodel. The bindings invoke these functions in the context
+    of the window object.
+</p>
+<h4>
+    refreshOn</h4>
+<p>
+    If set to one of the viewmodel's observables, then every time that observable changes,
+    the widget is refreshed.</p>
+<h4>
+    widget</h4>
+<p>
+    If set to one of the viewmodel's observables, then the binding will write the widget
+    instance into it.</p>
+{% for param in page.extraParameters %}
+<h4>
+    {{ param.name }}</h4>
+<p>
+    {{ param.description }}</p>
+{% endfor %}
+<h3>
+    Example</h3>
+<div class="ym-grid ym-equalize linearize-level-1">
+    <div class="ym-g50 ym-gl">
+        <div class="ym-gbox">
+            <h4>
+                HTML</h4>
+            {% highlight html %}{{ page.exampleView }}{% endhighlight %}
+        </div>
+    </div>
+    <div class="ym-g50 ym-gr">
+        <div class="ym-gbox">
+            <h4>
+                JavaScript</h4>
+            {% highlight js %}{{ page.exampleJs }}{% endhighlight %}
+        </div>
+    </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            Result</h4>
+        <div class="box">
+            {{ page.exampleView }}
+            <script type="text/javascript">
+                $(function () {
+                    {{ page.exampleJs }}
+                    ko.applyBindings(new ViewModel());
+                });
+            </script>
+        </div>
+    </div>
+</div>
