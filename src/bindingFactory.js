@@ -125,7 +125,9 @@
 
                 subscribeToObservableOptions(widgetName, element, widgetOptions);
 
-                subscribeToRefreshOn(widgetName, element, value);
+                if (options.hasRefresh) {
+                    subscribeToRefreshOn(widgetName, element, value);
+                }
 
                 // store the widget instance in the widget observable
                 if (ko.isWriteableObservable(value.widget)) {

@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.1.0 - 1/17/2013
+/*! knockout-jqueryui - v0.1.0 - 1/20/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -129,7 +129,9 @@
 
                 subscribeToObservableOptions(widgetName, element, widgetOptions);
 
-                subscribeToRefreshOn(widgetName, element, value);
+                if (options.hasRefresh) {
+                    subscribeToRefreshOn(widgetName, element, value);
+                }
 
                 // store the widget instance in the widget observable
                 if (ko.isWriteableObservable(value.widget)) {
@@ -172,7 +174,8 @@
     ko.jqueryui.bindingFactory.create({
         name: 'button',
         options: ['disabled', 'icons', 'label', 'text'],
-        events: ['create']
+        events: ['create'],
+        hasRefresh: true
     });
 }());
 (function () {
@@ -181,7 +184,8 @@
     ko.jqueryui.bindingFactory.create({
         name: 'buttonset',
         options: ['items', 'disabled'],
-        events: ['create']
+        events: ['create'],
+        hasRefresh: true
     });
 }());
 (function () {
@@ -258,7 +262,8 @@
     ko.jqueryui.bindingFactory.create({
         name: 'menu',
         options: ['disabled', 'icons', 'menus', 'position', 'role'],
-        events: ['blur', 'create', 'focus', 'select']
+        events: ['blur', 'create', 'focus', 'select'],
+        hasRefresh: true
     });
 }());
 (function () {
@@ -292,6 +297,7 @@
         options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'],
         events: ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'],
-        postInit: postInit
+        postInit: postInit,
+        hasRefresh: true
     });
 }());

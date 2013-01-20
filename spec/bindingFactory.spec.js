@@ -183,13 +183,34 @@
             ko.jqueryui.bindingFactory.create({
                 name: 'test',
                 options: [],
-                events: []
+                events: [],
+                hasRefresh: true
             });
 
             ko.applyBindings(vm);
 
             vm.refreshOnObservable(1);
             expect($element.test).toHaveBeenCalledWith('refresh');
+        });
+
+        it('should not refresh the widget when the hasRefresh option is falsy', function () {
+            var vm;
+
+            $element = $('<div data-bind="test: { refreshOn: refreshOnObservable }"></div>').appendTo('body');
+            vm = { refreshOnObservable: ko.observable() };
+
+            $.fn.test = jasmine.createSpy();
+
+            ko.jqueryui.bindingFactory.create({
+                name: 'test',
+                options: [],
+                events: []
+            });
+
+            ko.applyBindings(vm);
+
+            vm.refreshOnObservable(1);
+            expect($element.test).not.toHaveBeenCalledWith('refresh');
         });
 
         it('should set the view model\'s \'widget\' observable option to the widget instance', function () {

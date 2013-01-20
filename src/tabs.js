@@ -31,6 +31,7 @@
         options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'],
         events: ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'],
-        postInit: postInit
+        postInit: postInit,
+        hasRefresh: true
     });
 }());

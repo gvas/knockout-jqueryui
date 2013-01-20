@@ -2,3 +2,7 @@
 *.suo
 *.user
 *.sln.docstates
+
+# Jekyll generated site #
+#########################
+_site/

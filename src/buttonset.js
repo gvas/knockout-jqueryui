@@ -5,6 +5,7 @@
     ko.jqueryui.bindingFactory.create({
         name: 'buttonset',
         options: ['items', 'disabled'],
-        events: ['create']
+        events: ['create'],
+        hasRefresh: true
     });
 }());
