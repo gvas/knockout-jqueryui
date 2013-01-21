@@ -1,0 +1,48 @@
+---
+layout: default
+name: tabs
+description: A single content area with multiple panels, each associated with a header in a list.
+widgetApi: http://api.jqueryui.com/tabs
+hasRefresh: true
+extraParameters:
+    - name: active
+      description: Which panel is currently open. If set to a writeable observable property, then the binding will keep it in sync with the widget's state.
+exampleView: |
+  <div data-bind="tabs: { refreshOn: items }">
+    <ul>
+      <!-- ko foreach: items -->
+      <li data-bind="attr: { 'aria-controls': id }">  
+          <a data-bind="attr: { title: title, href: href }, text: title"></a>  
+      </li>  
+      <!-- /ko -->
+    </ul>
+    <!-- ko foreach: items -->
+    <div data-bind="attr: { id: id }">
+      <p data-bind="text: text"></p>
+    </div>
+    <!-- /ko -->
+  </div>
+  <label for="newTabTitle">Title</label>
+  <input id="newTabTitle" type="text" data-bind="value: newTabTitle, valueUpdate: 'afterkeydown'" />
+  <label for="newTabText">Text</label>
+  <input id="newTabText" type="text" data-bind="value: newTabText" />
+  <button data-bind="click: onAdd, enable: newTabTitle().length">Add</button>
+exampleViewModel: |
+  var counter = 0;
+  var ItemViewModel = function(title, text) {
+    counter += 1;
+    this.id = 'tab' + counter.toString();
+    this.href = '#tab' + counter.toString();
+    this.title = title;
+    this.text = text;
+  };
+  var ViewModel = function () {
+    this.items = ko.observableArray([new ItemViewModel('Tab 1', 'Tab 1 text'), new ItemViewModel('Tab 2', 'Tab 2 text')]);
+    this.newTabTitle = ko.observable('');
+    this.newTabText = ko.observable('');
+  };
+  ViewModel.prototype.onAdd = function() {
+    this.items.push(new ItemViewModel(this.newTabTitle(), this.newTabText()));
+  };
+---
+{% include binding.html %}
