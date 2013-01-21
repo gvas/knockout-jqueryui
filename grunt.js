@@ -6,7 +6,8 @@ module.exports = function (grunt) {
     var coreFiles, widgets, stripBanner;
 
     coreFiles = ['src/bindingFactory.js'];
-    widgets = ['src/accordion.js', 'src/button.js', 'src/buttonset.js', 'src/dialog.js', 'src/menu.js', 'src/tabs.js'];
+    widgets = ['src/accordion.js', 'src/autocomplete.js', 'src/button.js', 'src/buttonset.js',
+        'src/dialog.js', 'src/menu.js', 'src/tabs.js'];
 
     stripBanner = function (files) {
         return files.map(function (file) {
