@@ -1,0 +1,30 @@
+---
+layout: default
+name: autocomplete
+description: Autocomplete enables users to quickly find and select from a pre-populated list of values as they type, leveraging searching and filtering.
+widgetApi: http://api.jqueryui.com/autocomplete
+hasRefresh: false
+exampleView: |
+  <label for="states">States:</label>
+  <input id="states" type="text" data-bind="autocomplete: { source: items, select: onSelect }">
+  <span>Selected:</span>
+  <span data-bind="text: selected"></span>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.items = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
+      'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawai\uFEFF\u02BBi', 'Idaho', 'Illinois',
+      'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+      'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
+      'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+      'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Puerto Rico',
+      'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
+      'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin',
+      'Wyoming'];
+      this.selected = ko.observable('');
+  };
+  ViewModel.prototype.onSelect = function(ev, ui) {
+    var vm = ko.dataFor(ev.target);
+    vm.selected(ui.item.value);
+  };
+---
+{% include binding.html %}

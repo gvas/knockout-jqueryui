@@ -214,6 +214,17 @@
     'use strict';
 
     ko.jqueryui.bindingFactory.create({
+        name: 'autocomplete',
+        options: ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength', 'position',
+            'source'],
+        events: ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
+            'select']
+    });
+}());
+(function () {
+    'use strict';
+
+    ko.jqueryui.bindingFactory.create({
         name: 'button',
         options: ['disabled', 'icons', 'label', 'text'],
         events: ['create'],
