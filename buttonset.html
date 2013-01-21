@@ -8,7 +8,7 @@ exampleView: |
   <div data-bind="buttonset: { refreshOn: items }">
     <!-- ko foreach: items -->
     <input type="checkbox" data-bind="attr: { id: id }" />
-    <label data-bind="attr: { for: id }, text: label"></label>
+    <label data-bind="attr: { 'for': id }, text: label"></label>
     <!-- /ko -->
   </div>
   <button data-bind="click: onAdd">Add</button>
