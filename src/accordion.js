@@ -15,7 +15,11 @@
         if (ko.isWriteableObservable(value.active)) {
             /*jslint unparam:true*/
             $(element).on('accordionactivate.ko', function (ev, ui) {
-                value.active(ui.newTab.index());
+                var headerSelector, $headers;
+
+                headerSelector = $(element).accordion('option', 'header');
+                $headers = $(element).find(headerSelector);
+                value.active($headers.index(ui.newHeader));
             });
             /*jslint unparam:true*/
         }
@@ -34,4 +38,4 @@
         postInit: postInit,
         hasRefresh: true
     });
-}());
+} ());
