@@ -1,0 +1,28 @@
+---
+layout: default
+name: menu
+description: Themeable menu with mouse and keyboard interactions for navigation.
+widgetApi: http://api.jqueryui.com/menu
+hasRefresh: true
+exampleView: |
+  <ul style="width: 200px;" data-bind="menu: { select: onSelect }">
+    <li>
+      <a href="#">Apple</a></li>
+    <li>
+      <a href="#">Orange</a></li>
+    <li>
+      <a href="#">Peach</a></li>
+  </ul>
+  <span>Selected:</span>
+  <span data-bind="text: selected"></span>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.selected = ko.observable('');
+  };
+  ViewModel.prototype.onSelect = function(ev, ui) {
+    var vm = ko.dataFor(ui.item[0]);
+    vm.selected(ui.item.text());
+    ev.preventDefault();
+  };
+---
+{% include binding.html %}
