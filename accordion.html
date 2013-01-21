@@ -8,10 +8,10 @@ extraParameters:
     - name: active
       description: Which panel is currently open. If set to a writeable observable property, then the binding will keep it in sync with the widget's state.
 exampleView: |
-  <select data-bind="value: active">
-    <option value="1">Panel 1</option>
-    <option value="2">Panel 2</option>
-    <option value="3">Panel 3</option>
+  <select data-bind="value: selected">
+    <option value="0">Panel 1</option>
+    <option value="1">Panel 2</option>
+    <option value="2">Panel 3</option>
   </select>
   <div data-bind="accordion: { active: active }">
     <h3>Panel 1</h3>
@@ -23,7 +23,10 @@ exampleView: |
   </div>
 exampleViewModel: |
   var ViewModel = function () {
-    this.active = ko.observable(1);
+    this.active = ko.observable(0);
+    this.selected = ko.observable('0');
+    this.active.subscribe(function(newValue) { this.selected(newValue.toString()); }, this);
+    this.selected.subscribe(function(newValue) { this.active(parseInt(newValue, 10)); }, this);
   };
 ---
 {% include binding.html %}
