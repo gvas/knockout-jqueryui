@@ -17,7 +17,7 @@
             $(element).on('tabsactivate.ko', function (ev, ui) {
                 value.active(ui.newTab.index());
             });
-            /*jslint unparam:true*/
+            /*jslint unparam:false*/
         }
 
         //handle disposal
