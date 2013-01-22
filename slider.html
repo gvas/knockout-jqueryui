@@ -1,0 +1,37 @@
+---
+layout: default
+name: slider
+description: Drag a handle to select a numeric value.
+widgetApi: http://api.jqueryui.com/slider
+hasRefresh: false
+extraParameters:
+    - name: value
+      description: The value of the slider. If set to a writeable observable property, then the binding will keep it in sync with the slider's value.
+    - name: values
+      description: The values for all handles. If set to a writeable observable property, then the binding will keep it in sync with the slider's values.
+exampleView: |
+  <div style="width: 200px;" data-bind="slider: { values: values }"></div>
+  <p>
+    <input type="text" data-bind="value: value1" />
+    <input type="text" data-bind="value: value2" />
+    <input type="text" data-bind="value: value3" />
+  </p>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.value1 = ko.observable('25');
+    this.value2 = ko.observable('50');
+    this.value3 = ko.observable('75');
+    this.values = ko.computed({
+      read: function() {
+        return [this.value1(), this.value2(), this.value3()];
+      },
+      write: function(newValue) {
+        this.value1(newValue[0]);
+        this.value2(newValue[1]);
+        this.value3(newValue[2]);
+      },
+      owner: this
+    });
+  };
+---
+{% include binding.html %}
