@@ -1,0 +1,27 @@
+---
+layout: default
+name: spinner
+description: Enhance a text input for entering numeric values, with up/down buttons and arrow key handling.
+widgetApi: http://api.jqueryui.com/spinner
+hasRefresh: false
+extraParameters:
+    - name: value
+      description: The spinner's value. If set to a writeable observable property, then the binding will keep it in sync with the spinner's value.
+exampleView: |
+  <input data-bind="spinner: { value: value }" />
+  <p>
+    <button data-bind="click: pageUp">+50</button>
+    <button data-bind="click: pageDown">-50</button>
+  </p>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.value = ko.observable(0);
+  };
+  ViewModel.prototype.pageUp = function() {
+    this.value(this.value() + 50);
+  };
+  ViewModel.prototype.pageDown = function() {
+    this.value(this.value() - 50);
+  };
+---
+{% include binding.html %}
