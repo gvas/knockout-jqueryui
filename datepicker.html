@@ -1,0 +1,20 @@
+---
+layout: default
+name: datepicker
+description: Select a date from a popup or inline calendar
+widgetApi: http://api.jqueryui.com/datepicker
+hasRefresh: true
+exampleView: |
+  <input type="text" data-bind="datepicker: { onSelect: onSelect }" />
+  <span>Selected: </span>
+  <span data-bind="text: selected"></span>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.selected = ko.observable('');
+  };
+  ViewModel.prototype.onSelect = function(dateText, inst) {
+    var vm = ko.dataFor(this);
+    vm.selected(dateText);
+  };
+---
+{% include binding.html %}

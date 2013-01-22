@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.1.0 - 1/21/2013
+/*! knockout-jqueryui - v0.1.0 - 1/22/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -244,6 +244,25 @@
 (function () {
     'use strict';
 
+    ko.jqueryui.bindingFactory.create({
+        name: 'datepicker',
+        options: ['altField', 'altFormat', 'appendText', 'autoSize', 'buttonImage',
+            'buttonImageOnly', 'buttonText', 'calculateWeek', 'changeMonth', 'changeYear',
+            'closeText', 'constrainInput', 'currentText', 'dateFormat', 'dayNames',
+            'dayNamesMin', 'dayNamesShort', 'defaultDate', 'duration', 'firstDay',
+            'gotoCurrent', 'hideIfNoPrevNext', 'isRTL', 'maxDate', 'minDate',
+            'monthNames', 'monthNamesShort', 'navigationAsDateFormat', 'nextText',
+            'numberOfMonths', 'prevText', 'selectOtherMonths', 'shortYearCutoff',
+            'showAnim', 'showButtonPanel', 'showCurrentAtPos', 'showMonthAfterYear',
+            'showOn', 'showOptions', 'showOtherMonths', 'showWeek', 'stepMonths',
+            'weekHeader', 'yearRange', 'yearSuffix', 'beforeShow', 'beforeShowDay',
+            'onChangeMonthYear', 'onClose', 'onSelect'],
+        events: []
+    });
+}());
+(function () {
+    'use strict';
+
     var preInit, postInit, match, options, events;
 
     preInit = function (element) {
@@ -337,6 +356,15 @@
         options: ['disabled', 'icons', 'menus', 'position', 'role'],
         events: ['blur', 'create', 'focus', 'select'],
         hasRefresh: true
+    });
+}());
+(function () {
+    'use strict';
+
+    ko.jqueryui.bindingFactory.create({
+        name: 'progressbar',
+        options: ['disabled', 'max', 'value'],
+        events: ['change', 'create', 'complete']
     });
 }());
 (function () {
