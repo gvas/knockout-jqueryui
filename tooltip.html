@@ -9,7 +9,7 @@ extraParameters:
       description: Opens/closes the tooltip. This is only intended to be set for non-delegated tooltips. If set to a writeable observable property, then the binding will keep it in sync with the tooltip's state.
 exampleView: |
   <p>
-    <button id="item" data-bind="tooltip: { content: content, isOpen: isOpen, items: '#item' }">This button has tooltip.</button>
+    <button id="item" data-bind="tooltip: { content: content, isOpen: isOpen, items: '#item' }">This button has a tooltip.</button>
   </p>
   <p>
     <label for="content">Tooltip's content:</label><input id="content" type="text" data-bind="value: content, valueUpdate: 'afterkeydown'" />

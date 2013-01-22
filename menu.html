@@ -13,8 +13,10 @@ exampleView: |
     <li>
       <a href="#">Peach</a></li>
   </ul>
-  <span>Selected:</span>
-  <span data-bind="text: selected"></span>
+  <p>
+    <span>Selected:</span>
+    <span data-bind="text: selected"></span>
+  </p>
 exampleViewModel: |
   var ViewModel = function () {
     this.selected = ko.observable('');

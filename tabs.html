@@ -22,11 +22,13 @@ exampleView: |
     </div>
     <!-- /ko -->
   </div>
-  <label for="newTabTitle">Title</label>
-  <input id="newTabTitle" type="text" data-bind="value: newTabTitle, valueUpdate: 'afterkeydown'" />
-  <label for="newTabText">Text</label>
-  <input id="newTabText" type="text" data-bind="value: newTabText" />
-  <button data-bind="click: onAdd, enable: newTabTitle().length">Add</button>
+  <p>
+    <label for="newTabTitle">Title</label>
+    <input id="newTabTitle" type="text" data-bind="value: newTabTitle, valueUpdate: 'afterkeydown'" />
+    <label for="newTabText">Text</label>
+    <input id="newTabText" type="text" data-bind="value: newTabText" />
+    <button data-bind="click: onAdd, enable: newTabTitle().length">Add</button>
+  </p>
 exampleViewModel: |
   var counter = 0;
   var ItemViewModel = function(title, text) {

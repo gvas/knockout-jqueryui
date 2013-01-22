@@ -11,7 +11,9 @@ exampleView: |
     <label data-bind="attr: { 'for': id }, text: label"></label>
     <!-- /ko -->
   </div>
-  <button data-bind="click: onAdd">Add</button>
+  <p>
+    <button data-bind="click: onAdd">Add</button>
+  </p>
 exampleViewModel: |
   var counter = 2;
   var ItemViewModel = function(id) {

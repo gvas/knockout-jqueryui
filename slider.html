@@ -6,9 +6,9 @@ widgetApi: http://api.jqueryui.com/slider
 hasRefresh: false
 extraParameters:
     - name: value
-      description: The value of the slider. If set to a writeable observable property, then the binding will keep it in sync with the slider's value.
+      description: Sets the slider's value. If set to a writeable observable property, then the binding will write the value of the slider's first handle into it when the user repositions the handle.
     - name: values
-      description: The values for all handles. If set to a writeable observable property, then the binding will keep it in sync with the slider's values.
+      description: Sets the values for all handles. If set to a writeable observable property, then the binding will write the values of the handles into it when the user repositions one of the handles.
 exampleView: |
   <div style="width: 200px;" data-bind="slider: { values: values }"></div>
   <p>

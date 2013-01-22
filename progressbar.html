@@ -5,18 +5,26 @@ description: Display status of a determinate or indeterminate process.
 widgetApi: http://api.jqueryui.com/progressbar
 hasRefresh: false
 exampleView: |
-  <select data-bind="value: selected">
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="75">75</option>
-  </select>
+  <p>
+    <select data-bind="value: selected">
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="75">75</option>
+    </select>
+  </p>
   <div style="width: 100px; height: 15px;" data-bind="progressbar: { value: value }"></div>
 exampleViewModel: |
   var ViewModel = function () {
     this.selected = ko.observable('25');
-    this.value = ko.observable(25);
-    this.selected.subscribe(function(newValue) { this.value(parseInt(newValue)); }, this);
-    this.value.subscribe(function(newValue) { this.selected(newValue.toString()); }, this);
+    this.value = ko.computed({
+      read: function() {
+        return parseInt(this.selected())
+      },
+      write: function(newValue) {
+        this.selected(newValue.toString());
+      },
+      owner: this
+    });
   };
 ---
 {% include binding.html %}
