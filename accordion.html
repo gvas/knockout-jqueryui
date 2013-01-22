@@ -24,9 +24,11 @@ exampleView: |
 exampleViewModel: |
   var ViewModel = function () {
     this.active = ko.observable(0);
-    this.selected = ko.observable('0');
-    this.active.subscribe(function(newValue) { this.selected(newValue.toString()); }, this);
-    this.selected.subscribe(function(newValue) { this.active(parseInt(newValue, 10)); }, this);
+    this.selected = ko.computed({
+        read: function() { return this.active().toString(); },
+        write: function(newValue) { this.active(parseInt(newValue, 10)); },
+        owner: this
+    });
   };
 ---
 {% include binding.html %}

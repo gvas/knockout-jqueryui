@@ -9,7 +9,7 @@ extraParameters:
       description: Controls whether the dialog is visible. If set to a writeable observable property, then the binding will keep it in sync with the widget's state.
 exampleView: |
   <input type="text" data-bind="value: text, valueUpdate: 'afterkeydown'">
-  <div data-bind="dialog: { isOpen: isOpen, refreshOn: text }">
+  <div data-bind="dialog: { isOpen: isOpen }">
     <p data-bind="text: text"></p>
   </div>
   <button data-bind="click: open, disable: isOpen">Open</button>
