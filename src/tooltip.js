@@ -1,4 +1,4 @@
-/*global $, ko*/
+/*global $, ko, kojqui*/
 (function () {
     'use strict';
 
@@ -39,7 +39,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'tooltip',
         options: ['content', 'disabled', 'hide', 'items', 'position', 'show',
             'tooltipClass', 'track'],

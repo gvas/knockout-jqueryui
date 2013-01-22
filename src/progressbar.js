@@ -1,8 +1,8 @@
-/*global ko*/
+/*global kojqui*/
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'progressbar',
         options: ['disabled', 'max', 'value'],
         events: ['change', 'create', 'complete']

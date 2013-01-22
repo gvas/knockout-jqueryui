@@ -1,4 +1,4 @@
-/*global $, ko*/
+/*global $, ko, kojqui*/
 (function () {
     'use strict';
 
@@ -33,7 +33,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'spinner',
         options: ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
             'numberFormat', 'page', 'step'],

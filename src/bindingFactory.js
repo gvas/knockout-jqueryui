@@ -1,4 +1,4 @@
-/*global ko, $*/
+/*global ko, $, kojqui*/
 /*jslint maxlen:256*/
 (function () {
     'use strict';
@@ -161,9 +161,7 @@
         }
     };
 
-    ko.jqueryui = ko.jqueryui || {};
-
-    ko.jqueryui.bindingFactory = {
+    kojqui.utils.exportObject('kojqui', 'bindingFactory', {
         create: create
-    };
+    });
 }());

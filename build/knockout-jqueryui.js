@@ -1,9 +1,76 @@
-/*! knockout-jqueryui - v0.1.0 - 1/22/2013
+/*! knockout-jqueryui - v0.2.0 - 1/23/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
 /*jslint browser:true maxlen:256*/
 
+(function () {
+    'use strict';
+
+    var exportObject, getMajorMinorVersion;
+
+    exportObject = function (ns, name, obj) {
+        /// <summary>Makes an object available under a namespace.</summary>
+        /// <param name='ns' type='String'></param>
+        /// <param name='name' type='String'></param>
+        /// <param name='obj' type='Object'></param>
+
+        var current, parts, i, il;
+
+        current = window;
+        parts = ns.split('.');
+        for (i = 0, il = parts.length; i < il; i += 1) {
+            current = current[parts[i]] = current[parts[i]] || {};
+        }
+
+        current[name] = obj;
+    };
+
+    getMajorMinorVersion = function (version) {
+        /// <summary>Returns the major.minor version from the version string.</summary>
+        /// <param name='version' type='String'></param>
+        /// <returns type='String'></returns>
+
+        var match = (version || '').match(/^(\d\.\d+)\.\d+$/);
+
+        return match ? match[1] : null;
+    };
+
+    window.kojqui = window.kojqui || {};
+
+    exportObject('kojqui', 'utils', {
+        exportObject: exportObject,
+        getMajorMinorVersion: getMajorMinorVersion
+    });
+}());
+(function () {
+    'use strict';
+
+    var uiVersion, koVersion;
+
+    // dependency checks
+    if (!window.jQuery) {
+        throw new Error('jQuery must be loaded before knockout-jquery.');
+    }
+    if (!window.jQuery.ui) {
+        throw new Error('jQuery UI must be loaded before knockout-jquery.');
+    }
+    if (!window.ko) {
+        throw new Error('knockout must be loaded before knockout-jquery.');
+    }
+
+    uiVersion = kojqui.utils.getMajorMinorVersion(window.jQuery.ui.version);
+    if (uiVersion !== '1.9' && uiVersion !== '1.10') {
+        throw new Error('This version of the jQuery UI library is not supported.');
+    }
+
+    koVersion = kojqui.utils.getMajorMinorVersion(window.ko.version);
+    if (koVersion !== '2.2') {
+        throw new Error('This version of the knockout library is not supported.');
+    }
+
+    kojqui.utils.exportObject('kojqui', 'version', '0.2.0');
+}());
 (function () {
     'use strict';
 
@@ -165,11 +232,9 @@
         }
     };
 
-    ko.jqueryui = ko.jqueryui || {};
-
-    ko.jqueryui.bindingFactory = {
+    kojqui.utils.exportObject('kojqui', 'bindingFactory', {
         create: create
-    };
+    });
 }());
 (function () {
     'use strict';
@@ -177,7 +242,8 @@
     var postInit;
 
     postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
+        /// <summary>Keeps the active binding property in sync with the tabs' state.
+        /// </summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
@@ -201,7 +267,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'accordion',
         options: ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'],
@@ -209,11 +275,11 @@
         postInit: postInit,
         hasRefresh: true
     });
-} ());
+}());
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'autocomplete',
         options: ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength', 'position',
             'source'],
@@ -224,7 +290,7 @@
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'button',
         options: ['disabled', 'icons', 'label', 'text'],
         events: ['create'],
@@ -234,7 +300,7 @@
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'buttonset',
         options: ['items', 'disabled'],
         events: ['create'],
@@ -244,7 +310,7 @@
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'datepicker',
         options: ['altField', 'altFormat', 'appendText', 'autoSize', 'buttonImage',
             'buttonImageOnly', 'buttonText', 'calculateWeek', 'changeMonth', 'changeYear',
@@ -263,7 +329,7 @@
 (function () {
     'use strict';
 
-    var preInit, postInit, match, options, events;
+    var preInit, postInit, options, events;
 
     preInit = function (element) {
         /// <summary>Creates a hidden div before the element. This helps in disposing the
@@ -316,9 +382,8 @@
         });
     };
 
-    match = $.ui.version.match(/^(\d\.\d+)\.\d+$/);
     /*jslint white:true*/
-    switch (match[1]) {
+    switch (kojqui.utils.getMajorMinorVersion($.ui.version)) {
         case '1.9':
             options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
                 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
@@ -335,12 +400,10 @@
             events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
                 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
             break;
-        default:
-            throw new Error('knockout-jqueryui doesn\'t support this jQuery UI version.');
     }
     /*jslint white:false*/
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'dialog',
         options: options,
         events: events,
@@ -351,7 +414,7 @@
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'menu',
         options: ['disabled', 'icons', 'menus', 'position', 'role'],
         events: ['blur', 'create', 'focus', 'select'],
@@ -361,7 +424,7 @@
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'progressbar',
         options: ['disabled', 'max', 'value'],
         events: ['change', 'create', 'complete']
@@ -400,7 +463,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'slider',
         options: ['animate', 'disabled', 'max', 'min', 'orientation', 'range', 'step',
             'value', 'values'],
@@ -442,7 +505,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'spinner',
         options: ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
             'numberFormat', 'page', 'step'],
@@ -476,7 +539,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'tabs',
         options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'],
@@ -525,7 +588,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'tooltip',
         options: ['content', 'disabled', 'hide', 'items', 'position', 'show',
             'tooltipClass', 'track'],

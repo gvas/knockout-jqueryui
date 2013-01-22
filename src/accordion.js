@@ -1,12 +1,12 @@
-/*global $, ko*/
-/*jslint maxlen:256*/
+/*global $, ko, kojqui*/
 (function () {
     'use strict';
 
     var postInit;
 
     postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
+        /// <summary>Keeps the active binding property in sync with the tabs' state.
+        /// </summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
@@ -30,7 +30,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'accordion',
         options: ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'],
@@ -38,4 +38,4 @@
         postInit: postInit,
         hasRefresh: true
     });
-} ());
+}());

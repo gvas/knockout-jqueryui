@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 
     var coreFiles, widgets, stripBanner;
 
-    coreFiles = ['src/bindingFactory.js'];
+    coreFiles = ['src/utils.js', 'src/init.js', 'src/bindingFactory.js'];
     widgets = ['src/accordion.js', 'src/autocomplete.js', 'src/button.js', 'src/buttonset.js',
         'src/datepicker.js', 'src/dialog.js', 'src/menu.js', 'src/progressbar.js', 'src/slider.js',
         'src/spinner.js', 'src/tabs.js', 'src/tooltip.js'];
@@ -73,7 +73,8 @@ module.exports = function (grunt) {
             },
             globals: {
                 jQuery: false,
-                ko: false
+                ko: false,
+                kojqui: false
             }
         }
     });

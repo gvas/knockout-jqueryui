@@ -1,8 +1,8 @@
-/*global ko*/
+/*global kojqui*/
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'datepicker',
         options: ['altField', 'altFormat', 'appendText', 'autoSize', 'buttonImage',
             'buttonImageOnly', 'buttonText', 'calculateWeek', 'changeMonth', 'changeYear',

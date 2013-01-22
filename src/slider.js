@@ -1,4 +1,4 @@
-/*global $, ko*/
+/*global $, ko, kojqui*/
 (function () {
     'use strict';
 
@@ -32,7 +32,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'slider',
         options: ['animate', 'disabled', 'max', 'min', 'orientation', 'range', 'step',
             'value', 'values'],

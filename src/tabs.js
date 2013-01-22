@@ -1,4 +1,4 @@
-/*global $, ko*/
+/*global $, ko, kojqui*/
 /*jslint maxlen:256*/
 (function () {
     'use strict';
@@ -26,7 +26,7 @@
         });
     };
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'tabs',
         options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'],

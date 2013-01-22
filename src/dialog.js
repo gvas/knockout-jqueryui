@@ -1,9 +1,9 @@
-/*global ko, $*/
+/*global ko, $, kojqui*/
 /*jslint browser:true*/
 (function () {
     'use strict';
 
-    var preInit, postInit, match, options, events;
+    var preInit, postInit, options, events;
 
     preInit = function (element) {
         /// <summary>Creates a hidden div before the element. This helps in disposing the
@@ -56,9 +56,8 @@
         });
     };
 
-    match = $.ui.version.match(/^(\d\.\d+)\.\d+$/);
     /*jslint white:true*/
-    switch (match[1]) {
+    switch (kojqui.utils.getMajorMinorVersion($.ui.version)) {
         case '1.9':
             options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
                 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
@@ -75,12 +74,10 @@
             events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
                 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
             break;
-        default:
-            throw new Error('knockout-jqueryui doesn\'t support this jQuery UI version.');
     }
     /*jslint white:false*/
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'dialog',
         options: options,
         events: events,

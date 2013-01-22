@@ -1,9 +1,8 @@
-/*global ko*/
-/*jslint maxlen:256*/
+/*global kojqui*/
 (function () {
     'use strict';
 
-    ko.jqueryui.bindingFactory.create({
+    kojqui.bindingFactory.create({
         name: 'menu',
         options: ['disabled', 'icons', 'menus', 'position', 'role'],
         events: ['blur', 'create', 'focus', 'select'],
