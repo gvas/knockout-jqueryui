@@ -29,10 +29,10 @@
 
         var value = valueAccessor();
 
-        if (ko.isObservable(value.isOpen)) {
+        if (value.isOpen) {
             ko.computed({
                 read: function () {
-                    if (value.isOpen()) {
+                    if (ko.utils.unwrapObservable(value.isOpen)) {
                         $(element).dialog('open');
                     } else {
                         $(element).dialog('close');

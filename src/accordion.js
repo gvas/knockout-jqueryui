@@ -21,7 +21,7 @@
                 $headers = $(element).find(headerSelector);
                 value.active($headers.index(ui.newHeader));
             });
-            /*jslint unparam:true*/
+            /*jslint unparam:false*/
         }
 
         //handle disposal
