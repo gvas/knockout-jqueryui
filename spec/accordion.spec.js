@@ -1,38 +1,32 @@
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
 /*jslint maxlen:256*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, testWidgetOptions*/
 (function () {
     'use strict';
 
     describe('The accordion binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
 
         it('should handle each option of the widget', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active, animate: animate, '
-                + 'collapsible: collapsible, disabled: disabled, event: event, '
-                + 'header: header, heightStyle: heightStyle, icons: icons }"></div>')
-                .appendTo('body');
-            vm = {
-                active: false,
-                animate: 1,
-                collapsible: true,
-                disabled: true,
-                event: 'mouseover',
-                header: 'h3',
-                heightStyle: 'content',
-                icons: { header: 'ui-icon-plus', activeHeader: 'ui-icon-minus', headerSelected: 'ui-icon-minus' }
-            };
+            testWidgetOptions('accordion', {
+                animate: [{}, 1],
+                collapsible: [false, true],
+                disabled: [false, true],
+                event: ['click', 'mouseover'],
+                header: ['> li > :first-child,> :not(li):even', 'h3'],
+                heightStyle: ['auto', 'content'],
+                icons: [{ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }, { header: 'ui-icon-plus', activeHeader: 'ui-icon-minus', headerSelected: 'ui-icon-minus'}]
+            });
 
+            // the active option requires extra care
+            $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            vm = { active: ko.observable(0) };
             ko.applyBindings(vm);
 
-            ko.utils.arrayForEach(['active', 'animate', 'collapsible', 'disabled',
-                'event', 'header', 'heightStyle', 'icons'],
-                function (optionName) {
-                    expect($element.accordion('option', optionName)).toEqual(vm[optionName]);
-                });
+            jasmine.log('option: active');
+            expect($element.accordion('option', 'active')).toEqual(0);
+            vm.active(1);
+            expect($element.accordion('option', 'active')).toEqual(1);
 
             ko.removeNode($element[0]);
         });

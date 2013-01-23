@@ -4,39 +4,18 @@
     'use strict';
 
     describe('The spinner binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="spinner: { culture: culture, disabled: disabled, '
-                + 'icons: icons, incremental: incremental, max: max, min: min, '
-                + 'numberFormat: numberFormat, page: page, step: step }"></div>')
-                .appendTo('body');
-            vm = {
-                culture: 'fr',
-                disabled: true,
-                event: 'mouseover',
-                icons: { down: 'custom-down-icon', up: 'custom-up-icon' },
-                incremental: false,
-                max: 50,
-                min: 10,
-                numberFormat: 'n',
-                page: 5,
-                step: 2
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['culture', 'disabled', 'icons', 'incremental', 'max',
-                'min', 'numberFormat', 'page', 'step'],
-                function (optionName) {
-                    expect($element.spinner('option', optionName)).toEqual(vm[optionName]);
-                });
-
-            ko.removeNode($element[0]);
+            testWidgetOptions('spinner', {
+                culture: [null, 'fr'],
+                disabled: [false, true],
+                icons: [{ down: 'ui-icon-triangle-1-s', up: 'ui-icon-triangle-1-n' }, { down: 'custom-down-icon', up: 'custom-up-icon' }],
+                incremental: [true, false],
+                max: [null, 50],
+                min: [null, 10],
+                numberFormat: [null, 'n'],
+                page: [10, 5],
+                step: [1, 2]
+            });
         });
 
         it('should handle each event of the widget', function () {
@@ -52,4 +31,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());

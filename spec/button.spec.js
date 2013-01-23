@@ -4,28 +4,13 @@
     'use strict';
 
     describe('The button binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="button: { disabled: disabled, icons: icons, label: label, text: text }"></div>').appendTo('body');
-            vm = {
-                disabled: true,
-                icons: { primary: 'ui-icon-plus', secondary: null },
-                label: 'Test',
-                text: false
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['disabled', 'icons', 'label', 'text'], function (optionName) {
-                expect($element.button('option', optionName)).toEqual(vm[optionName]);
+            testWidgetOptions('button', {
+                disabled: [false, true],
+                icons: [{ primary: null, secondary: null }, { primary: 'ui-icon-plus', secondary: null }],
+                label: [null, 'Test'],
+                text: [true, false]
             });
-
-            ko.removeNode($element[0]);
         });
 
         it('should handle each event of the widget', function () {

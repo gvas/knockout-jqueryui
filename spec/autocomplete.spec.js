@@ -4,34 +4,16 @@
     'use strict';
 
     describe('The autocomplete binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="autocomplete: { appendTo: appendTo, autoFocus: autoFocus, '
-                + 'delay: delay, disabled: disabled, minLength: minLength, '
-                + 'position: position, source: source }"></div>').appendTo('body');
-            vm = {
-                appendTo: 'body',
-                autoFocus: true,
-                delay: 400,
-                disabled: true,
-                minLength: 2,
-                position: { my: 'right top', at: 'right bottom', collision: 'none' },
-                source: ['1', '2']
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength',
-                'position', 'source'], function (optionName) {
-                    expect($element.autocomplete('option', optionName)).toEqual(vm[optionName]);
+            testWidgetOptions('autocomplete', {
+                appendTo: ['body', ':parent'],
+                autoFocus: [false, true],
+                delay: [300, 400],
+                disabled: [false, true],
+                minLength: [1, 2],
+                position: [{ my: 'left top', at: 'left bottom', collision: 'none' }, { my: 'right top', at: 'right bottom', collision: 'none'}],
+                source: [['a', 'b'], ['1', '2']]
             });
-
-            ko.removeNode($element[0]);
         });
 
         it('should handle each event of the widget', function () {

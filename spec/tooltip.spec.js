@@ -4,37 +4,17 @@
     'use strict';
 
     describe('The tooltip binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="tooltip: { content: content, disabled: disabled, '
-                + 'hide: hide, items: items, position: position, show: show, '
-                + 'tooltipClass: tooltipClass, track: track }"></div>')
-                .appendTo('body');
-            vm = {
-                content: 'asdf',
-                disabled: true,
-                hide: false,
-                items: 'img[alt]',
-                position: { my: 'left+15 center', at: 'right center', collision: 'flipfit flip' },
-                show: false,
-                tooltipClass: 'custom-tooltip-styling',
-                track: true
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['content', 'disabled', 'hide', 'items', 'position', 'show',
-                'tooltipClass', 'track'],
-                function (optionName) {
-                    expect($element.tooltip('option', optionName)).toEqual(vm[optionName]);
-                });
-
-            ko.removeNode($element[0]);
+            testWidgetOptions('tooltip', {
+                content: ['aaa', 'asdf'],
+                disabled: [false, true],
+                hide: [null, false],
+                items: ['[title]', 'img[alt]'],
+                position: [{ my: 'left top+15', at: 'left bottom', collision: 'flipfit' }, { my: 'left+15 center', at: 'right center', collision: 'flipfit flip'}],
+                show: [null, false],
+                tooltipClass: [null, 'custom-tooltip-styling'],
+                track: [false, true]
+            });
         });
 
         it('should handle each event of the widget', function () {
@@ -50,4 +30,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());

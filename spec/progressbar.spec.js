@@ -4,30 +4,12 @@
     'use strict';
 
     describe('The progressbar binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="progressbar: { disabled: disabled, '
-                + 'max: max, value: value }"></div>')
-                .appendTo('body');
-            vm = {
-                disabled: true,
-                max: 50,
-                value: 10
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['disabled', 'max', 'value'],
-                function (optionName) {
-                    expect($element.progressbar('option', optionName)).toEqual(vm[optionName]);
-                });
-
-            ko.removeNode($element[0]);
+            testWidgetOptions('progressbar', {
+                disabled: [false, true],
+                max: [0, 50],
+                value: [0, 10]
+            });
         });
 
         it('should handle each event of the widget', function () {
@@ -43,4 +25,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());

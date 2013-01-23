@@ -1,110 +1,62 @@
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
 /*jslint maxlen:256*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, testWidgetOptions*/
 (function () {
     'use strict';
 
     describe('The datepicker binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<input data-bind="datepicker: { altField: altField, altFormat: altFormat, '
-                + 'appendText: appendText, autoSize: autoSize, buttonImage: buttonImage,'
-                + 'buttonImageOnly: buttonImageOnly, buttonText: buttonText, calculateWeek: calculateWeek, '
-                + 'changeMonth: changeMonth, changeYear: changeYear, closeText: closeText, '
-                + 'constrainInput: constrainInput, currentText: currentText, dateFormat: dateFormat, '
-                + 'dayNames: dayNames, dayNamesMin: dayNamesMin, dayNamesShort: dayNamesShort, '
-                + 'defaultDate: defaultDate, duration: duration, firstDay: firstDay, '
-                + 'gotoCurrent: gotoCurrent, hideIfNoPrevNext: hideIfNoPrevNext, isRTL: isRTL, '
-                + 'maxDate: maxDate, minDate: minDate, monthNames: monthNames, monthNamesShort: monthNamesShort, '
-                + 'navigationAsDateFormat: navigationAsDateFormat, nextText: nextText, '
-                + 'numberOfMonths: numberOfMonths, prevText: prevText, selectOtherMonths: selectOtherMonths, '
-                + 'shortYearCutoff: shortYearCutoff, showAnim: showAnim, showButtonPanel: showButtonPanel, '
-                + 'showCurrentAtPos: showCurrentAtPos, showMonthAfterYear: showMonthAfterYear, '
-                + 'showOn: showOn, showOptions: showOptions, showOtherMonths: showOtherMonths, '
-                + 'showWeek: showWeek, stepMonths: stepMonths, weekHeader: weekHeader, '
-                + 'yearRange: yearRange, yearSuffix: yearSuffix, beforeShow: beforeShow, '
-                + 'beforeShowDay: beforeShowDay, onChangeMonthYear: onChangeMonthYear, '
-                + 'onClose: onClose, onSelect: onSelect }" />').appendTo('body');
-            vm = {
-                altField: '',
-                altFormat: 'yy-mm-dd',
-                appendText: '(yy-mm-dd)',
-                autoSize: true,
-                beforeShow: function () { return {}; },
-                beforeShowDay: function () { return [true, '']; },
-                buttonImage: '/images/datepicker.gif',
-                buttonImageOnly: true,
-                buttonText: 'Choose',
-                calculateWeek: $.datepicker.iso8601Week,
-                changeMonth: true,
-                changeYear: true,
-                closeText: 'Close',
-                constrainInput: false,
-                currentText: 'Now',
-                dateFormat: 'yy-mm-dd',
-                dayNames: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-                dayNamesMin: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-                dayNamesShort: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-                defaultDate: 2,
-                duration: 'slow',
-                firstDay: 1,
-                gotoCurrent: true,
-                hideIfNoPrevNext: true,
-                isRTL: true,
-                maxDate: 2,
-                minDate: 2,
-                monthNames: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
-                monthNamesShort: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
-                navigationAsDateFormat: true,
-                nextText: 'Later',
-                numberOfMonths: 2,
-                onChangeMonthYear: function () { },
-                onClose: function () { },
-                onSelect: function () { },
-                prevText: 'Earlier',
-                selectOtherMonths: true,
-                shortYearCutoff: '+1',
-                showAnim: 'fadeIn',
-                showButtonPanel: true,
-                showCurrentAtPos: 1,
-                showMonthAfterYear: true,
-                showOn: 'both',
-                showOptions: { direction: 'up' },
-                showOtherMonths: true,
-                showWeek: true,
-                stepMonths: 2,
-                weekHeader: 'W',
-                yearRange: '2002:2012',
-                yearSuffix: 'CE',
-                beforeShow: function () { },
-                beforeShowDay: function () { },
-                onChangeMonthYear: function () { },
-                onClose: function () { },
-                onSelect: function () { }
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['altField', 'altFormat', 'appendText', 'autoSize', 'buttonImage',
-                'buttonImageOnly', 'buttonText', 'calculateWeek', 'changeMonth', 'changeYear',
-                'closeText', 'constrainInput', 'currentText', 'dateFormat', 'dayNames',
-                'dayNamesMin', 'dayNamesShort', 'defaultDate', 'duration', 'firstDay',
-                'gotoCurrent', 'hideIfNoPrevNext', 'isRTL', 'maxDate', 'minDate',
-                'monthNames', 'monthNamesShort', 'navigationAsDateFormat', 'nextText',
-                'numberOfMonths', 'prevText', 'selectOtherMonths', 'shortYearCutoff',
-                'showAnim', 'showButtonPanel', 'showCurrentAtPos', 'showMonthAfterYear',
-                'showOn', 'showOptions', 'showOtherMonths', 'showWeek', 'stepMonths',
-                'weekHeader', 'yearRange', 'yearSuffix', 'beforeShow', 'beforeShowDay',
-                'onChangeMonthYear', 'onClose', 'onSelect'],
-                function (optionName) {
-                    expect($element.datepicker('option', optionName)).toEqual(vm[optionName]);
-                });
-
-            ko.removeNode($element[0]);
+            testWidgetOptions('datepicker', {
+                altField: ['', 'div'],
+                altFormat: ['', 'yy-mm-dd'],
+                appendText: ['', '(yy-mm-dd)'],
+                autoSize: [false, true],
+                buttonImage: ['', '/images/datepicker.gif'],
+                buttonImageOnly: [false, true],
+                buttonText: ['...', 'Choose'],
+                calculateWeek: [$.datepicker.iso8601Week, function () { return 1; } ],
+                changeMonth: [false, true],
+                changeYear: [false, true],
+                closeText: ['Done', 'Close'],
+                constrainInput: [true, false],
+                currentText: ['Today', 'Now'],
+                dateFormat: ['mm/dd/yy', 'yy-mm-dd'],
+                dayNames: [['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], ['A', 'B', 'C', 'D', 'E', 'F', 'G']],
+                dayNamesMin: [['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'], ['a', 'b', 'c', 'd', 'e', 'f', 'g']],
+                dayNamesShort: [['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], ['a', 'b', 'c', 'd', 'e', 'f', 'g']],
+                defaultDate: [null, 2],
+                duration: ['normal', 'slow'],
+                firstDay: [0, 1],
+                gotoCurrent: [false, true],
+                hideIfNoPrevNext: [false, true],
+                isRTL: [false, true],
+                maxDate: [null, 2],
+                minDate: [null, 2],
+                monthNames: [['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']],
+                monthNamesShort: [['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']],
+                navigationAsDateFormat: [false, true],
+                nextText: ['Next', 'Later'],
+                numberOfMonths: [1, 2],
+                prevText: ['Prev', 'Earlier'],
+                selectOtherMonths: [false, true],
+                shortYearCutoff: ['+10', '+1'],
+                showAnim: ['show', 'fadeIn'],
+                showButtonPanel: [false, true],
+                showCurrentAtPos: [0, 1],
+                showMonthAfterYear: [false, true],
+                showOn: ['focus', 'both'],
+                showOptions: [{}, { direction: 'up'}],
+                showOtherMonths: [false, true],
+                showWeek: [false, true],
+                stepMonths: [1, 2],
+                weekHeader: ['Wk', 'W'],
+                yearRange: ['c-10:c+10', '2002:2012'],
+                yearSuffix: ['', 'CE'],
+                beforeShow: [null, function () { } ],
+                beforeShowDay: [null, function () { return [true, '']; } ],
+                onChangeMonthYear: [null, function () { } ],
+                onClose: [null, function () { } ],
+                onSelect: [null, function () { } ]
+            });
         });
     });
-} ());
+}());

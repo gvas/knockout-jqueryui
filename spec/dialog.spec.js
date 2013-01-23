@@ -4,52 +4,29 @@
     'use strict';
 
     describe('The dialog binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="dialog: { autoOpen: autoOpen, buttons: buttons, '
-                + 'closeOnEscape: closeOnEscape, closeText: closeText, dialogClass: dialogClass, '
-                + 'draggable: draggable, height: height, hide: hide, maxHeight: maxHeight, '
-                + 'maxWidth: maxWidth, minHeight: minHeight, minWidth: minWidth, modal: modal, '
-                + 'position: position, resizable: resizable, show: show, stack: stack, title: title, '
-                + 'width: width, zIndex: zIndex }"></div>').appendTo('body');
-            vm = {
-                autoOpen: false,
-                buttons: { Ok: function () { } },
-                closeOnEscape: false,
-                closeText: 'foo',
-                dialogClass: 'bar',
-                draggable: false,
-                height: 100,
-                hide: 3,
-                maxHeight: 100,
-                maxWidth: 100,
-                minHeight: 100,
-                minWidth: 100,
-                modal: true,
-                position: 'center',
-                resizable: false,
-                show: 'slow',
-                stack: false,
-                title: 'title',
-                width: 100,
-                zIndex: 100
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-                'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
-                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-                'width', 'zIndex'], function (optionName) {
-                expect($element.dialog('option', optionName)).toEqual(vm[optionName]);
+            testWidgetOptions('dialog', {
+                autoOpen: [true, false],
+                buttons: [{}, { Ok: function () { } }],
+                closeOnEscape: [true, false],
+                closeText: ['Close', 'foo'],
+                dialogClass: ['', 'bar'],
+                draggable: [true, false],
+                height: ['auto', 100],
+                hide: [null, 3],
+                maxHeight: [false, 100],
+                maxWidth: [false, 100],
+                minHeight: [150, 100],
+                minWidth: [150, 100],
+                modal: [false, true],
+                position: [{ my: 'center', at: 'center', of: window }, 'center'],
+                resizable: [true, false],
+                show: [null, 'slow'],
+                stack: [true, false],
+                title: ['', 'title'],
+                width: [300, 175],
+                zIndex: [1000, 100]
             });
-
-            ko.removeNode($element[0]);
         });
 
         it('should handle each event of the widget', function () {

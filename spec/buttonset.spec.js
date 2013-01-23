@@ -4,26 +4,11 @@
     'use strict';
 
     describe('The buttonset binding', function () {
-        afterEach(function () {
-            delete ko.bindingHandlers.test;
-        });
-
         it('should handle each option of the widget', function () {
-            var $element, vm;
-
-            $element = $('<div data-bind="buttonset: { items: items, disabled: disabled }"></div>').appendTo('body');
-            vm = {
-                items: '#buttonset',
-                disabled: true
-            };
-
-            ko.applyBindings(vm);
-
-            ko.utils.arrayForEach(['items', 'disabled'], function (optionName) {
-                expect($element.buttonset('option', optionName)).toEqual(vm[optionName]);
+            testWidgetOptions('buttonset', {
+                items: [null, '#buttonset'],
+                disabled: [false, true]
             });
-
-            ko.removeNode($element[0]);
         });
 
         it('should handle each event of the widget', function () {
