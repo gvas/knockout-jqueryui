@@ -13,15 +13,9 @@
         var value = valueAccessor();
 
         if (ko.isWriteableObservable(value.active)) {
-            /*jslint unparam:true*/
-            $(element).on('accordionactivate.ko', function (ev, ui) {
-                var headerSelector, $headers;
-
-                headerSelector = $(element).accordion('option', 'header');
-                $headers = $(element).find(headerSelector);
-                value.active($headers.index(ui.newHeader));
+            $(element).on('accordionactivate.ko', function () {
+                value.active($(element).accordion('option', 'active'));
             });
-            /*jslint unparam:false*/
         }
 
         //handle disposal

@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.2.0 - 1/23/2013
+/*! knockout-jqueryui - v0.2.0 - 1/24/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -250,15 +250,9 @@
         var value = valueAccessor();
 
         if (ko.isWriteableObservable(value.active)) {
-            /*jslint unparam:true*/
-            $(element).on('accordionactivate.ko', function (ev, ui) {
-                var headerSelector, $headers;
-
-                headerSelector = $(element).accordion('option', 'header');
-                $headers = $(element).find(headerSelector);
-                value.active($headers.index(ui.newHeader));
+            $(element).on('accordionactivate.ko', function () {
+                value.active($(element).accordion('option', 'active'));
             });
-            /*jslint unparam:false*/
         }
 
         //handle disposal

@@ -43,5 +43,31 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should write the active panel\'s index back to the viewmodel.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="accordion: { active: active, animate: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            vm = { active: ko.observable(0) };
+            ko.applyBindings(vm);
+            $element.accordion('option', 'active', 1);
+
+            expect(vm.active.peek()).toEqual(1);
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should write false to the viewmodel\s active property when the panels collapse.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="accordion: { active: active, animate: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            vm = { active: ko.observable(0) };
+            ko.applyBindings(vm);
+            $element.accordion('option', 'active', false);
+
+            expect(vm.active.peek()).toEqual(false);
+
+            ko.removeNode($element[0]);
+        });
     });
 } ());
