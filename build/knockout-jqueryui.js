@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.2.0 - 1/26/2013
+/*! knockout-jqueryui - v0.2.0 - 1/27/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
