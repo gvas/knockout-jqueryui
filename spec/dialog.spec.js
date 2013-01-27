@@ -41,5 +41,19 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should write the widget\'s state back to the viewmodel when opened/closed.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').appendTo('body'); ;
+            vm = { isOpen: ko.observable(false) };
+            ko.applyBindings(vm);
+
+            expect(vm.isOpen.peek()).toEqual(false);
+            $element.dialog('open');
+            expect(vm.isOpen.peek()).toEqual(true);
+
+            ko.removeNode($element[0]);
+        });
     });
 }());

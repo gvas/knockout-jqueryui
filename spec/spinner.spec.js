@@ -30,5 +30,19 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should write the widget\'s value to the viewmodel\'s bound property when it changes.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="spinner: { value: value }"></div>').appendTo('body'); ;
+            vm = { value: ko.observable(1) };
+            ko.applyBindings(vm);
+
+            expect(vm.value.peek()).toEqual(1);
+            $element.spinner('value', 55);
+            expect(vm.value.peek()).toEqual(55);
+
+            ko.removeNode($element[0]);
+        });
     });
 }());

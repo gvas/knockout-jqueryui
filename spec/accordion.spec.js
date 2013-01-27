@@ -44,7 +44,7 @@
             ko.removeNode($element[0]);
         });
 
-        it('should write the active panel\'s index back to the viewmodel.', function () {
+        it('should write the active panel\'s index to the viewmodel\'s bound property.', function () {
             var $element, vm;
 
             $element = $('<div data-bind="accordion: { active: active, animate: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
@@ -57,7 +57,7 @@
             ko.removeNode($element[0]);
         });
 
-        it('should write false to the viewmodel\s active property when the panels collapse.', function () {
+        it('should write false to the viewmodel\s bound property when the panels collapse.', function () {
             var $element, vm;
 
             $element = $('<div data-bind="accordion: { active: active, animate: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
