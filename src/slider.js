@@ -25,7 +25,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
