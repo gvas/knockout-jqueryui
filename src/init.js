@@ -26,5 +26,5 @@
         throw new Error('This version of the knockout library is not supported.');
     }
 
-    kojqui.utils.exportObject('kojqui', 'version', '0.2.0');
+    kojqui.utils.exportObject('kojqui', 'version', '0.2.1');
 }());

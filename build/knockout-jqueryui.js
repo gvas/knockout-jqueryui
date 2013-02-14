@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.2.0 - 1/27/2013
+/*! knockout-jqueryui - v0.2.1 - 2/14/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 /*global ko,$*/
@@ -69,7 +69,7 @@
         throw new Error('This version of the knockout library is not supported.');
     }
 
-    kojqui.utils.exportObject('kojqui', 'version', '0.2.0');
+    kojqui.utils.exportObject('kojqui', 'version', '0.2.1');
 }());
 (function () {
     'use strict';
@@ -210,7 +210,7 @@
                     // handle disposal
                     ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                         $(element)[widgetName]('destroy');
-                        delete element[flag];
+                        element[flag] = null;
                     });
 
                     // execute the provided callback after the widget initialization
@@ -257,7 +257,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
@@ -372,7 +372,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
@@ -450,7 +450,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
@@ -492,7 +492,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
@@ -526,7 +526,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
@@ -575,7 +575,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('ko');
+            $(element).off('.ko');
         });
     };
 
