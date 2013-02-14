@@ -139,7 +139,7 @@
                     // handle disposal
                     ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                         $(element)[widgetName]('destroy');
-                        delete element[flag];
+                        element[flag] = null;
                     });
 
                     // execute the provided callback after the widget initialization
