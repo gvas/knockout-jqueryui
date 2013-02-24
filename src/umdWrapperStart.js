@@ -5,15 +5,13 @@
 
     if (typeof exports === 'object') {
         // CommonJS
-        factory(exports, require('jquery', 'knockout', 'jquery-ui'));
+        factory(exports, require('jquery'), require('knockout'), require('jquery-ui'));
     } else if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['exports', 'jquery', 'knockout', 'jquery-ui'], function (exports, $, ko) {
-            factory((root.commonJsStrictGlobal = exports), $, ko);
-        });
+        define(['exports', 'jquery', 'knockout', 'jquery-ui'], factory);
     } else {
         // Browser globals
-        factory((root.commonJsStrictGlobal = {}), root.jQuery, root.ko);
+        factory((root.kojqui = {}), root.jQuery, root.ko);
     }
 } (this, function (exports, $, ko) {
     'use strict';
