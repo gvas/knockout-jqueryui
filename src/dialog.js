@@ -1,4 +1,4 @@
-/*global ko, $, kojqui*/
+/*global ko, $, versions, bindingFactory*/
 /*jslint browser:true*/
 (function () {
     'use strict';
@@ -57,7 +57,7 @@
     };
 
     /*jslint white:true*/
-    switch (kojqui.utils.getMajorMinorVersion($.ui.version)) {
+    switch (versions.jQueryUI) {
         case '1.9':
             options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
                 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
@@ -77,7 +77,7 @@
     }
     /*jslint white:false*/
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'dialog',
         options: options,
         events: events,

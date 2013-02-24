@@ -1,4 +1,4 @@
-/*global $, ko, kojqui*/
+/*global $, ko, bindingFactory*/
 /*jslint maxlen:256*/
 (function () {
     'use strict';
@@ -26,7 +26,7 @@
         });
     };
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'tabs',
         options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'],

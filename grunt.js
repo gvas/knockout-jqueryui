@@ -3,21 +3,31 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var coreFiles, widgets, stripBanner;
+    var reBanners, reUseStrictDirectives, reNewLines, coreFiles, widgets, prepareConcat;
 
-    coreFiles = ['src/utils.js', 'src/init.js', 'src/bindingFactory.js'];
+    reBanners = /^(\s*\/\*[\s\S]*?\*\/\s*)*/;
+    reUseStrictDirectives = /'use strict';/g;
+    reNewLines = /\n/g;
+
+    coreFiles = ['src/versions.js', 'src/init.js', 'src/bindingFactory.js'];
     widgets = ['src/accordion.js', 'src/autocomplete.js', 'src/button.js', 'src/buttonset.js',
         'src/datepicker.js', 'src/dialog.js', 'src/menu.js', 'src/progressbar.js', 'src/slider.js',
         'src/spinner.js', 'src/tabs.js', 'src/tooltip.js'];
 
-    stripBanner = function (files) {
+    prepareConcat = function (files) {
         return files.map(function (file) {
-            return '<strip_all_banners:' + file + '>';
+            return '<prepare_concat:' + file + '>';
         });
     };
 
-    grunt.registerHelper('strip_all_banners', function (filepath) {
-        return grunt.file.read(filepath).replace(/^(\s*\/\*[\s\S]*?\*\/\s*)*/, '');
+    grunt.registerHelper('prepare_concat', function (filepath) {
+        return '\n    ' + grunt.file.read(filepath)
+            // strips all banners
+            .replace(reBanners, '')
+            // deletes the 'use strict' statements
+            .replace(reUseStrictDirectives, '')
+            // indents each line
+            .replace(reNewLines, '\n    ');
     });
 
     // Project configuration.
@@ -28,13 +38,11 @@ module.exports = function (grunt) {
             banner: '/*! <%= meta.name %> - v<%= pkg.version %> - <%= grunt.template.today("m/d/yyyy") %>\n' +
                 '* <%= pkg.homepage %>\n' +
                 '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-                ' Licensed <%= pkg.license %> */\n' +
-                '/*global ko,$*/\n' +
-                '/*jslint browser:true maxlen:256*/'
+                ' Licensed <%= pkg.license %> */\n'
         },
         concat: {
             build: {
-                src: ['<banner>', stripBanner(coreFiles), stripBanner(widgets)],
+                src: ['<banner>', 'src/umdWrapperStart.js', prepareConcat(coreFiles), prepareConcat(widgets), 'src/umdWrapperEnd.js'],
                 dest: 'build/<%= meta.name %>.js'
             }
         },
@@ -45,7 +53,7 @@ module.exports = function (grunt) {
             }
         },
         lint: {
-            beforeconcat: ['grunt.js', 'src/**/*.js'],
+            beforeconcat: ['grunt.js', coreFiles, widgets],
             afterconcat: ['<%= concat.build.dest %>']
         },
         jshint: {

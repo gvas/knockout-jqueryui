@@ -1,6 +1,6 @@
-/*global ko, $, kojqui*/
+/*global bindingFactory:true, ko, $*/
 /*jslint maxlen:256*/
-(function () {
+bindingFactory = (function () {
     'use strict';
 
     var filterProperties, unwrapProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
@@ -161,7 +161,7 @@
         }
     };
 
-    kojqui.utils.exportObject('kojqui', 'bindingFactory', {
+    return {
         create: create
-    });
+    };
 }());

@@ -1,8 +1,8 @@
-/*global kojqui*/
+/*global bindingFactory*/
 (function () {
     'use strict';
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'buttonset',
         options: ['items', 'disabled'],
         events: ['create'],

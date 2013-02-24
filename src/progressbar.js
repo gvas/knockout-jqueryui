@@ -1,8 +1,8 @@
-/*global kojqui*/
+/*global bindingFactory*/
 (function () {
     'use strict';
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'progressbar',
         options: ['disabled', 'max', 'value'],
         events: ['change', 'create', 'complete']

@@ -1,4 +1,4 @@
-/*global $, ko, kojqui*/
+/*global $, ko, bindingFactory*/
 (function () {
     'use strict';
 
@@ -29,11 +29,11 @@
         });
     };
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'slider',
         options: ['animate', 'disabled', 'max', 'min', 'orientation', 'range', 'step',
             'value', 'values'],
         events: ['create', 'start', 'slide', 'change', 'stop'],
         postInit: postInit
     });
-} ());
+}());

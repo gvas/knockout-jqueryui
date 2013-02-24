@@ -1,4 +1,4 @@
-/*global $, ko, kojqui*/
+/*global $, ko, bindingFactory*/
 (function () {
     'use strict';
 
@@ -24,7 +24,7 @@
         });
     };
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'accordion',
         options: ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'],

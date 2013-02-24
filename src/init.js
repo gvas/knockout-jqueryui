@@ -1,30 +1,23 @@
-/*global kojqui*/
-/*jslint browser:true*/
+/*global versions*/
 (function () {
     'use strict';
 
-    var uiVersion, koVersion;
-
     // dependency checks
-    if (!window.jQuery) {
+    if (!versions.jQuery) {
         throw new Error('jQuery must be loaded before knockout-jquery.');
     }
-    if (!window.jQuery.ui) {
+    if (!versions.jQueryUI) {
         throw new Error('jQuery UI must be loaded before knockout-jquery.');
     }
-    if (!window.ko) {
+    if (!versions.knockout) {
         throw new Error('knockout must be loaded before knockout-jquery.');
     }
 
-    uiVersion = kojqui.utils.getMajorMinorVersion(window.jQuery.ui.version);
-    if (uiVersion !== '1.9' && uiVersion !== '1.10') {
+    if (versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
         throw new Error('This version of the jQuery UI library is not supported.');
     }
 
-    koVersion = kojqui.utils.getMajorMinorVersion(window.ko.version);
-    if (koVersion !== '2.2') {
+    if (versions.knockout !== '2.2') {
         throw new Error('This version of the knockout library is not supported.');
     }
-
-    kojqui.utils.exportObject('kojqui', 'version', '0.2.1');
 }());

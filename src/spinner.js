@@ -1,4 +1,4 @@
-/*global $, ko, kojqui*/
+/*global $, ko, bindingFactory*/
 (function () {
     'use strict';
 
@@ -33,11 +33,11 @@
         });
     };
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'spinner',
         options: ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
             'numberFormat', 'page', 'step'],
         events: ['create', 'start', 'spin', 'stop', 'change'],
         postInit: postInit
     });
-}());
+} ());

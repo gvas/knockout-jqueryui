@@ -1,8 +1,8 @@
-/*global kojqui*/
+/*global bindingFactory*/
 (function () {
     'use strict';
 
-    kojqui.bindingFactory.create({
+    bindingFactory.create({
         name: 'menu',
         options: ['disabled', 'icons', 'menus', 'position', 'role'],
         events: ['blur', 'create', 'focus', 'select'],
