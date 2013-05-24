@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.2.1 - 2/24/2013
+/*! knockout-jqueryui - v0.3.0 - 5/24/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 
@@ -63,7 +63,7 @@
             throw new Error('knockout must be loaded before knockout-jquery.');
         }
     
-        if (versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
+        if (versions.jQueryUI !== '1.8' && versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
             throw new Error('This version of the jQuery UI library is not supported.');
         }
     
@@ -241,7 +241,7 @@
     (function () {
         
     
-        var postInit;
+        var postInit, options, events, hasRefresh;
     
         postInit = function (element, valueAccessor) {
             /// <summary>Keeps the active binding property in sync with the tabs' state.
@@ -263,25 +263,57 @@
             });
         };
     
+        /*jslint white:true*/
+        switch (versions.jQueryUI) {
+            case '1.8':
+                options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
+                    'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
+                    'navigationFilter'];
+                events = ['change', 'changestart', 'create'];
+                hasRefresh = false;
+                break;
+            case '1.9':
+            case '1.10':
+                options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
+                'heightStyle', 'icons'];
+                events = ['activate', 'beforeActivate', 'create'];
+                hasRefresh = true;
+                break;
+        }
+        /*jslint white:false*/
+    
         bindingFactory.create({
             name: 'accordion',
-            options: ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
-                'heightStyle', 'icons'],
-            events: ['activate', 'beforeActivate', 'create'],
+            options: options,
+            events: events,
             postInit: postInit,
-            hasRefresh: true
+            hasRefresh: hasRefresh
         });
     }());
 
     (function () {
         
     
+        var events;
+    
+        /*jslint white:true*/
+        switch (versions.jQueryUI) {
+            case '1.8':
+                events = ['change', 'close', 'create', 'focus', 'open', 'search', 'select'];
+                break;
+            case '1.9':
+            case '1.10':
+                events = ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
+                'select'];
+                break;
+        }
+        /*jslint white:false*/
+    
         bindingFactory.create({
             name: 'autocomplete',
             options: ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength', 'position',
                 'source'],
-            events: ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
-                'select']
+            events: events
         });
     }());
 
@@ -385,6 +417,14 @@
     
         /*jslint white:true*/
         switch (versions.jQueryUI) {
+            case '1.8':
+                options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+                    'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
+                    'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+                    'width', 'zIndex'];
+                events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                    'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                break;
             case '1.9':
                 options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
                     'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
@@ -427,9 +467,23 @@
     (function () {
         
     
+        var options;
+    
+        /*jslint white:true*/
+        switch (versions.jQueryUI) {
+            case '1.8':
+                options = ['disabled', 'value'];
+                break;
+            case '1.9':
+            case '1.10':
+                options = ['disabled', 'max', 'value'];
+                break;
+        }
+        /*jslint white:false*/
+    
         bindingFactory.create({
             name: 'progressbar',
-            options: ['disabled', 'max', 'value'],
+            options: options,
             events: ['change', 'create', 'complete']
         });
     }());
@@ -519,9 +573,9 @@
     (function () {
         
     
-        var postInit;
+        var postInitHandler, options, events, hasRefresh, postInit;
     
-        postInit = function (element, valueAccessor) {
+        postInitHandler = function (element, valueAccessor) {
             /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
@@ -542,13 +596,33 @@
             });
         };
     
+        /*jslint white:true*/
+        switch (versions.jQueryUI) {
+            case '1.8':
+                options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
+                    'event', 'fx', 'idPrefix', 'panelTemplate', 'selected', 'spinner',
+                    'tabTemplate'];
+                events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
+                    'show'];
+                hasRefresh = false;
+                break;
+            case '1.9':
+            case '1.10':
+                options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
+                    'show'];
+                events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
+                postInit = postInitHandler;
+                hasRefresh = true;
+                break;
+        }
+        /*jslint white:false*/
+    
         bindingFactory.create({
             name: 'tabs',
-            options: ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
-                'show'],
-            events: ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'],
+            options: options,
+            events: events,
             postInit: postInit,
-            hasRefresh: true
+            hasRefresh: hasRefresh
         });
     }());
 
@@ -604,5 +678,5 @@
     ko.jqui = {
         bindingFactory: bindingFactory
     };
-    exports.version = '0.2.1';
+    exports.version = '0.3.0';
 }));
