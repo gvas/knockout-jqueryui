@@ -7,26 +7,26 @@
     Parameters</h3>
 <p>
     There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
-        widget's options</a>. These can be set to either normal or observable properties
+        widget's options</a>. These can be bound either to normal or to observable properties
     of the viewmodel.
 </p>
 <p>
     There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
-        widget's events</a>. These can be set to functions of the viewmodel. The bindings
+        widget's events</a>. These can be bound to functions of the viewmodel. The bindings
     invoke these functions in the context of the window object.
 </p>
 {% if page.hasRefresh == true %}
 <h4>
     refreshOn</h4>
 <p>
-    If set to one of the viewmodel's observables, then every time that observable changes,
+    If bound to one of the viewmodel's observables, then every time that observable changes,
     the widget is refreshed (it's refresh method is invoked).
 </p>
 {% endif %}
 <h4>
     widget</h4>
 <p>
-    If set to one of the viewmodel's writeable observables, then the binding will write the widget
+    If bound to one of the viewmodel's writeable observables, then the binding will write the widget
     instance into it.</p>
 {% for param in page.extraParameters %}
 <h4>
