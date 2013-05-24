@@ -1,4 +1,5 @@
 /*global versions*/
+/*jslint maxlen:256*/
 (function () {
     'use strict';
 
@@ -13,7 +14,7 @@
         throw new Error('knockout must be loaded before knockout-jquery.');
     }
 
-    if (versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
+    if (versions.jQueryUI !== '1.8' && versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
         throw new Error('This version of the jQuery UI library is not supported.');
     }
 

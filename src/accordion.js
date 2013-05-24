@@ -1,8 +1,8 @@
-/*global $, ko, bindingFactory*/
+/*global $, ko, versions, bindingFactory*/
 (function () {
     'use strict';
 
-    var postInit;
+    var postInit, options, events, hasRefresh;
 
     postInit = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.
@@ -24,12 +24,30 @@
         });
     };
 
+    /*jslint white:true*/
+    switch (versions.jQueryUI) {
+        case '1.8':
+            options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
+                'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
+                'navigationFilter'];
+            events = ['change', 'changestart', 'create'];
+            hasRefresh = false;
+            break;
+        case '1.9':
+        case '1.10':
+            options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
+            'heightStyle', 'icons'];
+            events = ['activate', 'beforeActivate', 'create'];
+            hasRefresh = true;
+            break;
+    }
+    /*jslint white:false*/
+
     bindingFactory.create({
         name: 'accordion',
-        options: ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
-            'heightStyle', 'icons'],
-        events: ['activate', 'beforeActivate', 'create'],
+        options: options,
+        events: events,
         postInit: postInit,
-        hasRefresh: true
+        hasRefresh: hasRefresh
     });
 }());
