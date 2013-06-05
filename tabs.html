@@ -5,7 +5,7 @@ description: A single content area with multiple panels, each associated with a 
 widgetApi: http://api.jqueryui.com/tabs
 hasRefresh: true
 extraParameters:
-    - name: active
+    - name: selected (jQuery UI 1.8) or active (jQuery UI 1.9+)
       description: Which panel is currently open. When bound to a writeable observable property the binding will keep it in sync with the widget's state.
 exampleView: |
   <div data-bind="tabs: { refreshOn: items }">
