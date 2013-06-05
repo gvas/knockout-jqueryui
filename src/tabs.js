@@ -3,9 +3,30 @@
 (function () {
     'use strict';
 
-    var postInitHandler, options, events, hasRefresh, postInit;
+    var postInitHandler18, postInitHandler19, options, events, hasRefresh, postInit;
 
-    postInitHandler = function (element, valueAccessor) {
+    postInitHandler18 = function (element, valueAccessor) {
+        /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
+        /// <param name='element' type='DOMNode'></param>
+        /// <param name='valueAccessor' type='Function'></param>
+
+        var value = valueAccessor();
+
+        if (ko.isWriteableObservable(value.active)) {
+            /*jslint unparam:true*/
+            $(element).on('tabsshow.ko', function (ev, ui) {
+                value.selected(ui.index);
+            });
+            /*jslint unparam:false*/
+        }
+
+        //handle disposal
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).off('.ko');
+        });
+    };
+
+    postInitHandler19 = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
@@ -29,11 +50,12 @@
     /*jslint white:true*/
     switch (versions.jQueryUI) {
         case '1.8':
-            options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
-                'event', 'fx', 'idPrefix', 'panelTemplate', 'selected', 'spinner',
-                'tabTemplate'];
+            options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disable',
+                'disabled', 'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
+                'spinner', 'tabTemplate'];
             events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
                 'show'];
+            postInit = postInitHandler18;
             hasRefresh = false;
             break;
         case '1.9':
@@ -41,7 +63,7 @@
             options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
                 'show'];
             events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
-            postInit = postInitHandler;
+            postInit = postInitHandler19;
             hasRefresh = true;
             break;
     }
