@@ -1,7 +1,12 @@
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
 /*jslint maxlen:256*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, getMajorMinorVersion, testWidgetOptions*/
 (function () {
     'use strict';
+
+    if (getMajorMinorVersion($.ui.version) === '1.8') {
+        // the tooltip widget was introduced in jQuery UI 1.9
+        return;
+    }
 
     describe('The tooltip binding', function () {
         it('should handle each option of the widget', function () {

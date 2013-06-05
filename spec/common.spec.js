@@ -1,9 +1,19 @@
 /*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
-/*jslint maxlen:256*/
+/*jslint maxlen:256,browser:true*/
 (function () {
     'use strict';
 
-    var testWidgetOptions;
+    var getMajorMinorVersion, testWidgetOptions;
+
+    getMajorMinorVersion = function (version) {
+        /// <summary>Returns the major.minor version from the version string.</summary>
+        /// <param name='version' type='String'></param>
+        /// <returns type='String'></returns>
+
+        var match = (version || '').match(/^(\d\.\d+)\.\d+$/);
+
+        return match ? match[1] : null;
+    };
 
     testWidgetOptions = function (widgetName, optionNamesAndValues) {
         /// <summary>Tests that changing an observable option in the viewmodel updates the
@@ -36,4 +46,5 @@
     };
 
     window.testWidgetOptions = testWidgetOptions;
+    window.getMajorMinorVersion = getMajorMinorVersion;
 }());

@@ -5,7 +5,8 @@
 
     describe('The dialog binding', function () {
         it('should handle each option of the widget', function () {
-            testWidgetOptions('dialog', {
+
+            var optionsToTest = {
                 autoOpen: [true, false],
                 buttons: [{}, { Ok: function () { } }],
                 closeOnEscape: [true, false],
@@ -13,7 +14,6 @@
                 dialogClass: ['', 'bar'],
                 draggable: [true, false],
                 height: ['auto', 100],
-                hide: [null, 3],
                 maxHeight: [false, 100],
                 maxWidth: [false, 100],
                 minHeight: [150, 100],
@@ -22,11 +22,33 @@
                 position: [{ my: 'center', at: 'center', of: window }, 'center'],
                 resizable: [true, false],
                 show: [null, 'slow'],
-                stack: [true, false],
                 title: ['', 'title'],
-                width: [300, 175],
-                zIndex: [1000, 100]
-            });
+                width: [300, 175]
+            };
+
+            switch (getMajorMinorVersion($.ui.version)) {
+                case '1.8':
+                    $.extend(optionsToTest, {
+                        disabled: [true, false],
+                        stack: [true, false],
+                        zIndex: [1000, 100]
+                    });
+                    break;
+                case '1.9':
+                    $.extend(optionsToTest, {
+                        hide: [null, 3],
+                        stack: [true, false],
+                        zIndex: [1000, 100]
+                    });
+                    break;
+                case '1.10':
+                    $.extend(optionsToTest, {
+                        hide: [null, 3]
+                    });
+                    break;
+            }
+
+            testWidgetOptions('dialog', optionsToTest);
         });
 
         it('should handle each event of the widget', function () {
@@ -56,4 +78,4 @@
             ko.removeNode($element[0]);
         });
     });
-}());
+} ());

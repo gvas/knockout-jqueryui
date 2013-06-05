@@ -5,11 +5,22 @@
 
     describe('The progressbar binding', function () {
         it('should handle each option of the widget', function () {
-            testWidgetOptions('progressbar', {
+
+            var optionsToTest = {
                 disabled: [false, true],
-                max: [0, 50],
                 value: [0, 10]
-            });
+            };
+
+            switch (getMajorMinorVersion($.ui.version)) {
+                case '1.9':
+                case '1.10':
+                    $.extend(optionsToTest, {
+                        max: [0, 50]
+                    });
+                    break;
+            }
+
+            testWidgetOptions('progressbar', optionsToTest);
         });
 
         it('should handle each event of the widget', function () {
