@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    var postInit, options, events, hasRefresh;
+    var eventToWatch, postInit, options, events, hasRefresh;
 
     postInit = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.
@@ -13,7 +13,7 @@
         var value = valueAccessor();
 
         if (ko.isWriteableObservable(value.active)) {
-            $(element).on('accordionactivate.ko', function () {
+            $(element).on(eventToWatch, function () {
                 value.active($(element).accordion('option', 'active'));
             });
         }
@@ -32,6 +32,7 @@
                 'navigationFilter'];
             events = ['change', 'changestart', 'create'];
             hasRefresh = false;
+            eventToWatch = 'accordionchange.ko';
             break;
         case '1.9':
         case '1.10':
@@ -39,6 +40,7 @@
             'heightStyle', 'icons'];
             events = ['activate', 'beforeActivate', 'create'];
             hasRefresh = true;
+            eventToWatch = 'accordionactivate.ko';
             break;
     }
     /*jslint white:false*/

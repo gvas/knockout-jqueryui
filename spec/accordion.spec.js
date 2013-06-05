@@ -1,25 +1,49 @@
 /*jslint maxlen:256*/
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, testWidgetOptions*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, testWidgetOptions, getMajorMinorVersion*/
 (function () {
     'use strict';
 
     describe('The accordion binding', function () {
 
         it('should handle each option of the widget', function () {
-            var $element, vm;
 
-            testWidgetOptions('accordion', {
-                animate: [{}, 1],
+            var optionsToTest = {
                 collapsible: [false, true],
                 disabled: [false, true],
                 event: ['click', 'mouseover'],
                 header: ['> li > :first-child,> :not(li):even', 'h3'],
-                heightStyle: ['auto', 'content'],
                 icons: [{ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }, { header: 'ui-icon-plus', activeHeader: 'ui-icon-minus', headerSelected: 'ui-icon-minus'}]
-            });
+            };
 
+            /*jslint white:true*/
+            switch (getMajorMinorVersion($.ui.version)) {
+                case '1.8':
+                    $.extend(optionsToTest, {
+                        animated: ['slide', false],
+                        autoHeight: [true, false],
+                        clearStyle: [false, true],
+                        fillSpace: [false, true],
+                        navigation: [false, true]
+                    });
+                    break;
+                case '1.9':
+                case '1.10':
+                    $.extend(optionsToTest, {
+                        animate: [{}, 1],
+                        heightStyle: ['auto', 'content']
+                    });
+                    break;
+            }
+            /*jslint white:false*/
+
+            testWidgetOptions('accordion', optionsToTest);
+        });
+
+        it('should handle the active option', function () {
             // the active option requires extra care
-            $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            var $element, vm;
+
+            $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm);
 
@@ -47,7 +71,7 @@
         it('should write the active panel\'s index to the viewmodel\'s bound property.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active, animate: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm);
             $element.accordion('option', 'active', 1);
@@ -57,10 +81,10 @@
             ko.removeNode($element[0]);
         });
 
-        it('should write false to the viewmodel\s bound property when the panels collapse.', function () {
+        it('should write false to the viewmodel\'s bound property when the panels collapse.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active, animate: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body'); ;
+            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm);
             $element.accordion('option', 'active', false);
@@ -70,4 +94,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());
