@@ -1,0 +1,61 @@
+---
+layout: default
+---
+<h2>
+    Installation</h2>
+<p>
+    Knockout-jQueryUI can be used simply by referencing it in a script tag, but it
+    also registers itself as a CommonJS- or an anonymous AMD module in the presence of a
+    module loading system.
+</p>
+<h3>
+    Script tag</h3>
+<p>
+    Include the script after jQuery, jQuery UI and Knockout:
+</p>
+{% highlight html %}
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+<script src="js/lib/knockout-jqueryui.js"></script>
+{% endhighlight %}
+<h3>
+    With RequireJS</h3>
+<p>
+    Knockout-jQueryUI registers itself as an anonymous module which depends on the
+    'jquery', 'jquery-ui' and 'knockout' modules.
+</p>
+<p>
+    index.html:
+</p>
+{% highlight html %}
+<html>
+    <head>
+        <script type="text/javascript" data-main="main.js" src="lib/require.js"></script>
+    </head>
+    <body>
+        <div data-bind="button: {label: 'Test'}"></div>
+    </body>
+</html>
+{% endhighlight %}
+<p>
+    main.js:
+</p>
+{% highlight js %}
+require.config({
+    paths: {
+        'jquery': '//code.jquery.com/jquery-1.9.1.min.js',
+        'jquery-ui': '//code.jquery.com/ui/1.10.3/jquery-ui.min.js',
+        'knockout': '//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js',
+        'knockout-jqueryui': '/lib/knockout-jqueryui'
+    },
+    shim: {
+        'knockout' : ['jquery'],
+        'jquery-ui': ['jquery']
+    }
+});
+
+require(['knockout', 'knockout-jqueryui'], function (ko) {
+    ko.applyBindings();
+});
+{% endhighlight %}
