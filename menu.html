@@ -22,8 +22,7 @@ exampleViewModel: |
     this.selected = ko.observable('');
   };
   ViewModel.prototype.onSelect = function(ev, ui) {
-    var vm = ko.dataFor(ui.item[0]);
-    vm.selected(ui.item.text());
+    this.selected(ui.item.text());
     ev.preventDefault();
   };
 ---

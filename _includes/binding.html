@@ -6,14 +6,14 @@
 <h3>
     Parameters</h3>
 <p>
-    There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
-        widget's options</a>. These can be bound either to normal or to observable properties
-    of the viewmodel.
+    For each of the <a href="{{ page.widgetApi }}">widget's options</a> the binding has a
+    corresponding option with the same name. These can be set to static values, or bound
+    either to normal or to observable properties of the viewmodel.
 </p>
 <p>
-    There is a corresponding parameter for each of the <a href="{{ page.widgetApi }}">
-        widget's events</a>. These can be bound to functions of the viewmodel. The bindings
-    invoke these functions in the context of the window object.
+    For each of the <a href="{{ page.widgetApi }}">widget's events</a> the binding has a
+    corresponding option with the same name. These can be set to functions. When invoked
+    the value of the <i>this</i> keyword evaluates to the viewmodel.
 </p>
 {% if page.hasRefresh == true %}
 <h4>

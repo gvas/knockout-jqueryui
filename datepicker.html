@@ -12,7 +12,7 @@ exampleViewModel: |
   var ViewModel = function () {
     this.selected = ko.observable('');
   };
-  ViewModel.prototype.onSelect = function(dateText, inst) {
+  ViewModel.prototype.onSelect = function(dateText) {
     var vm = ko.dataFor(this);
     vm.selected(dateText);
   };
