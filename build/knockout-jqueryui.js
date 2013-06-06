@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.3.1 - 6/5/2013
+/*! knockout-jqueryui - v0.4.0 - 6/6/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 
@@ -176,7 +176,7 @@
                 /*jslint unparam:true*/
                 init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
     
-                    var flag, value, widgetOptions, widgetOptionsAndEvents;
+                    var flag, value, widgetOptions, widgetEvents, unwrappedOptions, unwrappedEvents;
     
                     // prevent multiple inits
                     flag = 'ko_' + widgetName + '_initialized';
@@ -184,7 +184,7 @@
     
                         value = valueAccessor();
                         widgetOptions = filterProperties(value, options.options);
-                        widgetOptionsAndEvents = filterProperties(value, options.options.concat(options.events));
+                        widgetEvents = filterProperties(value, options.events);
     
                         // execute the provided callback before the widget initialization
                         if (options.preInit) {
@@ -194,8 +194,15 @@
                         // allow inner elements' bindings to finish before initializing the widget
                         ko.applyBindingsToDescendants(bindingContext, element);
     
+                        // bind the widget events to the viewmodel
+                        unwrappedEvents = unwrapProperties(widgetEvents);
+                        $.each(unwrappedEvents, function (key, value) {
+                            unwrappedEvents[key] = value.bind(viewModel);
+                        });
+    
                         // initialize the widget
-                        $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
+                        unwrappedOptions = unwrapProperties(widgetOptions);
+                        $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
     
                         subscribeToObservableOptions(widgetName, element, widgetOptions);
     
@@ -702,5 +709,5 @@
     ko.jqui = {
         bindingFactory: bindingFactory
     };
-    exports.version = '0.3.1';
+    exports.version = '0.4.0';
 }));
