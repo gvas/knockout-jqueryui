@@ -125,23 +125,55 @@
             delete ko.bindingHandlers.descendantBindingHandler;
         });
 
-        it('should set the options and events specified in the binding on the widget', function () {
+        it('should set the options specified in the binding on the widget', function () {
             var vm;
 
-            $element = $('<div data-bind="test: { foo: fooObservable, bar: barEventHandler }"></div>').appendTo('body');
-            vm = { fooObservable: ko.observable(1), barEventHandler: function () { } };
+            $element = $('<div data-bind="test: { foo: fooObservable }"></div>').appendTo('body');
+            vm = { fooObservable: ko.observable(1) };
 
             $.fn.test = jasmine.createSpy();
 
             ko.jqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo'],
+                events: []
+            });
+
+            ko.applyBindings(vm);
+
+            expect($.fn.test).toHaveBeenCalledWith({ foo: vm.fooObservable() });
+        });
+
+        it('should bind the event handlers to the viewmodel', function () {
+            var vm, called, callback;
+
+            $element = $('<div data-bind="test: { bar: barEventHandler }"></div>').appendTo('body');
+            vm = {
+                barEventHandler: function () {
+                    called = true;
+                    expect(this).toBe(vm);
+                }
+            };
+
+            $.fn.test = function (arg) {
+                if (arg === 'trigger') {
+                    callback();
+                } else {
+                    callback = arg.bar;
+                }
+            };
+
+            ko.jqui.bindingFactory.create({
+                name: 'test',
+                options: [],
                 events: ['bar']
             });
 
             ko.applyBindings(vm);
 
-            expect($.fn.test).toHaveBeenCalledWith({ foo: vm.fooObservable(), bar: vm.barEventHandler });
+            $.fn.test('trigger');
+
+            expect(called).toBe(true);
         });
 
         it('should unwrap the observable options before passing them to the widget', function () {

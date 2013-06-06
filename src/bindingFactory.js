@@ -104,7 +104,7 @@ bindingFactory = (function () {
             /*jslint unparam:true*/
             init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 
-                var flag, value, widgetOptions, widgetOptionsAndEvents;
+                var flag, value, widgetOptions, widgetEvents, unwrappedOptions, unwrappedEvents;
 
                 // prevent multiple inits
                 flag = 'ko_' + widgetName + '_initialized';
@@ -112,7 +112,7 @@ bindingFactory = (function () {
 
                     value = valueAccessor();
                     widgetOptions = filterProperties(value, options.options);
-                    widgetOptionsAndEvents = filterProperties(value, options.options.concat(options.events));
+                    widgetEvents = filterProperties(value, options.events);
 
                     // execute the provided callback before the widget initialization
                     if (options.preInit) {
@@ -122,8 +122,15 @@ bindingFactory = (function () {
                     // allow inner elements' bindings to finish before initializing the widget
                     ko.applyBindingsToDescendants(bindingContext, element);
 
+                    // bind the widget events to the viewmodel
+                    unwrappedEvents = unwrapProperties(widgetEvents);
+                    $.each(unwrappedEvents, function (key, value) {
+                        unwrappedEvents[key] = value.bind(viewModel);
+                    });
+
                     // initialize the widget
-                    $(element)[widgetName](unwrapProperties(widgetOptionsAndEvents));
+                    unwrappedOptions = unwrapProperties(widgetOptions);
+                    $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
 
                     subscribeToObservableOptions(widgetName, element, widgetOptions);
 
