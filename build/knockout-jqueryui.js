@@ -1,4 +1,4 @@
-/*! knockout-jqueryui - v0.4.0 - 6/6/2013
+/*! knockout-jqueryui - v0.5.0 - 7/30/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
 
@@ -67,7 +67,7 @@
             throw new Error('This version of the jQuery UI library is not supported.');
         }
     
-        if (versions.knockout !== '2.2') {
+        if (versions.knockout !== '2.2' && versions.knockout !== '2.3' && versions.knockout !== '3.0') {
             throw new Error('This version of the knockout library is not supported.');
         }
     }());
@@ -212,7 +212,7 @@
     
                         // store the widget instance in the widget observable
                         if (ko.isWriteableObservable(value.widget)) {
-                            value.widget($(element)[widgetName]('widget'));
+                            value.widget($(element));
                         }
     
                         // handle disposal
@@ -709,5 +709,5 @@
     ko.jqui = {
         bindingFactory: bindingFactory
     };
-    exports.version = '0.4.0';
+    exports.version = '0.5.0';
 }));
