@@ -32,7 +32,7 @@
                 $element = $('<div data-bind="' + widgetName + ': { ' + prop + ': observableProperty }"></div>').appendTo($wrapper);
                 vm = { observableProperty: ko.observable(initialValue) };
 
-                ko.applyBindings(vm);
+                ko.applyBindings(vm, $element[0]);
 
                 jasmine.log('option: ' + prop);
                 expect($element[widgetName]('option', prop)).toEqual(initialValue);

@@ -31,7 +31,7 @@
             $element = $('<div data-bind="progressbar: { create: createEventHandler }"></div>').appendTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.createEventHandler).toHaveBeenCalled();
 
@@ -43,7 +43,7 @@
 
             $element = $('<div data-bind="progressbar: { widget: widget, disabled: true }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

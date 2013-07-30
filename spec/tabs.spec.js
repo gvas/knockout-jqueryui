@@ -41,7 +41,7 @@
 
             $element = $('<div data-bind="tabs: { selected: selected }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').appendTo('body');
             vm = { selected: ko.observable(0) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             jasmine.log('option: selected');
             expect($element.tabs('option', 'selected')).toEqual(0);
@@ -57,7 +57,7 @@
 
             $element = $('<div data-bind="tabs: { active: active }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             jasmine.log('option: active');
             expect($element.tabs('option', 'active')).toEqual(0);
@@ -75,7 +75,7 @@
             $element = $('<div data-bind="tabs: { create: createEventHandler }"></div>').appendTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.createEventHandler).toHaveBeenCalled();
 
@@ -88,7 +88,7 @@
 
             $element = $('<div data-bind="tabs: { widget: widget, disabled: true }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

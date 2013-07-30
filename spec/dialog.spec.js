@@ -59,7 +59,7 @@
             $element = $('<div data-bind="dialog: { create: createEventHandler }"></div>').appendTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.createEventHandler).toHaveBeenCalled();
 
@@ -71,7 +71,7 @@
 
             $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').appendTo('body');
             vm = { isOpen: ko.observable(false) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.isOpen.peek()).toEqual(false);
             $element.dialog('open');
@@ -85,7 +85,7 @@
 
             $element = $('<div data-bind="dialog: { widget: widget, autoOpen: false }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

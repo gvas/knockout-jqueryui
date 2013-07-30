@@ -29,7 +29,7 @@
             $element = $('<div data-bind="spinner: { create: createEventHandler }"></div>').appendTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.createEventHandler).toHaveBeenCalled();
 
@@ -41,7 +41,7 @@
 
             $element = $('<div data-bind="spinner: { value: value }"></div>').appendTo('body');
             vm = { value: ko.observable(1) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.value.peek()).toEqual(1);
             $element.spinner('value', 55);
@@ -55,7 +55,7 @@
 
             $element = $('<div data-bind="spinner: { widget: widget, disabled: true }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

@@ -64,7 +64,7 @@
 
             $element = $('<div data-bind="datepicker: { widget: widget, autoSize: true }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

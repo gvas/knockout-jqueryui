@@ -45,7 +45,7 @@
 
             $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             jasmine.log('option: active');
             expect($element.accordion('option', 'active')).toEqual(0);
@@ -61,7 +61,7 @@
             $element = $('<div data-bind="accordion: { create: createEventHandler }"></div>').appendTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.createEventHandler).toHaveBeenCalled();
 
@@ -73,7 +73,7 @@
 
             $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
             $element.accordion('option', 'active', 1);
 
             expect(vm.active.peek()).toEqual(1);
@@ -86,7 +86,7 @@
 
             $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { active: ko.observable(0) };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
             $element.accordion('option', 'active', false);
 
             expect(vm.active.peek()).toEqual(false);
@@ -99,7 +99,7 @@
 
             $element = $('<div data-bind="accordion: { widget: widget, disabled: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
             vm = { widget: ko.observable() };
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 

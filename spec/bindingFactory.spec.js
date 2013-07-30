@@ -55,22 +55,6 @@
             expect($.fn.test).toHaveBeenCalled();
         });
 
-        it('should prevent applying the binding multiple times', function () {
-            $element = $('<div data-bind="test: {}"></div>').appendTo('body');
-            $.fn.test = jasmine.createSpy();
-
-            ko.jqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
-
-            ko.applyBindings({});
-            ko.applyBindings({});
-
-            expect($.fn.test.callCount).toEqual(1);
-        });
-
         it('should invoke the preInit callback before the widget instantiation', function () {
             $element = $('<div data-bind="test: {}"></div>').appendTo('body');
             $.fn.test = jasmine.createSpy();
@@ -84,7 +68,7 @@
                 }
             });
 
-            ko.applyBindings({});
+            ko.applyBindings({}, $element[0]);
         });
 
         it('should invoke the postInit callback after the widget instantiation', function () {
@@ -100,7 +84,7 @@
                 }
             });
 
-            ko.applyBindings({});
+            ko.applyBindings({}, $element[0]);
         });
 
         it('should apply the descendant DOM elements\' bindings before instantiating the widget', function () {
@@ -120,7 +104,7 @@
                 events: []
             });
 
-            ko.applyBindings({});
+            ko.applyBindings({}, $element[0]);
 
             delete ko.bindingHandlers.descendantBindingHandler;
         });
@@ -139,7 +123,7 @@
                 events: []
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect($.fn.test).toHaveBeenCalledWith({ foo: vm.fooObservable() });
         });
@@ -169,7 +153,7 @@
                 events: ['bar']
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             $.fn.test('trigger');
 
@@ -190,7 +174,7 @@
                 events: []
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect($.fn.test).toHaveBeenCalledWith({ foo: 1 });
         });
@@ -209,7 +193,7 @@
                 events: []
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect($element.test).not.toHaveBeenCalledWith('option', 'foo', 2);
             vm.fooObservable(2);
@@ -231,7 +215,7 @@
                 hasRefresh: true
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             vm.refreshOnObservable(1);
             expect($element.test).toHaveBeenCalledWith('refresh');
@@ -251,7 +235,7 @@
                 events: []
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             vm.refreshOnObservable(1);
             expect($element.test).not.toHaveBeenCalledWith('refresh');
@@ -271,7 +255,7 @@
                 events: []
             });
 
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, $element[0]);
 
             expect(vm.widgetObservable()).toBeDefined();
         });
@@ -287,7 +271,7 @@
                 events: []
             });
 
-            ko.applyBindings({});
+            ko.applyBindings({}, $element[0]);
 
             expect($.fn.test).not.toHaveBeenCalledWith('destroy');
             ko.removeNode($element[0]);

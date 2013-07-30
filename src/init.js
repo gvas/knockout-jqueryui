@@ -18,7 +18,7 @@
         throw new Error('This version of the jQuery UI library is not supported.');
     }
 
-    if (versions.knockout !== '2.2') {
+    if (versions.knockout !== '2.2' && versions.knockout !== '2.3' && versions.knockout !== '3.0') {
         throw new Error('This version of the knockout library is not supported.');
     }
 }());
