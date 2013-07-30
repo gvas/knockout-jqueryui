@@ -19,15 +19,16 @@
 <h4>
     refreshOn</h4>
 <p>
-    If bound to one of the viewmodel's observables, then every time that observable changes,
+    Should be bound to one of the viewmodel's observables. Every time that observable changes,
     the widget is refreshed (it's refresh method is invoked).
 </p>
 {% endif %}
 <h4>
     widget</h4>
 <p>
-    If bound to one of the viewmodel's writeable observables, then the binding will write the widget
-    instance into it.</p>
+    Should be bound to one of the viewmodel's writeable observables. The binding will write
+    a jQuery object containing the binding's DOM element into it. The primary use for this
+    option is to invoke the widget's methods on the element.</p>
 {% for param in page.extraParameters %}
 <h4>
     {{ param.name }}</h4>
