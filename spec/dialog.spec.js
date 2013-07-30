@@ -1,5 +1,5 @@
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
-/*jslint maxlen:256*/
+/*jslint maxlen:256, browser: true*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, getMajorMinorVersion, testWidgetOptions*/
 (function () {
     'use strict';
 
@@ -26,6 +26,7 @@
                 width: [300, 175]
             };
 
+            /*jslint white:true*/
             switch (getMajorMinorVersion($.ui.version)) {
                 case '1.8':
                     $.extend(optionsToTest, {
@@ -47,6 +48,7 @@
                     });
                     break;
             }
+            /*jslint white:false*/
 
             testWidgetOptions('dialog', optionsToTest);
         });
@@ -55,7 +57,7 @@
             var $element, vm;
 
             $element = $('<div data-bind="dialog: { create: createEventHandler }"></div>').appendTo('body');
-            vm = { createEventHandler: jasmine.createSpy() }
+            vm = { createEventHandler: jasmine.createSpy() };
 
             ko.applyBindings(vm);
 
@@ -67,7 +69,7 @@
         it('should write the widget\'s state back to the viewmodel when opened/closed.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').appendTo('body'); ;
+            $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').appendTo('body');
             vm = { isOpen: ko.observable(false) };
             ko.applyBindings(vm);
 
@@ -77,5 +79,21 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should write the element to the widget observable', function () {
+            var $element, vm, autoOpen;
+
+            $element = $('<div data-bind="dialog: { widget: widget, autoOpen: false }"></div>').appendTo('body');
+            vm = { widget: ko.observable() };
+            ko.applyBindings(vm);
+
+            expect(vm.widget()).toBeDefined();
+
+            autoOpen = vm.widget().dialog('option', 'autoOpen');
+
+            expect(autoOpen).toBe(false);
+
+            ko.removeNode($element[0]);
+        });
     });
-} ());
+}());

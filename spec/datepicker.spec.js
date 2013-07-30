@@ -58,5 +58,21 @@
                 onSelect: [null, function () { } ]
             });
         });
+
+        it('should write the element to the widget observable', function () {
+            var $element, vm, autoSize;
+
+            $element = $('<div data-bind="datepicker: { widget: widget, autoSize: true }"></div>').appendTo('body');
+            vm = { widget: ko.observable() };
+            ko.applyBindings(vm);
+
+            expect(vm.widget()).toBeDefined();
+
+            autoSize = vm.widget().datepicker('option', 'autoSize');
+
+            expect(autoSize).toBe(true);
+
+            ko.removeNode($element[0]);
+        });
     });
 }());

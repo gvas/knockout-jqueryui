@@ -5,7 +5,7 @@
 
     describe('The tabs binding', function () {
 
-        var testOptions18, testOptions19, testSelectedOption, testActiveOption, testEvents;
+        var testOptions18, testOptions19, testSelectedOption, testActiveOption, testEvents, testWidget;
 
         testOptions18 = function () {
 
@@ -82,18 +82,37 @@
             ko.removeNode($element[0]);
         };
 
+
+        testWidget = function () {
+            var $element, vm, disabled;
+
+            $element = $('<div data-bind="tabs: { widget: widget, disabled: true }"></div>').appendTo('body');
+            vm = { widget: ko.observable() };
+            ko.applyBindings(vm);
+
+            expect(vm.widget()).toBeDefined();
+
+            disabled = vm.widget().tabs('option', 'disabled');
+
+            expect(disabled).toBe(true);
+
+            ko.removeNode($element[0]);
+        };
+
         /*jslint white:true*/
         switch (getMajorMinorVersion($.ui.version)) {
             case '1.8':
                 it('should handle each option of the widget', testOptions18);
                 it('should handle the selected option', testSelectedOption);
                 it('should handle each event of the widget', testEvents);
+                it('should write the element to the widget observable', testWidget);
                 break;
             case '1.9':
             case '1.10':
                 it('should handle each option of the widget', testOptions19);
                 it('should handle the active option', testActiveOption);
                 it('should handle each event of the widget', testEvents);
+                it('should write the element to the widget observable', testWidget);
                 break;
         }
         /*jslint white:false*/

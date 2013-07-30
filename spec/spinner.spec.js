@@ -1,6 +1,5 @@
-/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect,
-getMajorMinorVersion, testWidgetOptions*/
 /*jslint maxlen:256*/
+/*global ko, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect, getMajorMinorVersion, testWidgetOptions*/
 (function () {
     'use strict';
 
@@ -47,6 +46,22 @@ getMajorMinorVersion, testWidgetOptions*/
             expect(vm.value.peek()).toEqual(1);
             $element.spinner('value', 55);
             expect(vm.value.peek()).toEqual(55);
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should write the element to the widget observable', function () {
+            var $element, vm, disabled;
+
+            $element = $('<div data-bind="spinner: { widget: widget, disabled: true }"></div>').appendTo('body');
+            vm = { widget: ko.observable() };
+            ko.applyBindings(vm);
+
+            expect(vm.widget()).toBeDefined();
+
+            disabled = vm.widget().spinner('option', 'disabled');
+
+            expect(disabled).toBe(true);
 
             ko.removeNode($element[0]);
         });

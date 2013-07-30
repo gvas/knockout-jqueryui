@@ -140,7 +140,7 @@ bindingFactory = (function () {
 
                     // store the widget instance in the widget observable
                     if (ko.isWriteableObservable(value.widget)) {
-                        value.widget($(element)[widgetName]('widget'));
+                        value.widget($(element));
                     }
 
                     // handle disposal
