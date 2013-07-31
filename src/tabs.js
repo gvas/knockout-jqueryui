@@ -47,27 +47,25 @@
         });
     };
 
-    /*jslint white:true*/
     switch (versions.jQueryUI) {
-        case '1.8':
-            options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disable',
-                'disabled', 'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
-                'spinner', 'tabTemplate'];
-            events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
-                'show'];
-            postInit = postInitHandler18;
-            hasRefresh = false;
-            break;
-        case '1.9':
-        case '1.10':
-            options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
-                'show'];
-            events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
-            postInit = postInitHandler19;
-            hasRefresh = true;
-            break;
+    case '1.8':
+        options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disable',
+            'disabled', 'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
+            'spinner', 'tabTemplate'];
+        events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
+            'show'];
+        postInit = postInitHandler18;
+        hasRefresh = false;
+        break;
+    case '1.9':
+    case '1.10':
+        options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
+            'show'];
+        events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
+        postInit = postInitHandler19;
+        hasRefresh = true;
+        break;
     }
-    /*jslint white:false*/
 
     bindingFactory.create({
         name: 'tabs',

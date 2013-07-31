@@ -1,5 +1,5 @@
 /*global require, define, exports*/
-/*jslint browser:true maxlen:256*/
+/*jslint browser:true, maxlen:256*/
 (function (root, factory) {
     'use strict';
 

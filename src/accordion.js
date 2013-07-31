@@ -24,26 +24,24 @@
         });
     };
 
-    /*jslint white:true*/
     switch (versions.jQueryUI) {
-        case '1.8':
-            options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
-                'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
-                'navigationFilter'];
-            events = ['change', 'changestart', 'create'];
-            hasRefresh = false;
-            eventToWatch = 'accordionchange.ko';
-            break;
-        case '1.9':
-        case '1.10':
-            options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
+    case '1.8':
+        options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
+            'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
+            'navigationFilter'];
+        events = ['change', 'changestart', 'create'];
+        hasRefresh = false;
+        eventToWatch = 'accordionchange.ko';
+        break;
+    case '1.9':
+    case '1.10':
+        options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'];
-            events = ['activate', 'beforeActivate', 'create'];
-            hasRefresh = true;
-            eventToWatch = 'accordionactivate.ko';
-            break;
+        events = ['activate', 'beforeActivate', 'create'];
+        hasRefresh = true;
+        eventToWatch = 'accordionactivate.ko';
+        break;
     }
-    /*jslint white:false*/
 
     bindingFactory.create({
         name: 'accordion',

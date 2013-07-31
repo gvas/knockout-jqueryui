@@ -56,34 +56,32 @@
         });
     };
 
-    /*jslint white:true*/
     switch (versions.jQueryUI) {
-        case '1.8':
-            options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-                'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
-                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-                'width', 'zIndex'];
-            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-            break;
-        case '1.9':
-            options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-                'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
-                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-                'width', 'zIndex'];
-            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-            break;
-        case '1.10':
-            options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
-                'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
-                'title', 'width'];
-            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-            break;
+    case '1.8':
+        options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+            'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
+            'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+            'width', 'zIndex'];
+        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        break;
+    case '1.9':
+        options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+            'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
+            'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+            'width', 'zIndex'];
+        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        break;
+    case '1.10':
+        options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
+            'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
+            'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
+            'title', 'width'];
+        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        break;
     }
-    /*jslint white:false*/
 
     bindingFactory.create({
         name: 'dialog',
