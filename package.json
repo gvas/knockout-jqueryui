@@ -3,20 +3,30 @@
   "description": "knockout binding handlers for jQuery UI",
   "homepage": "https://github.com/gvas/knockout-jqueryui",
   "version": "0.5.0",
-  "author":
-  {
-	"name": "Vas Gabor <gvas.munka@gmail.com>"
+  "author": {
+    "name": "Vas Gabor <gvas.munka@gmail.com>"
   },
   "repository": {
-	"type": "git",
-	"url": "https://github.com/gvas/knockout-jqueryui.git"
+    "type": "git",
+    "url": "https://github.com/gvas/knockout-jqueryui.git"
   },
   "keywords": [
-	"knockout",
-	"jquery ui"
-  ],  
+    "knockout",
+    "jquery ui"
+  ],
   "license": "MIT",
-  "engines": {
-	"node": ">=0.6"
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-cli": "~0.1.6",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-saucelabs": "~4.0.2",
+    "grunt-contrib-connect": "~0.1.2",
+    "grunt-contrib-watch": "~0.2.0"
+  },
+  "scripts": {
+    "test": "grunt test"
   }
 }

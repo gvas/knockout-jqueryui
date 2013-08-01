@@ -1,0 +1,11 @@
+---
+language: node_js
+node_js:
+- 0.10
+before_script:
+  - npm install -g grunt-cli
+  - git submodule update --init --recursive
+env:
+  global:
+  - secure: ! 'YnRl2BlUcSskK9ASeGf+Sk8Qp/xMp1TuL5VDH0wZ4h8pDnd1YtWXGZ3qb+fuC4eRyt+fKTv/QBuPXmZKfYvPMrrALBbYYPz08eit8IFYWTBxe4brq7yJ64OFMDeaTIZaDT6JK6niaowEuUo//paNEwqQ8ts9DVuF+K/7foxlaVY='
+  - secure: ! 'foqpLknLVgBu7aoRvCkSAiJ6QeKKHo8pv93DAZYQoAARU2OaKFdsc82ENZkgugodfouO69XdTYl9tFg6OR4MYSysl+5AuDZdcD9G/i4d9H6lqWJ1k+D4b4MJWBU2BiMmp7mAYxL31qCJBNJET6H6lDxBTIX+l4tZO6Tlk5gEWwU='

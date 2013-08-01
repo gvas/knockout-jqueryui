@@ -1,8 +1,5 @@
-# User-specific files
-*.suo
-*.user
-*.sln.docstates
+# SauceLabs logs
+sauce_connect.log*
 
-# Jekyll generated site #
-#########################
-_site/
+# node modules
+node_modules/

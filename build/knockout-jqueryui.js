@@ -1,10 +1,8 @@
-/*! knockout-jqueryui - v0.5.0 - 7/30/2013
+/*! knockout-jqueryui - v0.5.0 - 8/2/2013
 * https://github.com/gvas/knockout-jqueryui
 * Copyright (c) 2013 Vas Gabor <gvas.munka@gmail.com>; Licensed MIT */
-
-
 /*global require, define, exports*/
-/*jslint browser:true maxlen:256*/
+/*jslint browser:true, maxlen:256*/
 (function (root, factory) {
     'use strict';
 
@@ -22,7 +20,6 @@
     'use strict';
 
     var versions, bindingFactory;
-
     versions = (function () {
         
     
@@ -270,26 +267,24 @@
             });
         };
     
-        /*jslint white:true*/
         switch (versions.jQueryUI) {
-            case '1.8':
-                options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
-                    'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
-                    'navigationFilter'];
-                events = ['change', 'changestart', 'create'];
-                hasRefresh = false;
-                eventToWatch = 'accordionchange.ko';
-                break;
-            case '1.9':
-            case '1.10':
-                options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
+        case '1.8':
+            options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
+                'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
+                'navigationFilter'];
+            events = ['change', 'changestart', 'create'];
+            hasRefresh = false;
+            eventToWatch = 'accordionchange.ko';
+            break;
+        case '1.9':
+        case '1.10':
+            options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
                 'heightStyle', 'icons'];
-                events = ['activate', 'beforeActivate', 'create'];
-                hasRefresh = true;
-                eventToWatch = 'accordionactivate.ko';
-                break;
+            events = ['activate', 'beforeActivate', 'create'];
+            hasRefresh = true;
+            eventToWatch = 'accordionactivate.ko';
+            break;
         }
-        /*jslint white:false*/
     
         bindingFactory.create({
             name: 'accordion',
@@ -305,18 +300,16 @@
     
         var events;
     
-        /*jslint white:true*/
         switch (versions.jQueryUI) {
-            case '1.8':
-                events = ['change', 'close', 'create', 'focus', 'open', 'search', 'select'];
-                break;
-            case '1.9':
-            case '1.10':
-                events = ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
-                'select'];
-                break;
+        case '1.8':
+            events = ['change', 'close', 'create', 'focus', 'open', 'search', 'select'];
+            break;
+        case '1.9':
+        case '1.10':
+            events = ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
+            'select'];
+            break;
         }
-        /*jslint white:false*/
     
         bindingFactory.create({
             name: 'autocomplete',
@@ -424,34 +417,32 @@
             });
         };
     
-        /*jslint white:true*/
         switch (versions.jQueryUI) {
-            case '1.8':
-                options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-                    'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
-                    'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-                    'width', 'zIndex'];
-                events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                    'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-                break;
-            case '1.9':
-                options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-                    'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
-                    'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-                    'width', 'zIndex'];
-                events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                    'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-                break;
-            case '1.10':
-                options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                    'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
-                    'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
-                    'title', 'width'];
-                events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-                    'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-                break;
+        case '1.8':
+            options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+                'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
+                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+                'width', 'zIndex'];
+            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            break;
+        case '1.9':
+            options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
+                'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
+                'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
+                'width', 'zIndex'];
+            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            break;
+        case '1.10':
+            options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
+                'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
+                'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
+                'title', 'width'];
+            events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            break;
         }
-        /*jslint white:false*/
     
         bindingFactory.create({
             name: 'dialog',
@@ -478,17 +469,15 @@
     
         var options;
     
-        /*jslint white:true*/
         switch (versions.jQueryUI) {
-            case '1.8':
-                options = ['disabled', 'value'];
-                break;
-            case '1.9':
-            case '1.10':
-                options = ['disabled', 'max', 'value'];
-                break;
+        case '1.8':
+            options = ['disabled', 'value'];
+            break;
+        case '1.9':
+        case '1.10':
+            options = ['disabled', 'max', 'value'];
+            break;
         }
-        /*jslint white:false*/
     
         bindingFactory.create({
             name: 'progressbar',
@@ -626,27 +615,25 @@
             });
         };
     
-        /*jslint white:true*/
         switch (versions.jQueryUI) {
-            case '1.8':
-                options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disable',
-                    'disabled', 'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
-                    'spinner', 'tabTemplate'];
-                events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
-                    'show'];
-                postInit = postInitHandler18;
-                hasRefresh = false;
-                break;
-            case '1.9':
-            case '1.10':
-                options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
-                    'show'];
-                events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
-                postInit = postInitHandler19;
-                hasRefresh = true;
-                break;
+        case '1.8':
+            options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
+                'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
+                'spinner', 'tabTemplate'];
+            events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
+                'show'];
+            postInit = postInitHandler18;
+            hasRefresh = false;
+            break;
+        case '1.9':
+        case '1.10':
+            options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
+                'show'];
+            events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
+            postInit = postInitHandler19;
+            hasRefresh = true;
+            break;
         }
-        /*jslint white:false*/
     
         bindingFactory.create({
             name: 'tabs',
@@ -704,8 +691,7 @@
             events: ['create', 'open', 'close'],
             postInit: postInit
         });
-    }());
-    // make the binding factory accessible for the tests
+    }());    // make the binding factory accessible for the tests
     ko.jqui = {
         bindingFactory: bindingFactory
     };
