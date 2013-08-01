@@ -49,8 +49,8 @@
 
     switch (versions.jQueryUI) {
     case '1.8':
-        options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disable',
-            'disabled', 'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
+        options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
+            'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
             'spinner', 'tabTemplate'];
         events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
             'show'];

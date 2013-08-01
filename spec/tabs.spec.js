@@ -13,7 +13,7 @@
                 ajaxOptions: [null, { async: false}],
                 cache: [false, true],
                 collapsible: [false, true],
-                disable: [false, true],
+                disabled: [[], []], // in jQuery UI 1.8 the disabled option only accepts arrays (contrary to what its documentation says)
                 event: ['click', 'mouseover'],
                 fx: [null, { height: "toggle", duration: 200}],
                 idPrefix: ['ui-tabs-', 'ui-tabs-54'],
@@ -84,17 +84,17 @@
 
 
         testWidget = function () {
-            var $element, vm, disabled;
+            var $element, vm, collapsible;
 
-            $element = $('<div data-bind="tabs: { widget: widget, disabled: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="tabs: { widget: widget, collapsible: true }"></div>').appendTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
             expect(vm.widget()).toBeDefined();
 
-            disabled = vm.widget().tabs('option', 'disabled');
+            collapsible = vm.widget().tabs('option', 'collapsible');
 
-            expect(disabled).toBe(true);
+            expect(collapsible).toBe(true);
 
             ko.removeNode($element[0]);
         };
