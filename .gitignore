@@ -3,3 +3,6 @@ sauce_connect.log*
 
 # node modules
 node_modules/
+
+# build outputs
+build/
