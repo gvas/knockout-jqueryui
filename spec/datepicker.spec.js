@@ -74,5 +74,39 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should write the widget\'s value to the viewmodel\'s bound observable when it changes.', function () {
+            var $element, vm, now;
+
+            $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
+            vm = { value: ko.observable() };
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.value.peek()).not.toBeDefined();
+            // The datepicker's setDate() method wouldn't work as expected, because it doesn't
+            // triggers the onSelected callback. Let's simulate a user click instead.
+            $('.ui-datepicker-today').click();
+            now = new Date();
+            now.setHours(0, 0, 0, 0);
+            expect(vm.value.peek()).toEqual(now);
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should write the viewmodel\'s observable to the widget\'s value when it changes.', function () {
+            var $element, vm, date;
+
+            $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
+            vm = {
+                value: ko.observable()
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            vm.value(new Date(2000, 1, 1));
+            date = $element.datepicker('getDate');
+            expect(date).toEqual(new Date(2000, 1, 1));
+
+            ko.removeNode($element[0]);
+        });
     });
-}());
+} ());
