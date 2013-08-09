@@ -4,17 +4,31 @@ name: datepicker
 description: Select a date from a popup or inline calendar
 widgetApi: http://api.jqueryui.com/datepicker
 hasRefresh: true
+extraParameters:
+    - name: value
+      description: The selected Date. Note the difference between this option and knockout's built-in value binding, the examples below use both.
 exampleView: |
-  <input type="text" data-bind="datepicker: { onSelect: onSelect }" />
-  <span>Selected: </span>
-  <span data-bind="text: selected"></span>
+  <p>
+    <span>Popup calendar: </span><br/>
+    <input type="text" data-bind="datepicker: {}, value: valueString1" />
+  </p>
+  <p>
+    <span>Inline calendar: </span>
+    <div data-bind="datepicker: { value: value2 }"></div>
+  </p>
+  <p>
+    <button data-bind="button: {}, click: to01012000">Set to 01/01/2000</button>
+  </p>
+
 exampleViewModel: |
   var ViewModel = function () {
-    this.selected = ko.observable('');
+    this.valueString1 = ko.observable();
+    this.value2 = ko.observable();
   };
-  ViewModel.prototype.onSelect = function(dateText) {
-    var vm = ko.dataFor(this);
-    vm.selected(dateText);
+
+  ViewModel.prototype.to01012000 = function() {
+    this.valueString1('01/01/2000');
+    this.value2(new Date(2000, 0, 1));
   };
 ---
 {% include binding.html %}
