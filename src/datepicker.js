@@ -5,16 +5,21 @@
     var postInit;
 
     postInit = function (element, valueAccessor) {
-        /// <summary>Synchronizes the value option with the datepicker's value.</summary>
+        /// <summary>Sets up the 'value' option.</summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
-        var value, subscription, origOnSelect;
+        var options, value, subscription, origOnSelect;
 
-        value = valueAccessor();
+        options = valueAccessor();
+        value = ko.utils.unwrapObservable(options.value);
 
-        if (ko.isObservable(value.value)) {
-            subscription = value.value.subscribe(function (newValue) {
+        if (value) {
+            $(element).datepicker('setDate', value);
+        }
+
+        if (ko.isObservable(options.value)) {
+            subscription = options.value.subscribe(function (newValue) {
                 $(element).datepicker('setDate', newValue);
             });
 
@@ -23,14 +28,14 @@
             });
         }
 
-        if (ko.isWriteableObservable(value.value)) {
+        if (ko.isWriteableObservable(options.value)) {
             origOnSelect = $(element).datepicker('option', 'onSelect');
             $(element).datepicker('option', 'onSelect', function (selectedText) {
                 var format, date;
 
                 format = $(element).datepicker('option', 'dateFormat');
                 date = $.datepicker.parseDate(format, selectedText);
-                value.value(date);
+                options.value(date);
 
                 if (typeof origOnSelect === 'function') {
                     origOnSelect.apply(this, Array.prototype.slice.call(arguments));

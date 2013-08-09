@@ -75,7 +75,7 @@
             ko.removeNode($element[0]);
         });
 
-        it('should write the widget\'s value to the viewmodel\'s bound observable when it changes.', function () {
+        it('should write the widget\'s value to the \'value\' observable when it changes.', function () {
             var $element, vm, now;
 
             $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
@@ -93,7 +93,7 @@
             ko.removeNode($element[0]);
         });
 
-        it('should write the viewmodel\'s observable to the widget\'s value when it changes.', function () {
+        it('should write the \'value\' observable to the widget\'s value when it changes.', function () {
             var $element, vm, date;
 
             $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
@@ -109,4 +109,4 @@
             ko.removeNode($element[0]);
         });
     });
-} ());
+}());
