@@ -121,7 +121,10 @@ bindingFactory = (function () {
 
                     // allow inner elements' bindings to finish before initializing the widget
                     ko.applyBindingsToDescendants(bindingContext, element);
-
+                    
+                    //Fix for Uncaught Error: You cannot apply bindings multiple times to the same element. 
+                    ko.cleanNode(element);
+                    
                     // bind the widget events to the viewmodel
                     unwrappedEvents = unwrapProperties(widgetEvents);
                     $.each(unwrappedEvents, function (key, value) {
