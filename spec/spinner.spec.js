@@ -39,17 +39,39 @@
         it('should write the widget\'s value to the viewmodel\'s bound property when it changes.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="spinner: { value: value }"></div>').appendTo('body');
+            $element = $('<input data-bind="spinner: { value: value }"></input>').appendTo('body');
+            
             vm = { value: ko.observable(1) };
             ko.applyBindings(vm, $element[0]);
 
             expect(vm.value.peek()).toEqual(1);
             $element.spinner('value', 55);
             expect(vm.value.peek()).toEqual(55);
+            $element.spinner('stepUp');
+            expect(vm.value.peek()).toEqual(56);
+            
+            // The spinner behaves a little bit differently than programmatically calling stepUp/stepDown when the user actually clicks up/down.
+            //
+            $element.focus().spinner("widget").find(".ui-spinner-up").mousedown().mouseup();
+            expect($element.spinner('value')).toEqual(57);
+            expect(vm.value.peek()).toEqual(56); // Focus is still on the input, so the spinner hasn't fired spinchange yet.
+            $element.blur().blur(); // Yes, the double blur is necessary.
+            expect(vm.value.peek()).toEqual(57); // *Now* the observable should be mutated.
 
             ko.removeNode($element[0]);
         });
 
+        it('should write the widget\'s value immediately to the viewmodel\'s bound property when it changes if "valueUpdate" binding is also used on the input.', function () {
+            var $element, vm;
+            
+            $element = $('<input data-bind="valueUpdate: \'afterkeydown\', spinner: { value: value }"></input>').appendTo('body');
+            
+            vm = { value: ko.observable(100) };
+            ko.applyBindings(vm, $element[0]);
+            $element.focus().spinner("widget").find(".ui-spinner-up").mousedown().mouseup();
+            expect(vm.value.peek()).toEqual(101);
+        });
+        
         it('should write the element to the widget observable', function () {
             var $element, vm, disabled;
 
