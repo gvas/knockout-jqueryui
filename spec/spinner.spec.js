@@ -39,7 +39,7 @@
         it('should write the widget\'s value to the viewmodel\'s bound property when it changes.', function () {
             var $element, vm;
 
-            $element = $('<input data-bind="spinner: { value: value }"></input>').appendTo('body');
+            $element = $('<input data-bind="spinner: { value: value }" />').appendTo('body');
             
             vm = { value: ko.observable(1) };
             ko.applyBindings(vm, $element[0]);
@@ -64,7 +64,7 @@
         it('should write the widget\'s value immediately to the viewmodel\'s bound property when it changes if "valueUpdate" binding is also used on the input.', function () {
             var $element, vm;
             
-            $element = $('<input data-bind="valueUpdate: \'afterkeydown\', spinner: { value: value }"></input>').appendTo('body');
+            $element = $('<input data-bind="valueUpdate: \'afterkeydown\', spinner: { value: value }" />').appendTo('body');
             
             vm = { value: ko.observable(100) };
             ko.applyBindings(vm, $element[0]);
