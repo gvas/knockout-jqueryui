@@ -53,8 +53,8 @@
             // This spec tests that the view model's bound property is only updated when
             // the spinner's input is blurred.
             // The spinner widget ensures that the focus is set to the input when the up-
-            // or down button is clicked, but IE raises the focus event asynchronously,
-            // so we also have to test it asynchronously.
+            // or down button is clicked, but IE raises the focus/blur events
+            // asynchronously, so we also have to test it asynchronously.
             runs(function () {
                 $element.spinner('widget').find('.ui-spinner-up')
                     .mousedown()
@@ -63,8 +63,8 @@
                     expect($element.spinner('value')).toEqual(57);
                     expect(vm.value.peek()).toEqual(56); // Focus is still on the input, so the spinner hasn't fired spinchange yet.
                     $element.blur();
-                    flag = true; // open the latch
-                }, 50);
+                    setTimeout(function () { flag = true; }, 150); // open the latch
+                }, 150);
             });
 
             waitsFor(function () {
