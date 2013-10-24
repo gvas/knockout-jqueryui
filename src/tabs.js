@@ -12,13 +12,11 @@
 
         var value = valueAccessor();
 
-        if (ko.isWriteableObservable(value.active)) {
+        if (ko.isWriteableObservable(value.selected)) {
             /*jslint unparam:true*/
             $(element).on('tabsshow.ko', function (ev, ui) {
-                //Prevent this from bubbling up to any parent tab widgets
-                ev.stopPropagation();
                 if ($(element)[0] === ev.target) {
-                    //Only activate if this is the right tab widget. Is there a better way to check this?
+                    // Only activate if this is the right tab widget.
                     value.selected(ui.index);
                 }
             });
@@ -41,10 +39,8 @@
         if (ko.isWriteableObservable(value.active)) {
             /*jslint unparam:true*/
             $(element).on('tabsactivate.ko', function (ev, ui) {
-                //Prevent this from bubbling up to any parent tab widgets
-                ev.stopPropagation();
                 if ($(element)[0] === ev.target) {
-                    //Only activate if this is the right tab widget. Is there a better way to check this?
+                    // Only activate if this is the right tab widget.
                     value.active(ui.newTab.index());
                 }
             });

@@ -5,7 +5,7 @@
 
     describe('The tabs binding', function () {
 
-        var testOptions18, testOptions19, testSelectedOption, testActiveOption, testEvents, testWidget;
+        var testOptions18, testOptions19, testSelectedOption, testActiveOption, testEvents, testWidget, testNested18, testNested19;
 
         testOptions18 = function () {
 
@@ -99,6 +99,84 @@
             ko.removeNode($element[0]);
         };
 
+        testNested18 = function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="tabs: { selected: outerSelected }">' +
+                '  <ul>' +
+                '    <li><a href="#outer1">a</a></li>' +
+                '    <li><a href="#outer2">b</a></li>' +
+                '  </ul>' +
+                '  <div id="outer1">' +
+                '    <div data-bind="tabs: { selected: innerSelected }">' +
+                '      <ul>' +
+                '        <li><a href="#inner1">a</a></li>' +
+                '        <li><a href="#inner2">b</a></li>' +
+                '      </ul>' +
+                '      <div id="inner1"></div>' +
+                '      <div id="inner2"></div>' +
+                '    </div>' +
+                '  </div>' +
+                '  <div id="outer2"></div>' +
+                '</div>').appendTo('body');
+
+            vm = {
+                outerSelected: ko.observable(0),
+                innerSelected: ko.observable(0)
+            };
+
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.outerSelected()).toEqual(0);
+            expect(vm.innerSelected()).toEqual(0);
+
+            $element.find('a[href$="#inner2"]').click();
+
+            expect(vm.outerSelected()).toEqual(0);
+            expect(vm.innerSelected()).toEqual(1);
+
+            ko.removeNode($element[0]);
+        };
+
+        testNested19 = function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="tabs: { active: outerActive }">' +
+                '  <ul>' +
+                '    <li><a href="#outer1">a</a></li>' +
+                '    <li><a href="#outer2">b</a></li>' +
+                '  </ul>' +
+                '  <div id="outer1">' +
+                '    <div data-bind="tabs: { active: innerActive }">' +
+                '      <ul>' +
+                '        <li><a href="#inner1">a</a></li>' +
+                '        <li><a href="#inner2">b</a></li>' +
+                '      </ul>' +
+                '      <div id="inner1">a</div>' +
+                '      <div id="inner2">b</div>' +
+                '    </div>' +
+                '  </div>' +
+                '  <div id="outer2">b</div>' +
+                '</div>').appendTo('body');
+
+            vm = {
+                outerActive: ko.observable(0),
+                innerActive: ko.observable(0)
+            };
+
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.outerActive()).toEqual(0);
+            expect(vm.innerActive()).toEqual(0);
+
+            $element.find('a[href$="#inner2"]').click();
+
+            expect(vm.outerActive()).toEqual(0);
+            expect(vm.innerActive()).toEqual(1);
+
+            ko.removeNode($element[0]);
+        };
+
         /*jslint white:true*/
         switch (getMajorMinorVersion($.ui.version)) {
             case '1.8':
@@ -106,6 +184,7 @@
                 it('should handle the selected option', testSelectedOption);
                 it('should handle each event of the widget', testEvents);
                 it('should write the element to the widget observable', testWidget);
+                it('should be able to handle nested tabs', testNested18);
                 break;
             case '1.9':
             case '1.10':
@@ -113,6 +192,7 @@
                 it('should handle the active option', testActiveOption);
                 it('should handle each event of the widget', testEvents);
                 it('should write the element to the widget observable', testWidget);
+                it('should be able to handle nested tabs', testNested19);
                 break;
         }
         /*jslint white:false*/
