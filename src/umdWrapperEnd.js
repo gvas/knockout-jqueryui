@@ -2,5 +2,5 @@
     ko.jqui = {
         bindingFactory: bindingFactory
     };
-    exports.version = '0.5.2';
+    exports.version = '0.6.0';
 }));
