@@ -1,4 +1,4 @@
-/*global module, process */
+/*global module, process*/
 /*jslint maxlen:256*/
 module.exports = function (grunt) {
     'use strict';
