@@ -100,72 +100,66 @@ bindingFactory = (function () {
         widgetName = options.name;
 
         // skip missing widgets
-        if ($.fn[widgetName]) {
-            /*jslint unparam:true*/
-            init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-
-                var flag, value, widgetOptions, widgetEvents, unwrappedOptions, unwrappedEvents;
-
-                // prevent multiple inits
-                flag = 'ko_' + widgetName + '_initialized';
-                if (!element[flag]) {
-
-                    value = valueAccessor();
-                    widgetOptions = filterProperties(value, options.options);
-                    widgetEvents = filterProperties(value, options.events);
-
-                    // execute the provided callback before the widget initialization
-                    if (options.preInit) {
-                        options.preInit.apply(this, arguments);
-                    }
-
-                    // allow inner elements' bindings to finish before initializing the widget
-                    ko.applyBindingsToDescendants(bindingContext, element);
-
-                    // bind the widget events to the viewmodel
-                    unwrappedEvents = unwrapProperties(widgetEvents);
-                    $.each(unwrappedEvents, function (key, value) {
-                        unwrappedEvents[key] = value.bind(viewModel);
-                    });
-
-                    // initialize the widget
-                    unwrappedOptions = unwrapProperties(widgetOptions);
-                    $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
-
-                    subscribeToObservableOptions(widgetName, element, widgetOptions);
-
-                    if (options.hasRefresh) {
-                        subscribeToRefreshOn(widgetName, element, value);
-                    }
-
-                    // store the widget instance in the widget observable
-                    if (ko.isWriteableObservable(value.widget)) {
-                        value.widget($(element));
-                    }
-
-                    // handle disposal
-                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                        $(element)[widgetName]('destroy');
-                        element[flag] = null;
-                    });
-
-                    // execute the provided callback after the widget initialization
-                    if (options.postInit) {
-                        options.postInit.apply(this, arguments);
-                    }
-
-                    element[flag] = true;
-                }
-
-                // the inner elements have already been taken care of
-                return { controlsDescendantBindings: true };
-            };
-            /*jslint unparam:false*/
-
-            ko.bindingHandlers[widgetName] = {
-                init: init
-            };
+        if (!$.fn[widgetName]) {
+            return;
         }
+
+        /*jslint unparam:true*/
+        init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            var value, widgetOptions, widgetEvents, unwrappedOptions, unwrappedEvents;
+
+            value = valueAccessor();
+            widgetOptions = filterProperties(value, options.options);
+            widgetEvents = filterProperties(value, options.events);
+
+            // execute the provided callback before the widget initialization
+            if (options.preInit) {
+                options.preInit.apply(this, arguments);
+            }
+
+            // allow inner elements' bindings to finish before initializing the widget
+            ko.applyBindingsToDescendants(bindingContext, element);
+
+            // bind the widget events to the viewmodel
+            unwrappedEvents = unwrapProperties(widgetEvents);
+            $.each(unwrappedEvents, function (key, value) {
+                unwrappedEvents[key] = value.bind(viewModel);
+            });
+
+            // initialize the widget
+            unwrappedOptions = unwrapProperties(widgetOptions);
+            $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
+
+            subscribeToObservableOptions(widgetName, element, widgetOptions);
+
+            if (options.hasRefresh) {
+                subscribeToRefreshOn(widgetName, element, value);
+            }
+
+            // store the widget instance in the widget observable
+            if (ko.isWriteableObservable(value.widget)) {
+                value.widget($(element));
+            }
+
+            // handle disposal
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element)[widgetName]('destroy');
+            });
+
+            // execute the provided callback after the widget initialization
+            if (options.postInit) {
+                options.postInit.apply(this, arguments);
+            }
+
+            // the inner elements have already been taken care of
+            return { controlsDescendantBindings: true };
+        };
+        /*jslint unparam:false*/
+
+        ko.bindingHandlers[widgetName] = {
+            init: init
+        };
     };
 
     return {
