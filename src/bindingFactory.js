@@ -107,16 +107,17 @@ bindingFactory = (function () {
         /*jslint unparam:true*/
         init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 
-            var value, widgetOptions, widgetEvents, unwrappedOptions, unwrappedEvents;
+            var value, widgetOptions, widgetEvents, args, unwrappedOptions, unwrappedEvents;
 
             value = valueAccessor();
             widgetOptions = filterProperties(value, options.options);
             widgetEvents = filterProperties(value, options.events);
+            args = arguments;
 
-            // execute the provided callback before the widget initialization
-            if (options.preInit) {
-                options.preInit.apply(this, arguments);
-            }
+            // execute the preInit handlers
+            ko.utils.arrayForEach(ko.bindingHandlers[widgetName].preInitHandlers, function (handler) {
+                handler.apply(this, args);
+            });
 
             // allow inner elements' bindings to finish before initializing the widget
             ko.applyBindingsToDescendants(bindingContext, element);
@@ -147,10 +148,10 @@ bindingFactory = (function () {
                 $(element)[widgetName]('destroy');
             });
 
-            // execute the provided callback after the widget initialization
-            if (options.postInit) {
-                options.postInit.apply(this, arguments);
-            }
+            // execute the postInit handlers
+            ko.utils.arrayForEach(ko.bindingHandlers[widgetName].postInitHandlers, function (handler) {
+                handler.apply(this, args);
+            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };
@@ -158,8 +159,18 @@ bindingFactory = (function () {
         /*jslint unparam:false*/
 
         ko.bindingHandlers[widgetName] = {
-            init: init
+            init: init,
+            preInitHandlers: [],
+            postInitHandlers: []
         };
+
+        if (options.preInit) {
+            ko.bindingHandlers[widgetName].preInitHandlers.push(options.preInit);
+        }
+
+        if (options.postInit) {
+            ko.bindingHandlers[widgetName].postInitHandlers.push(options.postInit);
+        }
     };
 
     return {

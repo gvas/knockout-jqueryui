@@ -55,6 +55,56 @@
             expect($.fn.test).toHaveBeenCalled();
         });
 
+        it('should invoke the callbacks added to the preInitHandlers array', function () {
+            var callback1, callback2;
+
+            $element = $('<div data-bind="test: {}"></div>').appendTo('body');
+            $.fn.test = function () { };
+            callback1 = jasmine.createSpy();
+            callback2 = jasmine.createSpy();
+
+            ko.jqui.bindingFactory.create({
+                name: 'test',
+                options: [],
+                events: [],
+                preInit: callback1
+            });
+            ko.bindingHandlers.test.preInitHandlers.push(callback2);
+
+            expect(callback1).not.toHaveBeenCalled();
+            expect(callback2).not.toHaveBeenCalled();
+
+            ko.applyBindings({}, $element[0]);
+
+            expect(callback1).toHaveBeenCalled();
+            expect(callback2).toHaveBeenCalled();
+        });
+
+        it('should invoke the callbacks added to the postInitHandlers array', function () {
+            var callback1, callback2;
+
+            $element = $('<div data-bind="test: {}"></div>').appendTo('body');
+            $.fn.test = function () { };
+            callback1 = jasmine.createSpy();
+            callback2 = jasmine.createSpy();
+
+            ko.jqui.bindingFactory.create({
+                name: 'test',
+                options: [],
+                events: [],
+                postInit: callback1
+            });
+            ko.bindingHandlers.test.postInitHandlers.push(callback2);
+
+            expect(callback1).not.toHaveBeenCalled();
+            expect(callback2).not.toHaveBeenCalled();
+
+            ko.applyBindings({}, $element[0]);
+
+            expect(callback1).toHaveBeenCalled();
+            expect(callback2).toHaveBeenCalled();
+        });
+
         it('should invoke the preInit callback before the widget instantiation', function () {
             $element = $('<div data-bind="test: {}"></div>').appendTo('body');
             $.fn.test = jasmine.createSpy();
