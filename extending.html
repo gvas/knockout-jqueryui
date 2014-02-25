@@ -1,0 +1,90 @@
+---
+layout: default
+view: |
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
+  <div data-bind="accordion: { cookieName: 'accordionIndex' }">
+    <h3>Panel 1</h3>
+    <div>Lorem ipsum dolor sit amet</div>
+    <h3>Panel 2</h3>
+    <div>consectetur adipiscing elit</div>
+    <h3>Panel 3</h3>
+    <div>Nunc tincidunt consectetur sagittis</div>
+  </div>
+viewModel: |
+  var customPostInit = function(element, valueAccessor) {
+    var value = valueAccessor();
+
+    if (value.hasOwnProperty('cookieName')) {
+        var cookieName = ko.utils.unwrapObservable(value.cookieName);
+
+        // restore the previously saved state
+        var index = parseInt($.cookie(cookieName));
+        $(element).accordion('option', 'active', index);
+
+        // save the state on change
+        // let's support both jQuery UI 1.8 and 1.9+
+        $(element).on('accordionchange.cookie accordionactivate.cookie', function () {
+            var index = $(element).accordion('option', 'active');
+            $.cookie(cookieName, index, { expires: 7 });
+        });
+
+        //handle disposal
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).off('.cookie');
+        });
+    }
+  };
+
+  ko.bindingHandlers.accordion.postInitHandlers.push(customPostInit);
+---
+<h2>
+    Extending the bindings</h2>
+<p>
+    Each binding handler has an additional preInitHandlers and postInitHandlers property.
+    These are arrays of functions. The binding invokes each function in the
+    preInitHandlers array before-, and each function in the postInitHandlers array after
+    initializing the jQuery UI widget. The functions are invoked with the same arguments
+    as the binding handler's init function: element, valueAccessor, and so on. The binding
+    can be extended by adding custom functions to these arrays.
+</p>
+{% highlight js %}
+var customPostInit = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+  // custom functionality
+};
+ko.bindingHandlers.accordion.postInitHandlers.push(customPostInit);
+{% endhighlight %}
+<h3>
+    Example</h3>
+<p>
+    The following example extends the accordion binding with the ability to store the
+    active panel's index in a cookie. Depends on the jquery-cookie library.
+</p>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            HTML</h4>
+        {% highlight html %}{{ page.view }}{% endhighlight %}
+    </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            JavaScript</h4>
+        {% highlight js %}{{ page.viewModel }}{% endhighlight %}
+    </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            Result</h4>
+        <div class="box">
+            {{ page.view }}
+            <script type="text/javascript">
+                $(function () {
+                    {{ page.viewModel }}
+                    ko.applyBindings({});
+                });
+            </script>
+        </div>
+    </div>
+</div>
