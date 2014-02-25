@@ -44,5 +44,42 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should fill in the selectedItem when that bindings is specified', function() {
+            var $element, vm, keyboardEvent;
+
+            $element = $('<input data-bind="autocomplete: { source: PossibleColors, selectedValue: SelectedColor }"></div>')
+                .appendTo('body');
+
+            vm = {
+                PossibleColors: [
+                    'red',
+                    'green',
+                    'blue'
+                ],
+                SelectedColor: ko.observable('red')
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            //autocomplete not used yet, expect the original value from viewModel
+            expect(vm.SelectedColor()).toBe('red');
+
+            //now 'use' the autocomplete
+            $element.autocomplete('search', 'gree'); //start a search that will get us the result we want
+
+            keyboardEvent = $.Event("keydown");
+            keyboardEvent.keyCode = $.ui.keyCode.DOWN;
+
+            $element.trigger(keyboardEvent); //simulate the user selecting it
+
+            expect(vm.SelectedColor()).toBe('red'); //should STILL be red, we only focused it and didn't select, yet.
+
+            keyboardEvent.keyCode = $.ui.keyCode.ENTER;
+            $element.trigger(keyboardEvent); //confirm selection with enter key
+
+            expect(vm.SelectedColor()).toBe('green'); //now expect new value;
+
+            ko.removeNode($element[0]);
+        });
     });
 }());
