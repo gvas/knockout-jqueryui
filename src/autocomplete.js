@@ -4,15 +4,11 @@
 
     var events;
 
-    switch (versions.jQueryUI) {
-    case '1.8':
+    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
         events = ['change', 'close', 'create', 'focus', 'open', 'search', 'select'];
-        break;
-    case '1.9':
-    case '1.10':
+    } else {
         events = ['change', 'close', 'create', 'focus', 'open', 'response', 'search',
-        'select'];
-        break;
+            'select'];
     }
 
     bindingFactory.create({

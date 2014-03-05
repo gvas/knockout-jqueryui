@@ -4,14 +4,10 @@
 
     var options;
 
-    switch (versions.jQueryUI) {
-    case '1.8':
+    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
         options = ['disabled', 'value'];
-        break;
-    case '1.9':
-    case '1.10':
+    } else {
         options = ['disabled', 'max', 'value'];
-        break;
     }
 
     bindingFactory.create({

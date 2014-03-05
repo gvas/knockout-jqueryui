@@ -24,23 +24,19 @@
         });
     };
 
-    switch (versions.jQueryUI) {
-    case '1.8':
+    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
         options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
             'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
             'navigationFilter'];
         events = ['change', 'changestart', 'create'];
         hasRefresh = false;
         eventToWatch = 'accordionchange.ko';
-        break;
-    case '1.9':
-    case '1.10':
+    } else {
         options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'];
         events = ['activate', 'beforeActivate', 'create'];
         hasRefresh = true;
         eventToWatch = 'accordionactivate.ko';
-        break;
     }
 
     bindingFactory.create({

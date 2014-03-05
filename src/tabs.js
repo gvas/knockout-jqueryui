@@ -3,7 +3,7 @@
 (function () {
     'use strict';
 
-    var postInitHandler18, postInitHandler19, options, events, hasRefresh, postInit;
+    var postInitHandler18, postInitHandler, options, events, hasRefresh, postInit;
 
     postInitHandler18 = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
@@ -29,7 +29,7 @@
         });
     };
 
-    postInitHandler19 = function (element, valueAccessor) {
+    postInitHandler = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
@@ -53,8 +53,7 @@
         });
     };
 
-    switch (versions.jQueryUI) {
-    case '1.8':
+    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
         options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
             'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
             'spinner', 'tabTemplate'];
@@ -62,15 +61,12 @@
             'show'];
         postInit = postInitHandler18;
         hasRefresh = false;
-        break;
-    case '1.9':
-    case '1.10':
+    } else {
         options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
             'show'];
         events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
-        postInit = postInitHandler19;
+        postInit = postInitHandler;
         hasRefresh = true;
-        break;
     }
 
     bindingFactory.create({

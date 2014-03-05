@@ -9,9 +9,18 @@ versions = (function () {
         /// <param name='version' type='String'></param>
         /// <returns type='String'></returns>
 
-        var match = (version || '').match(/^(\d\.\d+)\.\d+$/);
+        /*jslint regexp:true*/
+        var match = (version || '').match(/^(\d)\.(\d+)\..*$/);
+        /*jslint regexp:false*/
 
-        return match ? match[1] : null;
+        if (!match) {
+            return null;
+        }
+
+        return {
+            major: parseInt(match[1], 10),
+            minor: parseInt(match[2], 10)
+        };
     };
 
     jQuery = $ && $.fn ? getMajorMinorVersion($.fn.jquery) : null;

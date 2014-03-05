@@ -15,6 +15,11 @@ module.exports = function (grunt) {
         'src/spinner.js', 'src/tabs.js', 'src/tooltip.js'];
 
     browsers = [{
+        browserName: 'opera',
+        platform: 'Windows XP'
+    }];
+    /*
+    browsers = [{
         browserName: 'chrome',
         platform: 'Windows XP'
     }, {
@@ -40,17 +45,20 @@ module.exports = function (grunt) {
         platform: 'Windows 8',
         version: '10'
     }];
+    */
 
+    // let's test each supported major and minor version of jQuery UI
+    // let's test only the earliest supported and the latest versions of jQuery and knockout
     testUrls = [];
-    ['1.8.3', '1.9.1', '1.10.2'].forEach(function (jQueryVersion) {
-        ['1.9.2', '1.10.3'].forEach(function (jQueryUIVersion) {
-            ['2.2.1', '2.3.0'].forEach(function (knockoutVersion) {
+    ['1.8.3', '1.10.2'].forEach(function (jQueryVersion) {
+        ['1.9.2', '1.10.4'].forEach(function (jQueryUIVersion) {
+            ['2.2.0', '3.1.0'].forEach(function (knockoutVersion) {
                 testUrls.push('http://127.0.0.1:9999/SpecRunner.html?' + ['jquery=' + jQueryVersion, 'jqueryui=' + jQueryUIVersion, 'knockout=' + knockoutVersion].join('&'));
             });
         });
     });
     // jQuery UI 1.8 is compatible only with jQuery <= 1.8
-    ['2.2.1', '2.3.0'].forEach(function (knockoutVersion) {
+    ['2.2.0', '3.1.0'].forEach(function (knockoutVersion) {
         testUrls.push('http://127.0.0.1:9999/SpecRunner.html?' + ['jquery=1.8.3', 'jqueryui=1.8.24', 'knockout=' + knockoutVersion].join('&'));
     });
 

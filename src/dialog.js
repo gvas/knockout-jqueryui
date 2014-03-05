@@ -56,31 +56,27 @@
         });
     };
 
-    switch (versions.jQueryUI) {
-    case '1.8':
+    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
         options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
             'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
             'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
             'width', 'zIndex'];
         events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
             'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-        break;
-    case '1.9':
+    } else if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 9) {
         options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
             'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
             'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
             'width', 'zIndex'];
         events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
             'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-        break;
-    case '1.10':
+    } else {
         options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
             'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
             'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
             'title', 'width'];
         events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
             'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-        break;
     }
 
     bindingFactory.create({

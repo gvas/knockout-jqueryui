@@ -1,5 +1,4 @@
 /*global versions*/
-/*jslint maxlen:256*/
 (function () {
     'use strict';
 
@@ -14,11 +13,13 @@
         throw new Error('knockout must be loaded before knockout-jquery.');
     }
 
-    if (versions.jQueryUI !== '1.8' && versions.jQueryUI !== '1.9' && versions.jQueryUI !== '1.10') {
+    if (versions.jQueryUI.major < 1 ||
+            (versions.jQueryUI.major === 1 && versions.jQueryUI.minor < 8)) {
         throw new Error('This version of the jQuery UI library is not supported.');
     }
 
-    if (versions.knockout !== '2.2' && versions.knockout !== '2.3' && versions.knockout !== '3.0') {
+    if (versions.knockout.major < 2 ||
+            (versions.knockout.major === 2 && versions.knockout.minor < 2)) {
         throw new Error('This version of the knockout library is not supported.');
     }
 }());
