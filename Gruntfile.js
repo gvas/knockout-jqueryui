@@ -15,11 +15,6 @@ module.exports = function (grunt) {
         'src/spinner.js', 'src/tabs.js', 'src/tooltip.js'];
 
     browsers = [{
-        browserName: 'opera',
-        platform: 'Windows XP'
-    }];
-    /*
-    browsers = [{
         browserName: 'chrome',
         platform: 'Windows XP'
     }, {
@@ -45,7 +40,6 @@ module.exports = function (grunt) {
         platform: 'Windows 8',
         version: '10'
     }];
-    */
 
     // let's test each supported major and minor version of jQuery UI
     // let's test only the earliest supported and the latest versions of jQuery and knockout
