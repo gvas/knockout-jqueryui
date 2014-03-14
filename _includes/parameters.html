@@ -1,0 +1,37 @@
+<h2>
+    {{ page.name | capitalize }}</h2>
+<p>
+    {{ page.description }}
+</p>
+<h3>
+    Parameters</h3>
+<p>
+    For each of the <a href="{{ page.widgetApi }}">widget's options</a> the binding has a
+    corresponding option with the same name. These can be set to static values, or bound
+    either to normal or to observable properties of the viewmodel.
+</p>
+<p>
+    For each of the <a href="{{ page.widgetApi }}">widget's events</a> the binding has a
+    corresponding option with the same name. These can be set to functions. When invoked
+    the value of the <i>this</i> keyword evaluates to the viewmodel.
+</p>
+{% if page.hasRefresh == true %}
+<h4>
+    refreshOn</h4>
+<p>
+    Should be bound to one of the viewmodel's observables. Every time that observable changes,
+    the widget is refreshed (it's refresh method is invoked).
+</p>
+{% endif %}
+<h4>
+    widget</h4>
+<p>
+    Should be bound to one of the viewmodel's writeable observables. The binding will write
+    a jQuery object containing the binding's DOM element into it. The primary use for this
+    option is to invoke the widget's methods on the element.</p>
+{% for param in page.extraParameters %}
+<h4>
+    {{ param.name }}</h4>
+<p>
+    {{ param.description }}</p>
+{% endfor %}

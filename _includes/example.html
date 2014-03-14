@@ -1,0 +1,31 @@
+<h3>
+    Example</h3>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            HTML</h4>
+        {% highlight html %}{{ page.exampleView }}{% endhighlight %}
+    </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            JavaScript</h4>
+        {% highlight js %}{{ page.exampleViewModel }}{% endhighlight %}
+    </div>
+</div>
+<div class="ym-grid ym-equalize">
+    <div class="ym-gbox">
+        <h4>
+            Result</h4>
+        <div id="result" class="box">
+            {{ page.exampleView }}
+            <script type="text/javascript">
+                $(function () {
+                    {{ page.exampleViewModel }}
+                    ko.applyBindings(new ViewModel(), document.getElementById('result'));
+                });
+            </script>
+        </div>
+    </div>
+</div>
