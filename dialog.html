@@ -22,4 +22,22 @@ exampleViewModel: |
     this.isOpen(true);
   };
 ---
-{% include binding.html %}
+{% include parameters.html %}
+<h3>Notes</h3>
+<p>jQuery UI moves the dialog element to the end of the HTML body. This causes knockout to throw the following exception:
+    <blockquote>You cannot apply bindings multiple times to the same element.</blockquote></p>
+<p>The workaround is to do the ko.applyBindings() on a wrapper div instead of the HTML body. This way jQuery UI will move
+the dialog's element after the wrapper div, and knockout won't try to bind it again:
+{% highlight html %}
+<body>
+    <div id="wrapper">
+        ...
+        <div data-bind="dialog: {...}"></div>
+        ...
+    </div>
+    <script type="text/javascript">
+        ko.applyBindings(new ViewModel(), document.getElementById('wrapper'))
+    </script>
+</body>
+{% endhighlight %}</p>
+{% include example.html %}
