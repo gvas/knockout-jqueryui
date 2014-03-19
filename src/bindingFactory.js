@@ -42,13 +42,13 @@ bindingFactory = (function () {
         }
     };
 
-    create = function (options) {
+    create = function (config) {
         /// <summary>Creates a new binding.</summary>
-        /// <param name='options' type='Object'></param>
+        /// <param name='config' type='Object'></param>
 
         var widgetName, init, update;
 
-        widgetName = options.name;
+        widgetName = config.name;
 
         // skip missing widgets
         if (!$.fn[widgetName]) {
@@ -61,8 +61,8 @@ bindingFactory = (function () {
             var value, args, unwrappedOptions, unwrappedEvents;
 
             value = valueAccessor();
-            unwrappedOptions = filterAndUnwrapProperties(value, options.options);
-            unwrappedEvents = filterAndUnwrapProperties(value, options.events);
+            unwrappedOptions = filterAndUnwrapProperties(value, config.options);
+            unwrappedEvents = filterAndUnwrapProperties(value, config.events);
             args = arguments;
 
             // execute the preInit handlers
@@ -85,7 +85,7 @@ bindingFactory = (function () {
             // initialize the widget
             $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
 
-            if (options.hasRefresh) {
+            if (config.hasRefresh) {
                 subscribeToRefreshOn(widgetName, element, value);
             }
 
@@ -115,7 +115,7 @@ bindingFactory = (function () {
 
             value = valueAccessor();
             oldOptions = ko.utils.domData.get(element, domDataKey);
-            newOptions = filterAndUnwrapProperties(value, options.options);
+            newOptions = filterAndUnwrapProperties(value, config.options);
 
             // set only the changed options
             $.each(newOptions, function (prop, val) {
@@ -132,16 +132,18 @@ bindingFactory = (function () {
         ko.bindingHandlers[widgetName] = {
             init: init,
             update: update,
+            config: config,
+            // let's keep the pre- and postInitHandlers for backward compatibility
             preInitHandlers: [],
             postInitHandlers: []
         };
 
-        if (options.preInit) {
-            ko.bindingHandlers[widgetName].preInitHandlers.push(options.preInit);
+        if (config.preInit) {
+            ko.bindingHandlers[widgetName].preInitHandlers.push(config.preInit);
         }
 
-        if (options.postInit) {
-            ko.bindingHandlers[widgetName].postInitHandlers.push(options.postInit);
+        if (config.postInit) {
+            ko.bindingHandlers[widgetName].postInitHandlers.push(config.postInit);
         }
     };
 
