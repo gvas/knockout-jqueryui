@@ -19,10 +19,9 @@
                 minHeight: [150, 100],
                 minWidth: [150, 100],
                 modal: [false, true],
-                position: [{ my: 'center', at: 'center', of: window }, 'center'],
                 resizable: [true, false],
                 show: [null, 'slow'],
-                title: ['', 'title'],
+                title: ['one', 'two'],
                 width: [300, 175]
             };
 
@@ -51,6 +50,29 @@
             /*jslint white:false*/
 
             testWidgetOptions('dialog', optionsToTest);
+        });
+
+        it('should handle the position option', function () {
+            var $element, vm, position;
+
+            $element = $('<div data-bind="dialog: { position: position }"></div>').appendTo('body');
+            vm = { position: ko.observable({ my: 'center', at: 'center', of: window }) };
+
+            ko.applyBindings(vm, $element[0]);
+
+            jasmine.log('option: position');
+
+            position = $element.dialog('option', 'position');
+            expect(position.my).toEqual('center');
+            expect(position.at).toEqual('center');
+            expect(position.of).toEqual(window);
+
+            vm.position('center');
+
+            position = $element.dialog('option', 'position');
+            expect(position).toEqual('center');
+
+            ko.removeNode($element[0]);
         });
 
         it('should handle each event of the widget', function () {

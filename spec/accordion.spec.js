@@ -5,14 +5,15 @@
 
     describe('The accordion binding', function () {
 
+        var testIconsOption, testIconsOption18;
+
         it('should handle each option of the widget', function () {
 
             var optionsToTest = {
                 collapsible: [false, true],
                 disabled: [false, true],
                 event: ['click', 'mouseover'],
-                header: ['> li > :first-child,> :not(li):even', 'h3'],
-                icons: [{ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }, { header: 'ui-icon-plus', activeHeader: 'ui-icon-minus', headerSelected: 'ui-icon-minus'}]
+                header: ['> li > :first-child,> :not(li):even', 'h3']
             };
 
             /*jslint white:true*/
@@ -26,8 +27,7 @@
                         navigation: [false, true]
                     });
                     break;
-                case '1.9':
-                case '1.10':
+                default:
                     $.extend(optionsToTest, {
                         animate: [{}, 1],
                         heightStyle: ['auto', 'content']
@@ -38,6 +38,50 @@
 
             testWidgetOptions('accordion', optionsToTest);
         });
+
+        testIconsOption18 = function () {
+            var $element, vm, icons;
+
+            $element = $('<div data-bind="accordion: { icons: icons }"></div>').appendTo('body');
+            vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', headerSelected: 'ui-icon-triangle-1-s' }) };
+            ko.applyBindings(vm, $element[0]);
+
+            jasmine.log('option: icons');
+
+            icons = $element.accordion('option', 'icons');
+            expect(icons.header).toEqual('ui-icon-triangle-1-e');
+            expect(icons.headerSelected).toEqual('ui-icon-triangle-1-s');
+
+            vm.icons({ header: 'ui-icon-plus', headerSelected: 'ui-icon-minus' });
+
+            icons = $element.accordion('option', 'icons');
+            expect(icons.header).toEqual('ui-icon-plus');
+            expect(icons.headerSelected).toEqual('ui-icon-minus');
+
+            ko.removeNode($element[0]);
+        };
+
+        testIconsOption = function () {
+            var $element, vm, icons;
+
+            $element = $('<div data-bind="accordion: { icons: icons }"></div>').appendTo('body');
+            vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }) };
+            ko.applyBindings(vm, $element[0]);
+
+            jasmine.log('option: icons');
+
+            icons = $element.accordion('option', 'icons');
+            expect(icons.header).toEqual('ui-icon-triangle-1-e');
+            expect(icons.activeHeader).toEqual('ui-icon-triangle-1-s');
+
+            vm.icons({ header: 'ui-icon-plus', activeHeader: 'ui-icon-minus' });
+
+            icons = $element.accordion('option', 'icons');
+            expect(icons.header).toEqual('ui-icon-plus');
+            expect(icons.activeHeader).toEqual('ui-icon-minus');
+
+            ko.removeNode($element[0]);
+        };
 
         it('should handle the active option', function () {
             // the active option requires extra care
@@ -109,5 +153,16 @@
 
             ko.removeNode($element[0]);
         });
+
+        /*jslint white:true*/
+        switch (getMajorMinorVersion($.ui.version)) {
+            case '1.8':
+                it('should handle the icons option', testIconsOption18);
+                break;
+            default:
+                it('should handle the icons option', testIconsOption);
+                break;
+        }
+        /*jslint white:false*/
     });
 }());

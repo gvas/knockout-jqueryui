@@ -8,7 +8,7 @@
             testWidgetOptions('button', {
                 disabled: [false, true],
                 icons: [{ primary: null, secondary: null }, { primary: 'ui-icon-plus', secondary: null }],
-                label: [null, 'Test'],
+                label: ['one', 'two'],
                 text: [true, false]
             });
         });

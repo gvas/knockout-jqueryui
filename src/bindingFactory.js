@@ -3,75 +3,26 @@
 bindingFactory = (function () {
     'use strict';
 
-    var filterProperties, unwrapProperties, setOption, subscribeToObservableOptions, subscribeToRefreshOn,
-        create;
+    var domDataKey, filterAndUnwrapProperties, subscribeToRefreshOn, create;
 
-    filterProperties = function (source, properties) {
-        /// <summary>Filters the properties of an object.</summary>
+    domDataKey = '__kojqui_options';
+
+    filterAndUnwrapProperties = function (source, properties) {
+        /// <summary>Filters and unwraps the properties of an object.</summary>
         /// <param name='source' type='Object'></param>
         /// <param name='properties' type='Array' elementType='String'></param>
-        /// <returns type='Object'>A new object with the specified properties copied from source.</returns>
+        /// <returns type='Object'>A new object with the specified properties copied and
+        /// unwrapped from source.</returns>
 
         var result = {};
 
         ko.utils.arrayForEach(properties, function (property) {
             if (source[property] !== undefined) {
-                result[property] = source[property];
+                result[property] = ko.utils.unwrapObservable(source[property]);
             }
         });
 
         return result;
-    };
-
-    unwrapProperties = function (obj) {
-        /// <summary>Returns a new object with obj's unwrapped properties.</summary>
-        /// <param name='obj' type='Object'></param>
-        /// <returns type='Object'></returns>
-
-        var result, prop;
-
-        result = {};
-
-        for (prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                if (ko.isObservable(obj[prop])) {
-                    result[prop] = obj[prop].peek();
-                } else {
-                    result[prop] = obj[prop];
-                }
-            }
-        }
-
-        return result;
-    };
-
-    setOption = function (widgetName, element, optionName, observableOrValue) {
-        /// <summary>Sets an option on the widget.</summary>
-        /// <param name='widgetName' type='String'>The widget's name.</param>
-        /// <param name='element' type='DOMNode'></param>
-        /// <param name='optionName' type='String'>The option to set.</param>
-        /// <param name='observableOrValue'>The option's value or an observable containing the value.</param>
-
-        $(element)[widgetName]('option', optionName, ko.utils.unwrapObservable(observableOrValue));
-    };
-
-    subscribeToObservableOptions = function (widgetName, element, options) {
-        /// <summary>Creates a subscription to each observable option.</summary>
-        /// <param name='widgetName' type='String'>The widget's name.</param>
-        /// <param name='element' type='DOMNode'></param>
-        /// <param name='options' type='Array'></param>
-
-        var prop;
-
-        for (prop in options) {
-            if (options.hasOwnProperty(prop) && ko.isObservable(options[prop])) {
-                ko.computed({
-                    // moved to a separate function to make jslint happy
-                    read: setOption.bind(this, widgetName, element, prop, options[prop]),
-                    disposeWhenNodeIsRemoved: element
-                });
-            }
-        }
     };
 
     subscribeToRefreshOn = function (widgetName, element, bindingValue) {
@@ -95,7 +46,7 @@ bindingFactory = (function () {
         /// <summary>Creates a new binding.</summary>
         /// <param name='options' type='Object'></param>
 
-        var widgetName, init;
+        var widgetName, init, update;
 
         widgetName = options.name;
 
@@ -107,11 +58,11 @@ bindingFactory = (function () {
         /*jslint unparam:true*/
         init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 
-            var value, widgetOptions, widgetEvents, args, unwrappedOptions, unwrappedEvents;
+            var value, args, unwrappedOptions, unwrappedEvents;
 
             value = valueAccessor();
-            widgetOptions = filterProperties(value, options.options);
-            widgetEvents = filterProperties(value, options.events);
+            unwrappedOptions = filterAndUnwrapProperties(value, options.options);
+            unwrappedEvents = filterAndUnwrapProperties(value, options.events);
             args = arguments;
 
             // execute the preInit handlers
@@ -122,23 +73,23 @@ bindingFactory = (function () {
             // allow inner elements' bindings to finish before initializing the widget
             ko.applyBindingsToDescendants(bindingContext, element);
 
+            // store the options' values so they can be checked for changes in the
+            // update() method
+            ko.utils.domData.set(element, domDataKey, unwrappedOptions);
+
             // bind the widget events to the viewmodel
-            unwrappedEvents = unwrapProperties(widgetEvents);
             $.each(unwrappedEvents, function (key, value) {
                 unwrappedEvents[key] = value.bind(viewModel);
             });
 
             // initialize the widget
-            unwrappedOptions = unwrapProperties(widgetOptions);
             $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
-
-            subscribeToObservableOptions(widgetName, element, widgetOptions);
 
             if (options.hasRefresh) {
                 subscribeToRefreshOn(widgetName, element, value);
             }
 
-            // store the widget instance in the widget observable
+            // store the element in the widget observable
             if (ko.isWriteableObservable(value.widget)) {
                 value.widget($(element));
             }
@@ -158,8 +109,29 @@ bindingFactory = (function () {
         };
         /*jslint unparam:false*/
 
+        update = function (element, valueAccessor) {
+
+            var value, oldOptions, newOptions;
+
+            value = valueAccessor();
+            oldOptions = ko.utils.domData.get(element, domDataKey);
+            newOptions = filterAndUnwrapProperties(value, options.options);
+
+            // set only the changed options
+            $.each(newOptions, function (prop, val) {
+                if (val !== oldOptions[prop]) {
+                    $(element)[widgetName]('option', prop, newOptions[prop]);
+                }
+            });
+
+            // store the options' values so they can be checked for changes in the next
+            // update() method
+            ko.utils.domData.set(element, domDataKey, newOptions);
+        };
+
         ko.bindingHandlers[widgetName] = {
             init: init,
+            update: update,
             preInitHandlers: [],
             postInitHandlers: []
         };

@@ -210,6 +210,29 @@
             expect(called).toBe(true);
         });
 
+        it('should support expressions in the options\' values', function () {
+            var vm;
+
+            $element = $('<div data-bind="test: { foo: fooObservable() + 1 }"></div>').appendTo('body');
+            vm = { fooObservable: ko.observable(1) };
+
+            $.fn.test = jasmine.createSpy();
+
+            ko.jqui.bindingFactory.create({
+                name: 'test',
+                options: ['foo'],
+                events: []
+            });
+
+            ko.applyBindings(vm, $element[0]);
+
+            expect($.fn.test).toHaveBeenCalledWith({ foo: 2 });
+
+            vm.fooObservable(2);
+
+            expect($.fn.test).toHaveBeenCalledWith('option', 'foo', 3);
+        });
+
         it('should unwrap the observable options before passing them to the widget', function () {
             var vm;
 
@@ -248,6 +271,32 @@
             expect($element.test).not.toHaveBeenCalledWith('option', 'foo', 2);
             vm.fooObservable(2);
             expect($element.test).toHaveBeenCalledWith('option', 'foo', 2);
+        });
+
+        it('should only set those widget options which has been changed', function () {
+            var vm;
+
+            $element = $('<div data-bind="test: { foo: foo, bar: bar }"></div>').appendTo('body');
+            vm = {
+                foo: ko.observable(1),
+                bar: ko.observable('one')
+            };
+
+            $.fn.test = jasmine.createSpy();
+
+            ko.jqui.bindingFactory.create({
+                name: 'test',
+                options: ['foo', 'bar'],
+                events: []
+            });
+
+            ko.applyBindings(vm, $element[0]);
+
+            $.fn.test.reset();
+            vm.foo(2);
+
+            expect($element.test).toHaveBeenCalledWith('option', 'foo', 2);
+            expect($element.test).not.toHaveBeenCalledWith('option', 'bar', jasmine.any(Object));
         });
 
         it('should refresh the widget when the refreshOn observable changes', function () {
@@ -328,4 +377,4 @@
             expect($.fn.test).toHaveBeenCalledWith('destroy');
         });
     });
-}());
+} ());
