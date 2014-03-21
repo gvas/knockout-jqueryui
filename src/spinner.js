@@ -21,23 +21,27 @@
             });
         }
 
-        // If 'value' is an observable writeable, then add an event handler so that when the spinner 
-        // increments/decrements the 'value' observable can be mutated.  Which event we listen for depends
-        // upon if any of the KO valueUpdate options have been specified.  
-        // 1. When there is no valueUpdate in the binding, 'value' will be mutated in response to the 'spinchange' event
-        //    which occurs whenever the input loses focus.
-        // 2. If any of the KO valueUpdate options ("keyup", "keypress", "afterkeydown") are specified in the binding, 
-        //    this implies that you wish to mutate the 'value' observable in real-time. In this case the 'spin' event is 
-        //    used so that 'value' can be updated everytime there is an inc/dec, and done so immediately.
-        //
+        // If 'value' is an observable writeable, then add an event handler so that when
+        // the spinner  increments/decrements the 'value' observable can be mutated.
+        // Which event we listen for depends upon if any of the KO valueUpdate options
+        // have been specified.  
+        // 1. When there is no valueUpdate in the binding, 'value' will be mutated in
+        //    response to the 'spinchange' event which occurs whenever the input loses
+        //    focus.
+        // 2. If any of the KO valueUpdate options ("keyup", "keypress", "afterkeydown")
+        //    are specified in the binding,  this implies that you wish to mutate the
+        //    'value' observable in real-time. In this case the 'spin' event is used so
+        //    that 'value' can be updated everytime there is an inc/dec, and done so
+        //    immediately.
         if (ko.isWriteableObservable(value.value)) {
-            if(allBindingsAccessor().valueUpdate) {
-                $(element).on('spin.ko', function(ev, ui) {
+            if (allBindingsAccessor().valueUpdate) {
+                /*jslint unparam:true*/
+                $(element).on('spin.spinner', function (ev, ui) {
                     value.value(ui.value);
                 });
-            }
-            else {
-                $(element).on('spinchange.ko', function () {
+                /*jslint unparam:false*/
+            } else {
+                $(element).on('spinchange.spinner', function () {
                     value.value($(element).spinner('value'));
                 });
             }
@@ -45,7 +49,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.spinner');
         });
     };
 
@@ -56,4 +60,4 @@
         events: ['create', 'start', 'spin', 'stop', 'change'],
         postInit: postInit
     });
-} ());
+}());

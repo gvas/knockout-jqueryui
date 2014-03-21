@@ -42,17 +42,17 @@
             });
         }
         if (ko.isWriteableObservable(value.isOpen)) {
-            $(element).on('dialogopen.ko', function () {
+            $(element).on('dialogopen.dialog', function () {
                 value.isOpen(true);
             });
-            $(element).on('dialogclose.ko', function () {
+            $(element).on('dialogclose.dialog', function () {
                 value.isOpen(false);
             });
         }
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.dialog');
         });
     };
 

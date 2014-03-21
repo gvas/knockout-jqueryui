@@ -14,7 +14,7 @@
 
         if (ko.isWriteableObservable(value.selected)) {
             /*jslint unparam:true*/
-            $(element).on('tabsshow.ko', function (ev, ui) {
+            $(element).on('tabsshow.tabs', function (ev, ui) {
                 if ($(element)[0] === ev.target) {
                     // Only activate if this is the right tab widget.
                     value.selected(ui.index);
@@ -25,7 +25,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.tabs');
         });
     };
 
@@ -38,7 +38,7 @@
 
         if (ko.isWriteableObservable(value.active)) {
             /*jslint unparam:true*/
-            $(element).on('tabsactivate.ko', function (ev, ui) {
+            $(element).on('tabsactivate.tabs', function (ev, ui) {
                 if ($(element)[0] === ev.target) {
                     // Only activate if this is the right tab widget.
                     value.active(ui.newTab.index());
@@ -49,7 +49,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.tabs');
         });
     };
 

@@ -5,7 +5,7 @@
     var eventToWatch, postInit, options, events, hasRefresh;
 
     postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the active binding property in sync with the tabs' state.
+        /// <summary>Keeps the active binding property in sync with the widget's state.
         /// </summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
@@ -20,7 +20,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.accordion');
         });
     };
 
@@ -30,13 +30,13 @@
             'navigationFilter'];
         events = ['change', 'changestart', 'create'];
         hasRefresh = false;
-        eventToWatch = 'accordionchange.ko';
+        eventToWatch = 'accordionchange.accordion';
     } else {
         options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
             'heightStyle', 'icons'];
         events = ['activate', 'beforeActivate', 'create'];
         hasRefresh = true;
-        eventToWatch = 'accordionactivate.ko';
+        eventToWatch = 'accordionactivate.accordion';
     }
 
     bindingFactory.create({

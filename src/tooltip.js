@@ -25,17 +25,17 @@
             });
         }
         if (ko.isWriteableObservable(value.isOpen)) {
-            $(element).on('tooltipopen.ko', function () {
+            $(element).on('tooltipopen.tooltip', function () {
                 value.isOpen(true);
             });
-            $(element).on('tooltipclose.ko', function () {
+            $(element).on('tooltipclose.tooltip', function () {
                 value.isOpen(false);
             });
         }
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.tooltip');
         });
     };
 

@@ -14,7 +14,7 @@
 
         if (ko.isWriteableObservable(value.value)) {
             /*jslint unparam:true*/
-            $(element).on('slidechange.ko', function (ev, ui) {
+            $(element).on('slidechange.slider', function (ev, ui) {
                 var $handles = $(element).find('.ui-slider-handle');
                 if ($handles[0] === ui.handle) {
                     value.value(ui.value);
@@ -25,7 +25,7 @@
 
         //handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.ko');
+            $(element).off('.slider');
         });
     };
 
