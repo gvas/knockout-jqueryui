@@ -10,7 +10,7 @@
         });
 
         it('should skip non-existent widgets', function () {
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -21,7 +21,7 @@
 
         it('should create binding for an existing widget', function () {
             $.fn.test = jasmine.createSpy();
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -44,7 +44,7 @@
             $element = $('<div data-bind="test: {}"></div>').appendTo('body');
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -63,7 +63,7 @@
             callback1 = jasmine.createSpy();
             callback2 = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: [],
@@ -88,7 +88,7 @@
             callback1 = jasmine.createSpy();
             callback2 = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: [],
@@ -109,7 +109,7 @@
             $element = $('<div data-bind="test: {}"></div>').appendTo('body');
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: [],
@@ -125,7 +125,7 @@
             $element = $('<div data-bind="test: {}"></div>').appendTo('body');
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: [],
@@ -148,7 +148,7 @@
                 expect(ko.bindingHandlers.descendantBindingHandler.init).toHaveBeenCalled();
             };
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -167,7 +167,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo'],
                 events: []
@@ -197,7 +197,7 @@
                 }
             };
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: ['bar']
@@ -218,7 +218,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo'],
                 events: []
@@ -241,7 +241,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo'],
                 events: []
@@ -260,7 +260,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo'],
                 events: []
@@ -284,7 +284,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: ['foo', 'bar'],
                 events: []
@@ -307,7 +307,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: [],
@@ -328,7 +328,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -348,7 +348,7 @@
 
             $.widget('ui.test', {});
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []
@@ -364,7 +364,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            ko.jqui.bindingFactory.create({
+            kojqui.bindingFactory.create({
                 name: 'test',
                 options: [],
                 events: []

@@ -1,6 +1,4 @@
-    // make the binding factory accessible for the tests
-    ko.jqui = {
-        bindingFactory: bindingFactory
-    };
+
+    exports.bindingFactory = bindingFactory;
     exports.version = '0.7.1';
 }));
