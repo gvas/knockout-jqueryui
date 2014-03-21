@@ -1,4 +1,4 @@
 
     exports.bindingFactory = bindingFactory;
-    exports.version = '0.7.1';
+    exports.version = '1.0.0';
 }));
