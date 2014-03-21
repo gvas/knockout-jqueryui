@@ -1,0 +1,9 @@
+<style>
+    .custom-minidialog .ui-dialog-title { width: 70%; }
+    .custom-minidialog .custom-minidialog-titlebar-additionalicon { position: absolute; right: .6em; top: 50%; width: 20px; margin: -10px 20px 0 0; padding: 1px; height: 20px; }
+</style>
+<div title="Dialog Title" data-bind="minidialog: { isOpen: isOpen, minimized: minimized, resizable: false }">I'm a dialog</div>
+<input id="isOpen" name="isOpen" type="checkbox" data-bind="checked: isOpen" />
+<label for="isOpen">Visible</label>
+<input id="minimized" name="minimized" type="checkbox" data-bind="checked: minimized" />
+<label for="minimized">Minimized</label>

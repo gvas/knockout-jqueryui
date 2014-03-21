@@ -1,90 +1,88 @@
 ---
 layout: default
-view: |
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
-  <div data-bind="accordion: { cookieName: 'accordionIndex' }">
-    <h3>Panel 1</h3>
-    <div>Lorem ipsum dolor sit amet</div>
-    <h3>Panel 2</h3>
-    <div>consectetur adipiscing elit</div>
-    <h3>Panel 3</h3>
-    <div>Nunc tincidunt consectetur sagittis</div>
-  </div>
-viewModel: |
-  var customPostInit = function(element, valueAccessor) {
-    var value = valueAccessor();
-
-    if (value.hasOwnProperty('cookieName')) {
-        var cookieName = ko.utils.unwrapObservable(value.cookieName);
-
-        // restore the previously saved state
-        var index = parseInt($.cookie(cookieName));
-        $(element).accordion('option', 'active', index);
-
-        // save the state on change
-        // let's support both jQuery UI 1.8 and 1.9+
-        $(element).on('accordionchange.cookie accordionactivate.cookie', function () {
-            var index = $(element).accordion('option', 'active');
-            $.cookie(cookieName, index, { expires: 7 });
-        });
-
-        //handle disposal
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.cookie');
-        });
-    }
-  };
-
-  ko.bindingHandlers.accordion.postInitHandlers.push(customPostInit);
 ---
 <h2>
-    Extending the bindings</h2>
+    Extensibility</h2>
 <p>
-    Each binding handler has an additional preInitHandlers and postInitHandlers property.
-    These are arrays of functions. The binding invokes each function in the
-    preInitHandlers array before-, and each function in the postInitHandlers array after
-    initializing the jQuery UI widget. The functions are invoked with the same arguments
-    as the binding handler's init function: element, valueAccessor, and so on. The binding
-    can be extended by adding custom functions to these arrays.
+    The library has a factory object that can generate bindings for any jQuery UI widget.
+    It has a single method:
 </p>
-{% highlight js %}
-var customPostInit = function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-  // custom functionality
-};
-ko.bindingHandlers.accordion.postInitHandlers.push(customPostInit);
-{% endhighlight %}
+{% highlight js %}bindingFactory.create(config){% endhighlight %}
+<p>
+    It creates the new binding based on the received configuration object. The
+    configuration object has the following properties:
+</p>
+<dl>
+    <dt>name</dt>
+    <dd>String. The widget's name.</dd>
+    <dt>options</dt>
+    <dd>Array of strings. Names of the widget's options. The factory creates a binding
+    option for each of the widget's options. When any of their values change, the binding
+    will set the widget's corresponding option to the new value.</dd>
+    <dt>events</dt>
+    <dd>Array of strings. Names of the widget's events. The factory creates a binding 
+    option for each of the widget's events. Their values have to be functions. The binding
+    will bind them to the widget's events.</dd>
+    <dt>hasRefresh</dt>
+    <dd>Boolean, optional. Indicates whether the widget has a refresh() method. Most of
+    the jQuery UI widgets has. When set to true, then the factory creates a binding option
+    named 'refresh'. Changes in the value of this option will cause the binding to invoke
+    the widget's refresh() method. This is useful for refreshing container-like widgets
+    (tabs, accordion) when their items change. See the example on the tabs binding's
+    documentation.</dd>
+    <dt>preInit</dt>
+    <dd>Function, optional. The binding will invoke this function before it initializes
+    the widget.</dd>
+    <dt>postInit</dt>
+    <dd>Function, optional. The binding will invoke this function after it initializes the
+    widget. This is used for implementing the bindings' non-standard options, e.g. the
+    dialog binding's isOpen option.</dd>
+</dl>
 <h3>
-    Example</h3>
+    Simple widgets</h3>
 <p>
-    The following example extends the accordion binding with the ability to store the
-    active panel's index in a cookie. Depends on the jquery-cookie library.
+    To create a binding for a widget you should invoke the factory object's create()
+    method with the widget-specific configuration object. The example below creates a
+    simple widget which changes the color of its element. Then a binding is created for
+    the widget.
 </p>
-<div class="ym-grid ym-equalize">
-    <div class="ym-gbox">
-        <h4>
-            HTML</h4>
-        {% highlight html %}{{ page.view }}{% endhighlight %}
-    </div>
+<h4>
+    HTML</h4>
+{% highlight html %}{% include extending-example1.html %}{% endhighlight %}
+<h4>
+    JavaScript</h4>
+{% highlight js %}{% include extending-example1.js %}{% endhighlight %}
+<h4>
+    Result</h4>
+<div class="box" id="example1">
+{% include extending-example1.html %}
 </div>
-<div class="ym-grid ym-equalize">
-    <div class="ym-gbox">
-        <h4>
-            JavaScript</h4>
-        {% highlight js %}{{ page.viewModel }}{% endhighlight %}
-    </div>
+<script type="text/javascript">
+{% include extending-example1.js %}
+ko.applyBindings(vm1, document.getElementById("example1"));
+</script>
+<h3>
+    Derived widgets</h3>
+<p>
+    The factory copies the configuration object to the created binding's config
+    property.
+    This simplifies creating bindings for derived widgets; you can reuse the base
+    binding's configuration object.
+    The lengthy example below extends the dialog widget with a minimize/restore
+    functionality, then creates a binding for it.
+</p>
+<h4>
+    HTML</h4>
+{% highlight html %}{% include extending-example2.html %}{% endhighlight %}
+<h4>
+    JavaScript</h4>
+{% highlight js %}{% include extending-example2.js %}{% endhighlight %}
+<h4>
+    Result</h4>
+<div class="box" id="example2">
+{% include extending-example2.html %}
 </div>
-<div class="ym-grid ym-equalize">
-    <div class="ym-gbox">
-        <h4>
-            Result</h4>
-        <div class="box">
-            {{ page.view }}
-            <script type="text/javascript">
-                $(function () {
-                    {{ page.viewModel }}
-                    ko.applyBindings({});
-                });
-            </script>
-        </div>
-    </div>
-</div>
+<script type="text/javascript">
+{% include extending-example2.js %}
+ko.applyBindings(vm2, document.getElementById("example2"));
+</script>

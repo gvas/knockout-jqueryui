@@ -21,12 +21,9 @@ layout: default
     logic.
 </p>
 <h3>
-    Isolated binding parameters</h3>
+    Fast</h3>
 <p>
-    Normally each binding on the same DOM element <a href="http://www.knockmeout.net/2012/06/knockoutjs-performance-gotcha-3-all-bindings.html">
-        fire together</a>. Knockout-jqueryui's bindings isolate their parameters from
-    the parameters of the other bindings. This makes them faster, and arguably
-    more natural to use.
+    The bindings set only those options which has been changed since the last update.
 </p>
 <h3>
     Proper disposal</h3>
