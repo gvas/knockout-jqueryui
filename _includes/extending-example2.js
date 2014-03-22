@@ -61,7 +61,8 @@ $.widget("custom.minidialog", $.ui.dialog, {
 });
 
 // clones and extends the dialog binding's configuration object
-var config = $.extend({}, ko.bindingHandlers.dialog.config, { name: "minidialog" });
+var config = $.extend(true, {}, ko.bindingHandlers.dialog.config);
+config.name = "minidialog";
 config.events.push("minimize", "restore");
 config.postInit = function (element, valueAccessor) {
     var value = valueAccessor();
