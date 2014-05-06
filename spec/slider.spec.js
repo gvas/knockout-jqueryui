@@ -45,6 +45,20 @@
             ko.removeNode($element[0]);
         });
 
+        it('should write the widget\'s values to the viewmodel\'s bound property when it changes.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="slider: { values: values }"></div>').appendTo('body');
+            vm = { values: ko.observable([1, 10]) };
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.values.peek()).toEqual([1, 10]);
+            $element.slider('option', 'values', [1, 6]);
+            expect(vm.values.peek()).toEqual([1, 6]);
+
+            ko.removeNode($element[0]);
+        });
+
         it('should write the widget\'s value to the viewmodel\'s bound property when the values option changes.', function () {
             var $element, vm;
 
@@ -58,6 +72,22 @@
             expect(vm.value.peek()).toEqual(30);
             $element.slider('values', [40, 60]);
             expect(vm.value.peek()).toEqual(40);
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should write the widget\'s values to the viewmodel\'s bound property when the values option changes.', function () {
+            var $element, vm;
+
+            $element = $('<div data-bind="slider: { values: values }"></div>').appendTo('body');
+            vm = {
+                values: ko.observable([30, 60])
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.values.peek()).toEqual([30, 60]);
+            $element.slider('option', 'values', [40, 50]);
+            expect(vm.values.peek()).toEqual([40, 50]);
 
             ko.removeNode($element[0]);
         });
