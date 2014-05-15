@@ -3,6 +3,16 @@
 (function () {
     'use strict';
 
+    var findCenter;
+
+    findCenter = function ($el) {
+        var o = $el.offset();
+        return {
+            x: Math.floor(o.left + $el.outerWidth() / 2),
+            y: Math.floor(o.top + $el.outerHeight() / 2)
+        };
+    };
+
     describe('The slider binding', function () {
         it('should handle each option of the widget', function () {
             testWidgetOptions('slider', {
@@ -90,6 +100,53 @@
             expect(vm.values.peek()).toEqual([60, 50]);
             $element.find('.ui-slider-handle:eq(1)').simulate('drag', { dx: 1000 });
             expect(vm.values.peek()).toEqual([60, 60]);
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should update the viewmodel\'s bound property during the mouse drag', function () {
+            var $element, $slider, vm, center, coord;
+
+            $element = $('<div style="width: 500px;" data-bind="slider: { value: value, min: 0, max: 60, realtime: true }"></div>').appendTo('body');
+            vm = {
+                value: ko.observable(30)
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            $slider = $element.find('.ui-slider-handle:eq(0)');
+            center = findCenter($slider);
+            coord = { clientX: center.x, clientY: center.y };
+
+            expect(vm.value.peek()).toEqual(30);
+            $slider.simulate('mousedown', coord);
+            coord.clientX += 20;
+            $slider.simulate('mousemove', coord);
+            expect(vm.value.peek()).toBeGreaterThan(30);
+            $slider.simulate('mouseup');
+
+            ko.removeNode($element[0]);
+        });
+
+        it('should update the viewmodel\'s bound property only when the mouse drag finishes', function () {
+            var $element, $slider, vm, center, coord;
+
+            $element = $('<div style="width: 500px;" data-bind="slider: { value: value, min: 0, max: 60 }"></div>').appendTo('body');
+            vm = {
+                value: ko.observable(30)
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            $slider = $element.find('.ui-slider-handle:eq(0)');
+            center = findCenter($slider);
+            coord = { clientX: center.x, clientY: center.y };
+
+            expect(vm.value.peek()).toEqual(30);
+            $slider.simulate('mousedown', coord);
+            coord.clientX += 20;
+            $slider.simulate('mousemove', coord);
+            expect(vm.value.peek()).toEqual(30);
+            $slider.simulate('mouseup');
+            expect(vm.value.peek()).toBeGreaterThan(30);
 
             ko.removeNode($element[0]);
         });
