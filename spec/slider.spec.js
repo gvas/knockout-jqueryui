@@ -166,5 +166,31 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('shouldn\'t set the widget\'s value option in the slide/slidechange event handler', function () {
+            // ...because that would ruin the sliding animation
+            var $element, vm, center, coord;
+
+            $element = $('<div data-bind="slider: { value: value }"></div>').appendTo('body');
+            vm = {
+                value: ko.observable(0)
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            spyOn($.fn, 'slider').andCallThrough();
+
+            center = findCenter($element);
+            coord = { clientX: center.x, clientY: center.y };
+            $element.simulate('mousedown', coord);
+            $element.simulate('mouseup');
+            expect(vm.value.peek()).toBeCloseTo(50, 2);
+            /*jslint unparam: true*/
+            $.each($.fn.slider.calls, function (idx, call) {
+                expect(call.args[0] === 'option' && call.args[1] === 'value' && call.args.length === 3).not.toBe(true);
+            });
+            /*jslint unparam: false*/
+
+            ko.removeNode($element[0]);
+        });
     });
 }());
