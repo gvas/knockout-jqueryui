@@ -10,23 +10,27 @@
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
-        var value = valueAccessor();
+        var value, changeEvent;
 
-        var changeEvent = value.realtime ? 'slide' : 'slidechange';
+        value = valueAccessor();
+        changeEvent = value.realtime ? 'slide' : 'slidechange';
+
         if (ko.isWriteableObservable(value.value)) {
             /*jslint unparam:true*/
             $(element).on(changeEvent + '.slider', function (ev, ui) {
-                var $handles = $(element).find('.ui-slider-handle');
-                if ($handles[0] === ui.handle) {
+                var index = $(element).find('.ui-slider-handle').index(ui.handle);
+                if (index === 0) {
                     value.value(ui.value);
                 }
             });
             /*jslint unparam:false*/
         }
         if (ko.isWriteableObservable(value.values)) {
+            /*jslint unparam:true*/
             $(element).on(changeEvent + '.slider', function (ev, ui) {
                 value.values(ui.values);
             });
+            /*jslint unparam:false*/
         }
 
         //handle disposal
