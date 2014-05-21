@@ -89,7 +89,7 @@
         it('should write the widget\'s values to the viewmodel\'s bound property upon slide event', function () {
             var $element, vm;
 
-            $element = $('<div style="width: 500px;" data-bind="slider: { values: values, min: 0, max: 60 }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { values: values }"></div>').appendTo('body');
             vm = {
                 values: ko.observable([30, 50])
             };
@@ -97,55 +97,57 @@
 
             expect(vm.values.peek()).toEqual([30, 50]);
             $element.find('.ui-slider-handle:eq(0)').simulate('drag', { dx: 1000 });
-            expect(vm.values.peek()).toEqual([60, 50]);
+            expect(vm.values.peek()[0]).toBeGreaterThan(30);
+            expect(vm.values.peek()[1]).toEqual(50);
             $element.find('.ui-slider-handle:eq(1)').simulate('drag', { dx: 1000 });
-            expect(vm.values.peek()).toEqual([60, 60]);
+            expect(vm.values.peek()[0]).toBeGreaterThan(30);
+            expect(vm.values.peek()[1]).toBeGreaterThan(50);
 
             ko.removeNode($element[0]);
         });
 
         it('should update the viewmodel\'s bound property during the mouse drag', function () {
-            var $element, $slider, vm, center, coord;
+            var $element, $handle, vm, center, coord;
 
-            $element = $('<div style="width: 500px;" data-bind="slider: { value: value, min: 0, max: 60, realtime: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value, realtime: true }"></div>').appendTo('body');
             vm = {
                 value: ko.observable(30)
             };
             ko.applyBindings(vm, $element[0]);
 
-            $slider = $element.find('.ui-slider-handle:eq(0)');
-            center = findCenter($slider);
+            $handle = $element.find('.ui-slider-handle:eq(0)');
+            center = findCenter($handle);
             coord = { clientX: center.x, clientY: center.y };
 
             expect(vm.value.peek()).toEqual(30);
-            $slider.simulate('mousedown', coord);
+            $handle.simulate('mousedown', coord);
             coord.clientX += 20;
-            $slider.simulate('mousemove', coord);
+            $handle.simulate('mousemove', coord);
             expect(vm.value.peek()).toBeGreaterThan(30);
-            $slider.simulate('mouseup');
+            $handle.simulate('mouseup');
 
             ko.removeNode($element[0]);
         });
 
         it('should update the viewmodel\'s bound property only when the mouse drag finishes', function () {
-            var $element, $slider, vm, center, coord;
+            var $element, $handle, vm, center, coord;
 
-            $element = $('<div style="width: 500px;" data-bind="slider: { value: value, min: 0, max: 60 }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value }"></div>').appendTo('body');
             vm = {
                 value: ko.observable(30)
             };
             ko.applyBindings(vm, $element[0]);
 
-            $slider = $element.find('.ui-slider-handle:eq(0)');
-            center = findCenter($slider);
+            $handle = $element.find('.ui-slider-handle:eq(0)');
+            center = findCenter($handle);
             coord = { clientX: center.x, clientY: center.y };
 
             expect(vm.value.peek()).toEqual(30);
-            $slider.simulate('mousedown', coord);
+            $handle.simulate('mousedown', coord);
             coord.clientX += 20;
-            $slider.simulate('mousemove', coord);
+            $handle.simulate('mousemove', coord);
             expect(vm.value.peek()).toEqual(30);
-            $slider.simulate('mouseup');
+            $handle.simulate('mouseup');
             expect(vm.value.peek()).toBeGreaterThan(30);
 
             ko.removeNode($element[0]);
