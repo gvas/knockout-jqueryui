@@ -63,14 +63,16 @@ module.exports = function (grunt, options) {
     });
 
     return {
-        options: {
-            urls: testUrls,
-            build: options.buildId,
-            throttled: 3,
-            browsers: browsers,
-            sauceConfig: {
-                'video-upload-on-pass': false,
-                'record-screenshots': false
+        all: {
+            options: {
+                urls: testUrls,
+                build: options.buildId,
+                throttled: 3,
+                browsers: browsers,
+                sauceConfig: {
+                    'video-upload-on-pass': false,
+                    'record-screenshots': false
+                }
             }
         }
     };
