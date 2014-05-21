@@ -1,5 +1,5 @@
 # SauceLabs logs
-sauce_connect.log*
+*.log
 
 # node modules
 node_modules/
