@@ -42,7 +42,7 @@
         testIconsOption18 = function () {
             var $element, vm, icons;
 
-            $element = $('<div data-bind="accordion: { icons: icons }"></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { icons: icons }"></div>').prependTo('body');
             vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', headerSelected: 'ui-icon-triangle-1-s' }) };
             ko.applyBindings(vm, $element[0]);
 
@@ -64,7 +64,7 @@
         testIconsOption = function () {
             var $element, vm, icons;
 
-            $element = $('<div data-bind="accordion: { icons: icons }"></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { icons: icons }"></div>').prependTo('body');
             vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }) };
             ko.applyBindings(vm, $element[0]);
 
@@ -87,7 +87,7 @@
             // the active option requires extra care
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { active: active }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').prependTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
@@ -102,7 +102,7 @@
         it('should handle each event of the widget', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { create: createEventHandler }"></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { create: createEventHandler }"></div>').prependTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
             ko.applyBindings(vm, $element[0]);
@@ -115,7 +115,7 @@
         it('should write the active panel\'s index to the viewmodel\'s bound property.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').prependTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
             $element.accordion('option', 'active', 1);
@@ -128,7 +128,7 @@
         it('should write false to the viewmodel\'s bound property when the panels collapse.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { active: active, animate: false, animated: false, collapsible: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').prependTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
             $element.accordion('option', 'active', false);
@@ -141,7 +141,7 @@
         it('should write the element to the widget observable', function () {
             var $element, vm, disabled;
 
-            $element = $('<div data-bind="accordion: { widget: widget, disabled: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').appendTo('body');
+            $element = $('<div data-bind="accordion: { widget: widget, disabled: true }"><h3>a</h3><div>a</div><h3>b</h3><div>b</div></div>').prependTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 

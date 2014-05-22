@@ -55,7 +55,7 @@
         it('should handle the position option', function () {
             var $element, vm, position;
 
-            $element = $('<div data-bind="dialog: { position: position }"></div>').appendTo('body');
+            $element = $('<div data-bind="dialog: { position: position }"></div>').prependTo('body');
             vm = { position: ko.observable({ my: 'center', at: 'center', of: window }) };
 
             ko.applyBindings(vm, $element[0]);
@@ -78,7 +78,7 @@
         it('should handle each event of the widget', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="dialog: { create: createEventHandler }"></div>').appendTo('body');
+            $element = $('<div data-bind="dialog: { create: createEventHandler }"></div>').prependTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
             ko.applyBindings(vm, $element[0]);
@@ -91,7 +91,7 @@
         it('should write the widget\'s state back to the viewmodel when opened/closed.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').appendTo('body');
+            $element = $('<div data-bind="dialog: { isOpen: isOpen }"></div>').prependTo('body');
             vm = { isOpen: ko.observable(false) };
             ko.applyBindings(vm, $element[0]);
 
@@ -105,7 +105,7 @@
         it('should write the element to the widget observable', function () {
             var $element, vm, autoOpen;
 
-            $element = $('<div data-bind="dialog: { widget: widget, autoOpen: false }"></div>').appendTo('body');
+            $element = $('<div data-bind="dialog: { widget: widget, autoOpen: false }"></div>').prependTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
