@@ -16,12 +16,4 @@ Build
 
 Tests
 -----
-    grunt dev
-will spin up a web server on port 9999. After that you can run the tests in your browser of choice at
-
-    http://localhost:9999/SpecRunner.html
-
-Optionally specify the versions of the jQuery, jQuery UI and Knockout libraries to run the tests against by passing the version numbers as query parameters:
-
-    http://localhost:9999/SpecRunner.html?jquery=1.10.2&jqueryui=1.9.2&knockout=2.3.0
-Note that jQuery UI 1.8 is only compatible with jQuery <= 1.8
+[http://gvas.github.com/knockout-jqueryui/tests.html](http://gvas.github.com/knockout-jqueryui/tests.html)
