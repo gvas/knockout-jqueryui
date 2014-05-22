@@ -8,17 +8,25 @@
     <meta name="keywords" content="knockout,knockoutjs,jQuery UI,bindings,javascript" />
     <title>knockout-jqueryui</title>
     <link rel="stylesheet" href="css/styles.css" type="text/css" />
-    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/pepper-grinder/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/pepper-grinder/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="css/jasmine.css" type="text/css" />
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="yaml/core/iehacks.min.css" type="text/css"/>
     <![endif]-->
+    <script type="text/javascript" src="js/lib/es5-shim/es5-shim.min.js"></script>
+    <script type="text/javascript" src="js/lib/es5-shim/es5-sham.min.js"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.debug.js"></script>
-    <script type="text/javascript" src="https://github.com/gvas/knockout-jqueryui/releases/download/v1.0.0/knockout-jqueryui.min.js"></script>
+    {% raw %}
+    <script type="text/javascript" src="js/lib/version/version.js" data-param="jquery" data-url="http://code.jquery.com/jquery-{{VERSION}}.js"
+        data-ver="1.11.1"></script>
+    <script type="text/javascript" src="js/lib/version/version.js" data-param="jqueryui" data-url="http://code.jquery.com/ui/{{VERSION}}/jquery-ui.js"
+        data-ver="1.10.4"></script>
+    <script type="text/javascript" src="js/lib/version/version.js" data-param="knockout" data-url="http://knockoutjs.com/downloads/knockout-{{VERSION}}.debug.js"
+        data-ver="3.1.0"></script>
+    {% endraw %}
+    <script type="text/javascript" src="https://github.com/gvas/knockout-jqueryui/releases/download/v1.1.0/knockout-jqueryui.min.js"></script>
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-37900961-1']);
@@ -50,6 +58,9 @@
                                 </li>
                                 <li>
                                     <a href="install.html">Installation</a>
+                                </li>
+                                <li>
+                                    <a href="tests.html">Tests</a>
                                 </li>
                                 <li>
                                     <span>API</span>

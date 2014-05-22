@@ -1,0 +1,169 @@
+---
+layout: default
+---
+<script type="text/javascript" src="js/lib/jasmine-1.3.1/jasmine.js"></script>
+<script type="text/javascript" src="js/jasmine-html.js"></script>
+<script type="text/javascript" src="js/lib/jquery-simulate/jquery.simulate.js"></script>
+<script type="text/javascript" src="js/spec/common.spec.js"></script>
+<script type="text/javascript" src="js/spec/bindingFactory.spec.js"></script>
+<script type="text/javascript" src="js/spec/accordion.spec.js"></script>
+<script type="text/javascript" src="js/spec/autocomplete.spec.js"></script>
+<script type="text/javascript" src="js/spec/button.spec.js"></script>
+<script type="text/javascript" src="js/spec/buttonset.spec.js"></script>
+<script type="text/javascript" src="js/spec/datepicker.spec.js"></script>
+<script type="text/javascript" src="js/spec/dialog.spec.js"></script>
+<script type="text/javascript" src="js/spec/menu.spec.js"></script>
+<script type="text/javascript" src="js/spec/progressbar.spec.js"></script>
+<script type="text/javascript" src="js/spec/slider.spec.js"></script>
+<script type="text/javascript" src="js/spec/spinner.spec.js"></script>
+<script type="text/javascript" src="js/spec/tabs.spec.js"></script>
+<script type="text/javascript" src="js/spec/tooltip.spec.js"></script>
+<h2>
+    Tests</h2>
+<p>
+    Here you can verify that knockout-jqueryui supports your actual browser with the
+    selected combination of jQuery, jQuery UI and Knockout. Please note that some combinations
+    are illegal, notably jQuery UI &lt;= 1.8 is only compatible with jQuery &lt;= 1.8.
+</p>
+<form id="form" class="ym-form ym-full">
+<div class="ym-grid linearize-level-1">
+    <div class="ym-g25 ym-gl">
+        <div class="ym-gbox-left">
+            <div class="ym-fbox ym-fbox-text">
+                <label for="jQuery">
+                    jQuery</label>
+                <input type="text" name="jQuery" id="jQuery" data-bind="value: jQuery, autocomplete: { source: jQueryVersions, select: onJQuerySelect }" />
+            </div>
+        </div>
+    </div>
+    <div class="ym-g25 ym-gl">
+        <div class="ym-gbox-left">
+            <div class="ym-fbox ym-fbox-text">
+                <label for="jQueryUI">
+                    jQuery UI</label>
+                <input type="text" name="jQueryUI" id="jQueryUI" data-bind="value: jQueryUI, autocomplete: { source: jQueryUIVersions, select: onJQueryUISelect }" />
+            </div>
+        </div>
+    </div>
+    <div class="ym-g25 ym-gl">
+        <div class="ym-gbox-left">
+            <div class="ym-fbox ym-fbox-text">
+                <label for="knockout">
+                    Knockout</label>
+                <input type="text" name="knockout" id="knockout" data-bind="value: knockout, autocomplete: { source: knockoutVersions, select: onKnockoutSelect }" />
+            </div>
+        </div>
+    </div>
+    <div class="ym-g25 ym-gr">
+        <div class="ym-gbox-right">
+            <div class="ym-fbox ym-fbox-button">
+                <button data-bind="button: { disabled: submitDisabled }, click: submit">
+                    Go</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<p id="jasmine-results">
+</p>
+<script type="text/javascript">
+    var jasmineEnv = jasmine.getEnv(),
+        htmlReporter = new jasmine.HtmlReporter(),
+        executeTests, parseQueryParameters, stringifyQueryParameters, VM;
+
+    executeTests = function () {
+        jasmineEnv.execute();
+    };
+
+    parseQueryParameters = function () {
+        var result, query, params, i, il, nv;
+
+        result = {};
+        query = window.location.search;
+        if (query.length > 0) {
+            query = query.substring(1);
+            params = query.split('&');
+            for (i = 0, il = params.length; i < il; i += 1) {
+                nv = params[i].split('=');
+                result[nv[0]] = decodeURIComponent(nv[1]);
+            }
+        }
+        return result;
+    };
+
+    stringifyQueryParameters = function (parameters) {
+        var arr = [];
+
+        for (prop in parameters) {
+            arr.push(prop + '=' + encodeURIComponent(parameters[prop]));
+        }
+
+        return arr.join('&');
+    };
+
+    VM = function () {
+        this.jQueryVersions = [];
+        this.jQueryUIVersions = [];
+        this.knockoutVersions = ['2.2.0', '2.2.1', '2.3.0', '3.0.0', '3.1.0'];
+        this.jQuery = ko.observable('1.11.1');
+        this.jQueryUI = ko.observable('1.10.4');
+        this.knockout = ko.observable('3.1.0');
+
+        // initialize the array of jQuery versions
+        this.jQueryVersions.push('1.8.0', '1.8.1', '1.8.2', '1.8.3');
+        this.jQueryVersions.push('1.9.0', '1.9.1');
+        this.jQueryVersions.push('1.10.0', '1.10.1', '1.10.2');
+        this.jQueryVersions.push('1.11.0', '1.11.1');
+        this.jQueryVersions.push('2.0.0', '2.0.1', '2.0.2', '2.0.3');
+        this.jQueryVersions.push('2.1.0', '2.1.1');
+
+        // initialize the array of jQuery UI versions
+        for (var i = 0; i < 25; i += 1) {
+            this.jQueryUIVersions.push('1.8.' + i.toString());
+        }
+        this.jQueryUIVersions.push('1.9.0', '1.9.1', '1.9.2');
+        this.jQueryUIVersions.push('1.10.0', '1.10.1', '1.10.2', '1.10.3', '1.10.4');
+
+        this.queryParameters = parseQueryParameters();
+        this.jQuery(this.queryParameters.jquery || '1.11.1');
+        this.jQueryUI(this.queryParameters.jqueryui || '1.10.4');
+        this.knockout(this.queryParameters.knockout || '3.1.0');
+
+        this.submitDisabled = ko.computed(function () {
+            return this.jQueryVersions.indexOf(this.jQuery()) < 0
+                || this.jQueryUIVersions.indexOf(this.jQueryUI()) < 0
+                || this.knockoutVersions.indexOf(this.knockout()) < 0;
+        }, this);
+    };
+
+    VM.prototype.onJQuerySelect = function (ev, ui) {
+        this.jQuery(ui.item.value);
+    };
+
+    VM.prototype.onJQueryUISelect = function (ev, ui) {
+        this.jQueryUI(ui.item.value);
+    };
+
+    VM.prototype.onKnockoutSelect = function (ev, ui) {
+        this.knockout(ui.item.value);
+    };
+
+    VM.prototype.submit = function () {
+        this.queryParameters.jquery = this.jQuery();
+        this.queryParameters.jqueryui = this.jQueryUI();
+        this.queryParameters.knockout = this.knockout();
+
+        window.location = 'tests.html?' + stringifyQueryParameters(this.queryParameters);
+    };
+
+    jasmineEnv.updateInterval = 1000;
+    jasmineEnv.addReporter(htmlReporter);
+    jasmineEnv.specFilter = function (spec) {
+        return htmlReporter.specFilter(spec);
+    };
+
+    $(function () {
+        ko.applyBindings(new VM(), document.getElementById('form'));
+        executeTests();
+    });
+</script>
