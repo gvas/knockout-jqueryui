@@ -5,8 +5,8 @@ description: Enhance a text input for entering numeric values, with up/down butt
 widgetApi: http://api.jqueryui.com/spinner
 hasRefresh: false
 extraParameters:
-    - name: value
-      description: The spinner's value. When bound to a writeable observable property the binding will keep it in sync with the spinner's value. If the valueUpdate binding is also specified on the element, then the view model's property is updated right after the value of the spinner's input is changed. If the valueUpdate is absent, then the view model's property is updated when the spinner's input is blurred.
+    - name: value [two-way binding]
+      description: The spinner's value. If the valueUpdate binding is also specified on the element, then the view model's property is updated right after the value of the spinner's input is changed. If the valueUpdate is absent, then the view model's property is updated when the spinner's input is blurred.
 exampleView: |
   <input data-bind="spinner: { value: value }" />
   <p>

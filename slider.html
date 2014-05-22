@@ -5,10 +5,14 @@ description: Drag a handle to select a numeric value.
 widgetApi: http://api.jqueryui.com/slider
 hasRefresh: false
 extraParameters:
-    - name: value
-      description: Sets the slider's value. When bound to a writeable observable property the binding will write the value of the slider's first handle into it when the user repositions the handle.
+    - name: value [two-way binding]
+      description: Position of the slider's first handle.
+    - name: values [two-way binding]
+      description: Position of the slider's handles.
+    - name: realtime
+      description: Controls when the viewmodel's value/values observables are updated. If set to true then the observables are updated during the sliding. If set to false or is absent then they are updated when the sliding finishes.
 exampleView: |
-  <div style="width: 200px;" data-bind="slider: { values: values }"></div>
+  <div style="width: 200px;" data-bind="slider: { values: values, realtime: true }"></div>
   <p>
     <input type="text" data-bind="value: value1" />
     <input type="text" data-bind="value: value2" />

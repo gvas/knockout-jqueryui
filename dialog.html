@@ -5,8 +5,8 @@ description: Open content in an interactive overlay.
 widgetApi: http://api.jqueryui.com/dialog
 hasRefresh: false
 extraParameters:
-    - name: isOpen
-      description: Controls whether the dialog is visible. When bound to a writeable observable property the binding will keep it in sync with the widget's state.
+    - name: isOpen [two-way binding]
+      description: Controls whether the dialog is visible.
 exampleView: |
   <input type="text" data-bind="value: text, valueUpdate: 'afterkeydown'">
   <div data-bind="dialog: { isOpen: isOpen }">
