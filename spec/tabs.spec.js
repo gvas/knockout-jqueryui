@@ -39,7 +39,7 @@
             // the selected option requires extra care
             var $element, vm;
 
-            $element = $('<div data-bind="tabs: { selected: selected }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').appendTo('body');
+            $element = $('<div data-bind="tabs: { selected: selected }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').prependTo('body');
             vm = { selected: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
@@ -55,7 +55,7 @@
             // the active option requires extra care
             var $element, vm;
 
-            $element = $('<div data-bind="tabs: { active: active }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').appendTo('body');
+            $element = $('<div data-bind="tabs: { active: active }"><ul><li><a href="#tabs1">a</a></li><li><a href="#tabs2">b</a></li></ul><div id="tabs1"></div><div id="tabs2"></div></div>').prependTo('body');
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
@@ -72,7 +72,7 @@
         testEvents = function () {
             var $element, vm;
 
-            $element = $('<div data-bind="tabs: { create: createEventHandler }"></div>').appendTo('body');
+            $element = $('<div data-bind="tabs: { create: createEventHandler }"></div>').prependTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
             ko.applyBindings(vm, $element[0]);
@@ -86,7 +86,7 @@
         testWidget = function () {
             var $element, vm, collapsible;
 
-            $element = $('<div data-bind="tabs: { widget: widget, collapsible: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="tabs: { widget: widget, collapsible: true }"></div>').prependTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
@@ -118,7 +118,7 @@
                 '    </div>' +
                 '  </div>' +
                 '  <div id="outer2"></div>' +
-                '</div>').appendTo('body');
+                '</div>').prependTo('body');
 
             vm = {
                 outerSelected: ko.observable(0),
@@ -157,7 +157,7 @@
                 '    </div>' +
                 '  </div>' +
                 '  <div id="outer2">b</div>' +
-                '</div>').appendTo('body');
+                '</div>').prependTo('body');
 
             vm = {
                 outerActive: ko.observable(0),

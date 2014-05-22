@@ -31,7 +31,7 @@
         it('should handle each event of the widget', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="slider: { create: createEventHandler }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { create: createEventHandler }"></div>').prependTo('body');
             vm = { createEventHandler: jasmine.createSpy() };
 
             ko.applyBindings(vm, $element[0]);
@@ -44,7 +44,7 @@
         it('should write the widget\'s value to the viewmodel\'s bound property when it changes.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="slider: { value: value }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value }"></div>').prependTo('body');
             vm = { value: ko.observable(1) };
             ko.applyBindings(vm, $element[0]);
 
@@ -58,7 +58,7 @@
         it('should write the widget\'s values to the viewmodel\'s bound property when it changes.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="slider: { values: values }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { values: values }"></div>').prependTo('body');
             vm = { values: ko.observable([1, 10]) };
             ko.applyBindings(vm, $element[0]);
 
@@ -72,7 +72,7 @@
         it('should write the widget\'s value to the viewmodel\'s bound property when the values option changes.', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="slider: { value: value, values: values }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value, values: values }"></div>').prependTo('body');
             vm = {
                 value: ko.observable(30),
                 values: ko.observableArray([30, 60])
@@ -89,7 +89,7 @@
         it('should write the widget\'s values to the viewmodel\'s bound property upon slide event', function () {
             var $element, vm;
 
-            $element = $('<div data-bind="slider: { values: values }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { values: values }"></div>').prependTo('body');
             vm = {
                 values: ko.observable([30, 50])
             };
@@ -109,7 +109,7 @@
         it('should update the viewmodel\'s bound property during the mouse drag', function () {
             var $element, $handle, vm, center, coord;
 
-            $element = $('<div data-bind="slider: { value: value, realtime: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value, realtime: true }"></div>').prependTo('body');
             vm = {
                 value: ko.observable(30)
             };
@@ -132,7 +132,7 @@
         it('should update the viewmodel\'s bound property only when the mouse drag finishes', function () {
             var $element, $handle, vm, center, coord;
 
-            $element = $('<div data-bind="slider: { value: value }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value }"></div>').prependTo('body');
             vm = {
                 value: ko.observable(30)
             };
@@ -156,7 +156,7 @@
         it('should write the element to the widget observable', function () {
             var $element, vm, disabled;
 
-            $element = $('<div data-bind="slider: { widget: widget, disabled: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { widget: widget, disabled: true }"></div>').prependTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
@@ -173,7 +173,7 @@
             // ...because that would ruin the sliding animation
             var $element, vm, center, coord;
 
-            $element = $('<div data-bind="slider: { value: value }"></div>').appendTo('body');
+            $element = $('<div data-bind="slider: { value: value }"></div>').prependTo('body');
             vm = {
                 value: ko.observable(0)
             };
