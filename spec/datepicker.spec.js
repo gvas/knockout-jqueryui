@@ -62,7 +62,7 @@
         it('should write the element to the widget observable', function () {
             var $element, vm, autoSize;
 
-            $element = $('<div data-bind="datepicker: { widget: widget, autoSize: true }"></div>').appendTo('body');
+            $element = $('<div data-bind="datepicker: { widget: widget, autoSize: true }"></div>').prependTo('body');
             vm = { widget: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
@@ -78,7 +78,7 @@
         it('should write the widget\'s value to the \'value\' observable when it changes.', function () {
             var $element, vm, now;
 
-            $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
+            $element = $('<div data-bind="datepicker: { value: value }"></div>').prependTo('body');
             vm = { value: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
@@ -96,7 +96,7 @@
         it('should write the \'value\' observable to the widget\'s value when it changes.', function () {
             var $element, vm, date;
 
-            $element = $('<div data-bind="datepicker: { value: value }"></div>').appendTo('body');
+            $element = $('<div data-bind="datepicker: { value: value }"></div>').prependTo('body');
             vm = {
                 value: ko.observable()
             };

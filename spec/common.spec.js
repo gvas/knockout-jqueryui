@@ -24,12 +24,12 @@
 
         var prop, initialValue, newValue, $wrapper, $element, vm;
 
-        $wrapper = $('<div></div>').appendTo('body');
+        $wrapper = $('<div></div>').prependTo('body');
         for (prop in optionNamesAndValues) {
             if (optionNamesAndValues.hasOwnProperty(prop)) {
                 initialValue = optionNamesAndValues[prop][0];
                 newValue = optionNamesAndValues[prop][1];
-                $element = $('<div data-bind="' + widgetName + ': { ' + prop + ': observableProperty }"></div>').appendTo($wrapper);
+                $element = $('<div data-bind="' + widgetName + ': { ' + prop + ': observableProperty }"></div>').prependTo($wrapper);
                 vm = { observableProperty: ko.observable(initialValue) };
 
                 ko.applyBindings(vm, $element[0]);
