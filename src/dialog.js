@@ -29,6 +29,7 @@
 
         var value = valueAccessor();
 
+        // set up handling of the isOpen option
         if (value.isOpen) {
             ko.computed({
                 read: function () {
@@ -50,7 +51,25 @@
             });
         }
 
-        //handle disposal
+        // make the width option two-way
+        if (ko.isWriteableObservable(value.width)) {
+            /*jslint unparam:true*/
+            $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                value.width(Math.round(ui.size.width));
+            });
+            /*jslint unparam:false*/
+        }
+
+        // make the height option two-way
+        if (ko.isWriteableObservable(value.height)) {
+            /*jslint unparam:true*/
+            $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                value.height(Math.round(ui.size.height));
+            });
+            /*jslint unparam:false*/
+        }
+
+        // handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.dialog');
         });
