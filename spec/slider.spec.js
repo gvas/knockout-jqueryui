@@ -185,7 +185,7 @@
             coord = { clientX: center.x, clientY: center.y };
             $element.simulate('mousedown', coord);
             $element.simulate('mouseup');
-            expect(vm.value.peek()).toBeCloseTo(50, 2);
+            expect(Math.abs(vm.value.peek() - 50)).toBeLessThan(2);
             /*jslint unparam: true*/
             $.each($.fn.slider.calls, function (idx, call) {
                 expect(call.args[0] === 'option' && call.args[1] === 'value' && call.args.length === 3).not.toBe(true);
