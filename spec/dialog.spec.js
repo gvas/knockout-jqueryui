@@ -117,5 +117,26 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should update the dialog\'s width and height observables when the widget is resized.', function () {
+            var $element, vm, $handle;
+
+            $element = $('<div data-bind="dialog: { width: width, height: height }"></div>').prependTo('body');
+            vm = {
+                width: ko.observable(150),
+                height: ko.observable(150)
+            };
+            ko.applyBindings(vm, $element[0]);
+
+            $handle = $element.parent().find('.ui-resizable-handle.ui-resizable-se');
+            $handle.simulate('mouseover');
+            $handle.simulate('drag', { dx: 10, dy: 20 });
+
+            expect(Math.abs(vm.width.peek() - 160)).toBeLessThan(2);
+            // there is some bug in jQuery UI, the initial height is set incorrectly
+            expect(vm.height.peek()).toEqual($element.dialog('option', 'height'));
+
+            ko.removeNode($element[0]);
+        });
     });
 }());
