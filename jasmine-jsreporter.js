@@ -67,11 +67,11 @@
             },
             specs = suite.specs(),
             suites = suite.suites(),
-            i, ilen;
+            i, ilen, specsData;
 
         // Loop over all the Suite's Specs
         for (i = 0, ilen = specs.length; i < ilen; ++i) {
-            suiteData.specs[i] = {
+            specsData = {
                 description : specs[i].description,
                 durationSec : specs[i].durationSec,
                 passed : specs[i].results().passedCount === specs[i].results().totalCount,
@@ -80,8 +80,14 @@
                 failedCount : specs[i].results().failedCount,
                 totalCount : specs[i].results().totalCount
             };
-            suiteData.passed = !suiteData.specs[i].passed ? false : suiteData.passed;
-            suiteData.durationSec += suiteData.specs[i].durationSec;
+            suiteData.passed = !specsData.passed ? false : suiteData.passed;
+            suiteData.durationSec += specsData.durationSec;
+
+            // null out the description to save space
+            if (!specsData.passed) {
+                suiteData.specs.push(specsData);
+                //specsData.description = '';
+            }
         }
 
         // Loop over all the Suite's sub-Suites

@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 
     require('load-grunt-config')(grunt, {
         data: {
-            buildId: process.env.TRAVIS_JOB_ID || (new Date()).valueOf().toString(),
+            tunnelId: Math.floor((new Date()).getTime() / 1000 - 1230768000).toString(),
             coreFiles: ['src/versions.js', 'src/init.js', 'src/bindingFactory.js'],
             widgets: ['src/accordion.js', 'src/autocomplete.js', 'src/button.js',
                 'src/buttonset.js', 'src/datepicker.js', 'src/dialog.js', 'src/menu.js',
