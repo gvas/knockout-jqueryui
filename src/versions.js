@@ -10,7 +10,7 @@ versions = (function () {
         /// <returns type='String'></returns>
 
         /*jslint regexp:true*/
-        var match = (version || '').match(/^(\d)\.(\d+)\..*$/);
+        var match = (version || '').match(/^(\d)\.(\d+)(\..*)?$/);
         /*jslint regexp:false*/
 
         if (!match) {
