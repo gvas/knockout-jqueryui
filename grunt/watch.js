@@ -1,2 +1,5 @@
 /*jslint node:true*/
-module.exports = {};
+module.exports = {
+    files: ['src/*.*'],
+    tasks: ['default']
+};

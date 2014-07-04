@@ -1,17 +1,54 @@
-/*global ko, $, versions, bindingFactory*/
+/*global ko, $, exports*/
 /*jslint browser:true*/
 (function () {
+
     'use strict';
 
-    var preInit, postInit, options, events;
+    var Dialog = function () {
+        /// <summary>Constructor.</summary>
 
-    preInit = function (element) {
+        exports.BindingHandler.call(this, 'dialog');
+
+        if (exports.utils.versions.jQueryUI.major === 1 &&
+                exports.utils.versions.jQueryUI.minor === 8) {
+            this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
+                'dialogClass', 'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth',
+                'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
+                'stack', 'title', 'width', 'zIndex'];
+            this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        } else if (exports.utils.versions.jQueryUI.major === 1 &&
+                exports.utils.versions.jQueryUI.minor === 9) {
+            this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
+                'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
+                'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
+                'stack', 'title', 'width', 'zIndex'];
+            this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        } else {
+            this.options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape',
+                'closeText', 'dialogClass', 'draggable', 'height', 'hide', 'maxHeight',
+                'maxWidth', 'minHeight', 'minWidth', 'modal', 'position', 'resizable',
+                'show', 'title', 'width'];
+            this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
+                'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+        }
+    };
+
+    Dialog.prototype = exports.utils.createObject(exports.BindingHandler.prototype);
+    Dialog.prototype.constructor = Dialog;
+
+    Dialog.prototype.init = function (element, valueAccessor) {
         /// <summary>Creates a hidden div before the element. This helps in disposing the
-        /// binding if the element is moved from its original location.</summary>
+        /// binding if the element is moved from its original location.
+        /// Keeps the isOpen binding property in sync with the dialog's state.</summary>
         /// <param name='element' type='DOMNode'></param>
+        /// <param name='valueAccessor' type='Function'></param>
+        /// <returns type='Object'></returns>
 
-        var marker;
+        var marker, value;
 
+        /// sets up the correct disposal
         marker = document.createElement('DIV');
         marker.style.display = 'none';
         element.parentNode.insertBefore(marker, element);
@@ -19,17 +56,13 @@
         ko.utils.domNodeDisposal.addDisposeCallback(marker, function () {
             ko.removeNode(element);
         });
-    };
 
-    postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the isOpen binding property in sync with the dialog's state.
-        /// </summary>
-        /// <param name='element' type='DOMNode'></param>
-        /// <param name='valueAccessor' type='Function'></param>
+        /// invokes the prototype's init() method
+        exports.BindingHandler.prototype.init.apply(this, arguments);
 
-        var value = valueAccessor();
+        /// sets up handling of the isOpen option
+        value = valueAccessor();
 
-        // set up handling of the isOpen option
         if (value.isOpen) {
             ko.computed({
                 read: function () {
@@ -73,36 +106,12 @@
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.dialog');
         });
+
+        // the inner elements have already been taken care of
+        return { controlsDescendantBindings: true };
     };
 
-    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
-        options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-            'disabled', 'draggable', 'height', 'maxHeight', 'maxWidth', 'minHeight',
-            'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-            'width', 'zIndex'];
-        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-    } else if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 9) {
-        options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText', 'dialogClass',
-            'draggable', 'height', 'hide', 'maxHeight', 'maxWidth', 'minHeight',
-            'minWidth', 'modal', 'position', 'resizable', 'show', 'stack', 'title',
-            'width', 'zIndex'];
-        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-    } else {
-        options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-            'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
-            'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
-            'title', 'width'];
-        events = ['beforeClose', 'create', 'open', 'focus', 'dragStart', 'drag',
-            'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-    }
+    exports.Dialog = Dialog;
 
-    bindingFactory.create({
-        name: 'dialog',
-        options: options,
-        events: events,
-        preInit: preInit,
-        postInit: postInit
-    });
+    exports.bindingHandlerRegistry.register(new Dialog());
 }());

@@ -1,16 +1,31 @@
-/*global $, ko, bindingFactory*/
+/*global $, ko, exports*/
 (function () {
+
     'use strict';
 
-    var postInit;
+    var Spinner = function () {
+        /// <summary>Constructor.</summary>
 
-    postInit = function (element, valueAccessor, allBindingsAccessor) {
+        exports.BindingHandler.call(this, 'spinner');
+
+        this.options = ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
+            'numberFormat', 'page', 'step'];
+        this.events = ['create', 'start', 'spin', 'stop', 'change'];
+    };
+
+    Spinner.prototype = exports.utils.createObject(exports.BindingHandler.prototype);
+    Spinner.prototype.constructor = Spinner;
+
+    Spinner.prototype.init = function (element, valueAccessor, allBindingsAccessor) {
         /// <summary>Keeps the value binding property in sync with the spinner's value.
         /// </summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
+        /// <param name='allBindingsAccessor' type='Function'></param>
 
         var value = valueAccessor();
+
+        exports.BindingHandler.prototype.init.apply(this, arguments);
 
         if (value.value) {
             ko.computed({
@@ -47,17 +62,16 @@
             }
         }
 
-        //handle disposal
+        // handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.spinner');
         });
+
+        // the inner elements have already been taken care of
+        return { controlsDescendantBindings: true };
     };
 
-    bindingFactory.create({
-        name: 'spinner',
-        options: ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
-            'numberFormat', 'page', 'step'],
-        events: ['create', 'start', 'spin', 'stop', 'change'],
-        postInit: postInit
-    });
+    exports.Spinner = Spinner;
+
+    exports.bindingHandlerRegistry.register(new Spinner());
 }());

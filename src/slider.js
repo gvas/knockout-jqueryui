@@ -1,18 +1,34 @@
-/*global $, ko, bindingFactory*/
+/*global $, ko, exports*/
 (function () {
+
     'use strict';
 
-    var domDataKey, postInit;
+    var domDataKey, Slider;
 
     domDataKey = '__kojqui_options';
 
-    postInit = function (element, valueAccessor) {
+    Slider = function () {
+        /// <summary>Constructor.</summary>
+
+        exports.BindingHandler.call(this, 'slider');
+
+        this.options = ['animate', 'disabled', 'max', 'min', 'orientation', 'range',
+            'step', 'value', 'values'];
+        this.events = ['create', 'start', 'slide', 'change', 'stop'];
+    };
+
+    Slider.prototype = exports.utils.createObject(exports.BindingHandler.prototype);
+    Slider.prototype.constructor = Slider;
+
+    Slider.prototype.init = function (element, valueAccessor) {
         /// <summary>Keeps the value and the values binding property in sync with the
         /// slider widget's values.</summary>
         /// <param name='element' type='DOMNode'></param>
         /// <param name='valueAccessor' type='Function'></param>
 
         var value, changeEvent;
+
+        exports.BindingHandler.prototype.init.apply(this, arguments);
 
         value = valueAccessor();
         changeEvent = value.realtime ? 'slide' : 'slidechange';
@@ -24,11 +40,11 @@
                 if (index === 0) {
                     // The slider widget, in its _slide() method, raises the
                     // slide/slidechange events, then immediately updates its value
-                    // property. If any of the hooked event handlers sets the widget's
-                    // value property, it will ruin the sliding animation.
-                    // To prevent this, we make the update() method defined in the
-                    // bindingFactory to believe that the new value is already set on the
-                    // widget.
+                    // property. If any of the event handlers hooked onto the
+                    // slide/slidechange event sets the widget's value property, it will
+                    // ruin the sliding animation.
+                    // To prevent that, we trick the update() method defined in
+                    // BindingHandler to think that the value option is already updated.
                     ko.utils.domData.get(element, domDataKey).value = ui.value;
                     value.value(ui.value);
                 }
@@ -45,17 +61,16 @@
             /*jslint unparam:false*/
         }
 
-        //handle disposal
+        // handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.slider');
         });
+
+        // the inner elements have already been taken care of
+        return { controlsDescendantBindings: true };
     };
 
-    bindingFactory.create({
-        name: 'slider',
-        options: ['animate', 'disabled', 'max', 'min', 'orientation', 'range', 'step',
-            'value', 'values'],
-        events: ['create', 'start', 'slide', 'change', 'stop'],
-        postInit: postInit
-    });
+    exports.Slider = Slider;
+
+    exports.bindingHandlerRegistry.register(new Slider());
 }());

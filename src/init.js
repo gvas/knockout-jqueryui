@@ -1,6 +1,9 @@
-/*global versions*/
+/*global exports*/
 (function () {
+
     'use strict';
+
+    var versions = exports.utils.versions;
 
     // dependency checks
     if (!versions.jQuery) {

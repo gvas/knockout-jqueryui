@@ -1,9 +1,9 @@
-/*global $, ko, versions, bindingFactory*/
-/*jslint maxlen:256*/
+/*global $, ko, exports*/
 (function () {
+
     'use strict';
 
-    var postInitHandler18, postInitHandler, options, events, hasRefresh, postInit;
+    var postInitHandler18, postInitHandler, Tabs;
 
     postInitHandler18 = function (element, valueAccessor) {
         /// <summary>Keeps the active binding property in sync with the tabs' state.</summary>
@@ -23,7 +23,7 @@
             /*jslint unparam:false*/
         }
 
-        //handle disposal
+        // handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.tabs');
         });
@@ -47,33 +47,56 @@
             /*jslint unparam:false*/
         }
 
-        //handle disposal
+        // handle disposal
         ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             $(element).off('.tabs');
         });
     };
 
-    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
-        options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
-            'event', 'fx', 'idPrefix', 'panelTemplate', 'selected',
-            'spinner', 'tabTemplate'];
-        events = ['add', 'create', 'disable', 'enable', 'load', 'remove', 'select',
-            'show'];
-        postInit = postInitHandler18;
-        hasRefresh = false;
-    } else {
-        options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle', 'hide',
-            'show'];
-        events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
-        postInit = postInitHandler;
-        hasRefresh = true;
-    }
+    Tabs = function () {
+        /// <summary>Constructor.</summary>
 
-    bindingFactory.create({
-        name: 'tabs',
-        options: options,
-        events: events,
-        postInit: postInit,
-        hasRefresh: hasRefresh
-    });
+        exports.BindingHandler.call(this, 'tabs');
+
+        if (exports.utils.versions.jQueryUI.major === 1 &&
+                exports.utils.versions.jQueryUI.minor === 8) {
+            this.options = ['ajaxOptions', 'cache', 'collapsible', 'cookie', 'disabled',
+                'event', 'fx', 'idPrefix', 'panelTemplate', 'selected', 'spinner',
+                'tabTemplate'];
+            this.events = ['add', 'create', 'disable', 'enable', 'load', 'remove',
+                'select', 'show'];
+            this.hasRefresh = false;
+        } else {
+            this.options = ['active', 'collapsible', 'disabled', 'event', 'heightStyle',
+                'hide', 'show'];
+            this.events = ['activate', 'beforeActivate', 'beforeLoad', 'create', 'load'];
+            this.hasRefresh = true;
+        }
+    };
+
+    Tabs.prototype = exports.utils.createObject(exports.BindingHandler.prototype);
+    Tabs.prototype.constructor = Tabs;
+
+    Tabs.prototype.init = function (element, valueAccessor) {
+        /// <summary>Keeps the active binding property in sync with the tabs' state.
+        /// </summary>
+        /// <param name='element' type='DOMNode'></param>
+        /// <param name='valueAccessor' type='Function'></param>
+
+        exports.BindingHandler.prototype.init.apply(this, arguments);
+
+        if (exports.utils.versions.jQueryUI.major === 1 &&
+                exports.utils.versions.jQueryUI.minor === 8) {
+            postInitHandler18(element, valueAccessor);
+        } else {
+            postInitHandler(element, valueAccessor);
+        }
+
+        // the inner elements have already been taken care of
+        return { controlsDescendantBindings: true };
+    };
+
+    exports.Tabs = Tabs;
+
+    exports.bindingHandlerRegistry.register(new Tabs());
 }());

@@ -1,6 +1,7 @@
 /*global require, define, exports*/
 /*jslint browser:true, maxlen:256*/
 (function (root, factory) {
+
     'use strict';
 
     if (typeof exports === 'object') {
@@ -14,6 +15,10 @@
         factory((root.kojqui = {}), root.jQuery, root.ko);
     }
 } (this, function (exports, $, ko) {
+
     'use strict';
 
-    var versions, bindingFactory;
+<%= grunt.file.read(grunt.template.process(concat.indent.dest)) %>
+
+    exports.version = '<%= package.version %>';
+}));

@@ -10,9 +10,9 @@
         /// <param name='version' type='String'></param>
         /// <returns type='String'></returns>
 
-        var match = (version || '').match(/^(\d\.\d+)\.\d+$/);
+        var match = (version || '').match(/^\d\.\d+/);
 
-        return match ? match[1] : null;
+        return match ? match[0] : null;
     };
 
     testWidgetOptions = function (widgetName, optionNamesAndValues) {

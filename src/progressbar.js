@@ -1,18 +1,28 @@
-/*global versions, bindingFactory*/
+/*global exports*/
 (function () {
+
     'use strict';
 
-    var options;
+    var Progressbar = function () {
+        /// <summary>Constructor.</summary>
 
-    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
-        options = ['disabled', 'value'];
-    } else {
-        options = ['disabled', 'max', 'value'];
-    }
+        exports.BindingHandler.call(this, 'progressbar');
 
-    bindingFactory.create({
-        name: 'progressbar',
-        options: options,
-        events: ['change', 'create', 'complete']
-    });
+        this.events = ['change', 'create', 'complete'];
+        this.hasRefresh = true;
+
+        if (exports.utils.versions.jQueryUI.major === 1 &&
+                exports.utils.versions.jQueryUI.minor === 8) {
+            this.options = ['disabled', 'value'];
+        } else {
+            this.options = ['disabled', 'max', 'value'];
+        }
+    };
+
+    Progressbar.prototype = exports.utils.createObject(exports.BindingHandler.prototype);
+    Progressbar.prototype.constructor = Progressbar;
+
+    exports.Progressbar = Progressbar;
+
+    exports.bindingHandlerRegistry.register(new Progressbar());
 }());

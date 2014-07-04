@@ -3,31 +3,46 @@ module.exports = function (grunt, options) {
 
     'use strict';
 
-    var reBanners, reUseStrictDirectives, reNewLines, prepareConcat;
-
-    reBanners = /^(\s*\/\*[\s\S]*?\*\/\s*)*/;
-    reUseStrictDirectives = /'use strict';/g;
-    reNewLines = /\n/g;
+    var prepareConcat, indent;
 
     prepareConcat = function (src) {
-        return '\n    ' + src
-        // strips all banners
-            .replace(reBanners, '')
+        return src
         // deletes the 'use strict' statements
-            .replace(reUseStrictDirectives, '')
-        // indents each line
-            .replace(reNewLines, '\n    ');
+            .replace(/^\s*'use strict';\s*$/mg, '');
+    };
+
+    indent = function (src) {
+        return '    ' + src
+            .replace(/(\r?\n)/g, '$1    ');
     };
 
     return {
-        build: {
+        options: {
+            nonull: true
+        },
+        concat: {
             options: {
-                banner: '<%= meta.banner %>' + grunt.file.read('src/umdWrapperStart.js'),
-                footer: grunt.file.read('src/umdWrapperEnd.js'),
+                stripBanners: true,
+                separator: '\r\n\r\n',
                 process: prepareConcat
             },
             src: [options.coreFiles, options.widgets],
             dest: 'build/<%= meta.name %>.js'
+        },
+        indent: {
+            options: {
+                process: indent
+            },
+            src: '<%= concat.concat.dest %>',
+            dest: '<%= concat.concat.dest %>'
+        },
+        wrap: {
+            options: {
+                banner: '<%= meta.banner %>',
+                process: true
+            },
+            src: 'src/wrapper.template',
+            dest: '<%= concat.concat.dest %>'
         }
     };
 };
