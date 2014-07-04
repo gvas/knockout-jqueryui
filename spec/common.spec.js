@@ -34,7 +34,6 @@
 
                 ko.applyBindings(vm, $element[0]);
 
-                jasmine.log('option: ' + prop);
                 expect($element[widgetName]('option', prop)).toEqual(initialValue);
                 vm.observableProperty(newValue);
                 expect($element[widgetName]('option', prop)).toEqual(newValue);

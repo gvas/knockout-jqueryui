@@ -111,9 +111,10 @@ module.exports = function (grunt, options) {
             options: {
                 urls: testUrls,
                 build: process.env.TRAVIS_JOB_ID,
-                throttled: 20,
+                throttled: 5,
                 browsers: browsers,
                 tunneled: false,
+                maxRetries: 1,
                 onTestComplete: tagJob,
                 sauceConfig: {
                     'video-upload-on-pass': false,

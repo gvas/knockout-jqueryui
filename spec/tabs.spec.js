@@ -43,7 +43,6 @@
             vm = { selected: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
-            jasmine.log('option: selected');
             expect($element.tabs('option', 'selected')).toEqual(0);
             vm.selected(1);
             expect($element.tabs('option', 'selected')).toEqual(1);
@@ -59,7 +58,6 @@
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
-            jasmine.log('option: active');
             expect($element.tabs('option', 'active')).toEqual(0);
             vm.active(1);
             expect($element.tabs('option', 'active')).toEqual(1);

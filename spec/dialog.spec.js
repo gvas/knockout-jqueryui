@@ -60,8 +60,6 @@
 
             ko.applyBindings(vm, $element[0]);
 
-            jasmine.log('option: position');
-
             position = $element.dialog('option', 'position');
             expect(position.my).toEqual('center');
             expect(position.at).toEqual('center');
