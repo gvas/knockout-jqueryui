@@ -47,17 +47,20 @@ module.exports = function (grunt, options) {
     ['1.8.3', '1.10.2'].forEach(function (jQueryVersion) {
         ['1.8.24', '1.9.2', '1.10.4'].forEach(function (jQueryUIVersion) {
             ['2.2.0', '3.1.0'].forEach(function (knockoutVersion) {
+                var queryString;
+
                 // jQuery UI 1.8 is compatible only with jQuery <= 1.8
                 if (jQueryVersion === '1.8.3' || jQueryUIVersion !== '1.8.24') {
+                    queryString = [
+                        'jquery=' + jQueryVersion,
+                        'jqueryui=' + jQueryUIVersion,
+                        'knockout=' + knockoutVersion
+                    ].join('&');
+
                     testUrls.push(
-                        [
-                            'http://127.0.0.1:9999/SpecRunner.html?',
-                            [
-                                'jquery=' + jQueryVersion,
-                                'jqueryui=' + jQueryUIVersion,
-                                'knockout=' + knockoutVersion
-                            ].join('&')
-                        ].join('')
+                        'http://127.0.0.1:9999/spec/runner-1.html?' + queryString,
+                        'http://127.0.0.1:9999/spec/runner-2.html?' + queryString,
+                        'http://127.0.0.1:9999/spec/runner-3.html?' + queryString
                     );
                 }
             });
@@ -83,7 +86,7 @@ module.exports = function (grunt, options) {
                     return q.reject('Failed to fetch Selenium log for job ' + jobId);
                 }
 
-                re = /SpecRunner\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
+                re = /runner-([123])\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
                 matches = body.match(re);
                 if (matches) {
                     grunt.log.writeln('Updating job\'s tags and name.');
@@ -92,9 +95,10 @@ module.exports = function (grunt, options) {
                         auth: auth,
                         json: {
                             tags: [
-                                'jq:' + matches[1],
-                                'jqui:' + matches[2],
-                                'ko:' + matches[3]
+                                '#:' + matches[1],
+                                'jq:' + matches[2],
+                                'jqui:' + matches[3],
+                                'ko:' + matches[4]
                             ]
                         }
                     });
