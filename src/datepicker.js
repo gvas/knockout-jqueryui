@@ -58,6 +58,7 @@
             'weekHeader', 'yearRange', 'yearSuffix', 'beforeShow', 'beforeShowDay',
             'onChangeMonthYear', 'onClose', 'onSelect'],
         events: [],
+        hasRefresh: true,
         postInit: postInit
     });
 }());
