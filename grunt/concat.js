@@ -1,20 +1,63 @@
-/*jslint node:true*/
+/*jslint node:true,regexp:true*/
 module.exports = function (grunt, options) {
 
     'use strict';
 
-    var prepareConcat, indent;
+    var path = require('path'),
+        changeCase = require('change-case');
 
-    prepareConcat = function (src) {
-        return src
-        // deletes the 'use strict' statements
-            .replace(/^\s*'use strict';\s*$/mg, '');
-    };
+    function convert(src, filePath) {
+        var name, match, dependencies;
 
-    indent = function (src) {
-        return '    ' + src
-            .replace(/(\r?\n)/g, '$1    ');
-    };
+        name = path.basename(filePath, '.js');
+        if (name !== 'utils') {
+            name = changeCase.pascalCase(name);
+        }
+
+        match = src.match(/define[\s\S]*?\[([\s\S]*?)\][\s\S]*?(function[\s\S]*)\);/);
+
+        dependencies = match[1]
+            .split(',')
+            .map(function (dependency) {
+                var match = dependency.match(/'(.*)'/);
+                return match[1];
+            })
+            .map(function (dependency) {
+                var match = dependency.match(/^\.\/(.+)/);
+                if (match) {
+                    // './BindingHandler' -> root.kojqui.BindingHandler
+                    if (match[1] === 'utils') {
+                        return 'root.kojqui.utils';
+                    }
+                    return 'root.kojqui.' + changeCase.pascalCase(match[1]);
+                }
+
+                match = dependency.match(/^jquery-ui\/(.*)/);
+                if (match) {
+                    // 'jquery-ui/autocomplete' -> root.jQuery.ui.autocomplete
+                    return 'root.jQuery.ui.' + match[1];
+                }
+
+                if (dependency === 'jquery') {
+                    // 'jquery' -> root.jQuery
+                    return 'root.jQuery';
+                }
+
+                if (dependency === 'knockout') {
+                    // 'knockout' -> root.ko
+                    return 'root.ko';
+                }
+
+                throw new Error('Unexpected dependency: ' + dependency);
+            })
+            .join(', ');
+
+        return '(function (root, factory) {\r\n\r\n' +
+            '    \'use strict\';\r\n\r\n' +
+            '    root.kojqui.' + name + ' = factory(' + dependencies + ');\r\n' +
+            '}(this,\r\n' +
+            '    ' + match[2] + '));';
+    }
 
     return {
         options: {
@@ -22,27 +65,12 @@ module.exports = function (grunt, options) {
         },
         concat: {
             options: {
-                stripBanners: true,
-                separator: '\r\n\r\n',
-                process: prepareConcat
+                separator: '\r\n',
+                banner: '<%= meta.banner %>',
+                process: convert
             },
             src: [options.coreFiles, options.widgets],
             dest: 'build/<%= meta.name %>.js'
-        },
-        indent: {
-            options: {
-                process: indent
-            },
-            src: '<%= concat.concat.dest %>',
-            dest: '<%= concat.concat.dest %>'
-        },
-        wrap: {
-            options: {
-                banner: '<%= meta.banner %>',
-                process: true
-            },
-            src: 'src/wrapper.template',
-            dest: '<%= concat.concat.dest %>'
         }
     };
 };

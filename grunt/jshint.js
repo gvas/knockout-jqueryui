@@ -32,6 +32,6 @@ module.exports = function (grunt, options) {
             }
         },
         beforeconcat: ['Gruntfile.js', options.coreFiles, options.widgets],
-        afterconcat: ['<%= concat.wrap.dest %>']
+        afterconcat: ['<%= concat.concat.dest %>']
     };
 };

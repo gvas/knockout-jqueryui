@@ -4,7 +4,7 @@
 
 module.exports = function (grunt) {
     // the default task builds the library
-    grunt.registerTask('default', ['jshint:beforeconcat', 'concat', 'jshint:afterconcat', 'uglify']);
+    grunt.registerTask('default', ['jshint:beforeconcat', 'concat', 'jshint:afterconcat', 'uglify', 'compress']);
     // the dev task spins up a web server on localhost:9999
     grunt.registerTask('dev', ['connect', 'watch']);
     // the test task builds the library and starts the jasmine tests on SauceLabs
