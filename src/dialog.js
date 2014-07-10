@@ -10,14 +10,14 @@ define(
         'jquery-ui/dialog'
     ],
 
-    function ($, ko, BindingHandler, utils, dialog) {
+    function ($, ko, BindingHandler, utils, widget) {
 
         'use strict';
 
         var Dialog = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(dialog.version);
+            var version = utils.parseVersionString(widget.version);
 
             BindingHandler.call(this, 'dialog');
 
@@ -78,19 +78,20 @@ define(
                 ko.computed({
                     read: function () {
                         if (ko.utils.unwrapObservable(value.isOpen)) {
-                            $(element).dialog('open');
+                            $(element)[this.widgetName]('open');
                         } else {
-                            $(element).dialog('close');
+                            $(element)[this.widgetName]('close');
                         }
                     },
-                    disposeWhenNodeIsRemoved: element
+                    disposeWhenNodeIsRemoved: element,
+                    owner: this
                 });
             }
             if (ko.isWriteableObservable(value.isOpen)) {
-                $(element).on('dialogopen.dialog', function () {
+                this.on(element, 'open', function () {
                     value.isOpen(true);
                 });
-                $(element).on('dialogclose.dialog', function () {
+                this.on(element, 'close', function () {
                     value.isOpen(false);
                 });
             }
@@ -98,7 +99,7 @@ define(
             // make the width option two-way
             if (ko.isWriteableObservable(value.width)) {
                 /*jslint unparam:true*/
-                $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                this.on(element, 'resizestop', function (ev, ui) {
                     value.width(Math.round(ui.size.width));
                 });
                 /*jslint unparam:false*/
@@ -107,16 +108,11 @@ define(
             // make the height option two-way
             if (ko.isWriteableObservable(value.height)) {
                 /*jslint unparam:true*/
-                $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                this.on(element, 'resizestop', function (ev, ui) {
                     value.height(Math.round(ui.size.height));
                 });
                 /*jslint unparam:false*/
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.dialog');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };

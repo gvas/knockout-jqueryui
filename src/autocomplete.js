@@ -7,14 +7,14 @@ define(
         'jquery-ui/autocomplete'
     ],
 
-    function (BindingHandler, utils, autocomplete) {
+    function (BindingHandler, utils, widget) {
 
         'use strict';
 
         var Autocomplete = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(autocomplete.version);
+            var version = utils.parseVersionString(widget.version);
 
             BindingHandler.call(this, 'autocomplete');
 

@@ -22,6 +22,7 @@ define(
 
             BindingHandler.call(this, 'slider');
 
+            this.widgetEventPrefix = 'slide';
             this.options = ['animate', 'disabled', 'max', 'min', 'orientation', 'range',
                 'step', 'value', 'values'];
             this.events = ['create', 'start', 'slide', 'change', 'stop'];
@@ -41,11 +42,11 @@ define(
             BindingHandler.prototype.init.apply(this, arguments);
 
             value = valueAccessor();
-            changeEvent = value.realtime ? 'slide' : 'slidechange';
+            changeEvent = value.realtime ? 'slide' : 'change';
 
             if (ko.isWriteableObservable(value.value)) {
                 /*jslint unparam:true*/
-                $(element).on(changeEvent + '.slider', function (ev, ui) {
+                this.on(element, changeEvent, function (ev, ui) {
                     var index = $(element).find('.ui-slider-handle').index(ui.handle);
                     if (index === 0) {
                         // The slider widget, in its _slide() method, raises the
@@ -64,18 +65,13 @@ define(
             }
             if (ko.isWriteableObservable(value.values)) {
                 /*jslint unparam:true*/
-                $(element).on(changeEvent + '.slider', function (ev, ui) {
+                this.on(element, changeEvent, function (ev, ui) {
                     // see the explanation above
                     ko.utils.domData.get(element, domDataKey).value = ui.values;
                     value.values(ui.values);
                 });
                 /*jslint unparam:false*/
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.slider');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };

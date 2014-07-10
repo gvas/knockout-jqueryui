@@ -7,14 +7,14 @@ define(
         'jquery-ui/progressbar'
     ],
 
-    function (BindingHandler, utils, progressbar) {
+    function (BindingHandler, utils, widget) {
 
         'use strict';
 
         var Progressbar = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(progressbar.version);
+            var version = utils.parseVersionString(widget.version);
 
             BindingHandler.call(this, 'progressbar');
 

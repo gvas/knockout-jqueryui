@@ -41,27 +41,23 @@ define(
                 ko.computed({
                     read: function () {
                         if (ko.utils.unwrapObservable(value.isOpen)) {
-                            $(element).tooltip('open');
+                            $(element)[this.widgetName]('open');
                         } else {
-                            $(element).tooltip('close');
+                            $(element)[this.widgetName]('close');
                         }
                     },
-                    disposeWhenNodeIsRemoved: element
+                    disposeWhenNodeIsRemoved: element,
+                    owner: this
                 });
             }
             if (ko.isWriteableObservable(value.isOpen)) {
-                $(element).on('tooltipopen.tooltip', function () {
+                this.on(element, 'open', function () {
                     value.isOpen(true);
                 });
-                $(element).on('tooltipclose.tooltip', function () {
+                this.on(element, 'close', function () {
                     value.isOpen(false);
                 });
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.tooltip');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };
