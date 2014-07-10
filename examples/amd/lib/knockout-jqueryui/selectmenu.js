@@ -1,4 +1,4 @@
-/*global define*/
+﻿/*global define*/
 define(
 
     [
@@ -6,35 +6,36 @@ define(
         'knockout',
         './bindingHandler',
         './utils',
-        'jquery-ui/tooltip'
+        'jquery-ui/selectmenu'
     ],
 
     function ($, ko, BindingHandler, utils) {
 
         'use strict';
 
-        var Tooltip = function () {
+        var Selectmenu = function () {
             /// <summary>Constructor.</summary>
 
-            BindingHandler.call(this, 'tooltip');
+            BindingHandler.call(this, 'selectmenu');
 
-            this.options = ['content', 'disabled', 'hide', 'items', 'position', 'show',
-                'tooltipClass', 'track'];
-            this.events = ['create', 'open', 'close'];
+            this.options = ['appendTo', 'disabled', 'icons', 'position', 'width'];
+            this.events = ['change', 'close', 'create', 'focus', 'open', 'select'];
+            this.hasRefresh = true;
         };
 
-        Tooltip.prototype = utils.createObject(BindingHandler.prototype);
-        Tooltip.prototype.constructor = Tooltip;
+        Selectmenu.prototype = utils.createObject(BindingHandler.prototype);
+        Selectmenu.prototype.constructor = Selectmenu;
 
-        Tooltip.prototype.init = function (element, valueAccessor) {
-            /// <summary>Keeps the isOpen binding property in sync with the tooltip's
-            /// state.
-            /// </summary>
+        Selectmenu.prototype.init = function (element, valueAccessor) {
+            /// <summary>Connects the view model and the widget via the isOpen property.
+            // </summary>
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
+            /// <returns type='Object'></returns>
 
             var value = valueAccessor();
 
+            /// invokes the prototype's init() method
             BindingHandler.prototype.init.apply(this, arguments);
 
             if (value.isOpen) {
@@ -63,8 +64,8 @@ define(
             return { controlsDescendantBindings: true };
         };
 
-        utils.register(Tooltip);
+        utils.register(Selectmenu);
 
-        return Tooltip;
+        return Selectmenu;
     }
 );

@@ -9,7 +9,7 @@ define(
         'jquery-ui/tabs'
     ],
 
-    function ($, ko, BindingHandler, utils, widget) {
+    function ($, ko, BindingHandler, utils) {
 
         'use strict';
 
@@ -60,7 +60,7 @@ define(
 
             BindingHandler.call(this, 'tabs');
 
-            this.version = utils.parseVersionString(widget.version);
+            this.version = utils.uiVersion;
 
             if (this.version.major === 1 && this.version.minor === 8) {
                 this.options = ['ajaxOptions', 'cache', 'collapsible', 'cookie',

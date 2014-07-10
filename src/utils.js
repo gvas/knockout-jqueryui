@@ -3,34 +3,28 @@ define(
 
     [
         'jquery',
-        'knockout'
+        'knockout',
+        'jquery-ui/core'
     ],
 
     function ($, ko) {
 
         'use strict';
 
-        var parseVersionString, createObject, register;
+        var match, uiVersion, createObject, register;
 
-        parseVersionString = function (version) {
-            /// <summary>Returns the major- and minor version from a version string.
-            /// </summary>
-            /// <param name='version' type='String'></param>
-            /// <returns type='Object'></returns>
+        /*jslint regexp:true*/
+        match = ($.ui.version || '').match(/^(\d)\.(\d+)/);
+        /*jslint regexp:false*/
 
-            /*jslint regexp:true*/
-            var match = (version || '').match(/^(\d)\.(\d+)/);
-            /*jslint regexp:false*/
-
-            if (!match) {
-                return null;
-            }
-
-            return {
+        if (!match) {
+            uiVersion = null;
+        } else {
+            uiVersion = {
                 major: parseInt(match[1], 10),
                 minor: parseInt(match[2], 10)
             };
-        };
+        }
 
         createObject = Object.create || function (prototype) {
             /// <summary>Simple (incomplete) shim for Object.create().</summary>
@@ -56,7 +50,7 @@ define(
         };
 
         return {
-            parseVersionString: parseVersionString,
+            uiVersion: uiVersion,
             createObject: createObject,
             register: register
         };

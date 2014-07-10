@@ -10,25 +10,23 @@ define(
         'jquery-ui/dialog'
     ],
 
-    function ($, ko, BindingHandler, utils, widget) {
+    function ($, ko, BindingHandler, utils) {
 
         'use strict';
 
         var Dialog = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(widget.version);
-
             BindingHandler.call(this, 'dialog');
 
-            if (version.major === 1 && version.minor === 8) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
                 this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
                     'dialogClass', 'disabled', 'draggable', 'height', 'maxHeight',
                     'maxWidth', 'minHeight', 'minWidth', 'modal', 'position', 'resizable',
                     'show', 'stack', 'title', 'width', 'zIndex'];
                 this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
                     'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-            } else if (version.major === 1 && version.minor === 9) {
+            } else if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 9) {
                 this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
                     'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
                     'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',

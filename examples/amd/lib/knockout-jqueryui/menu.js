@@ -16,7 +16,13 @@ define(
 
             BindingHandler.call(this, 'menu');
 
-            this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor < 11) {
+                this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            } else {
+                this.options = ['disabled', 'icons', 'items', 'menus', 'position',
+                    'role'];
+            }
+
             this.events = ['blur', 'create', 'focus', 'select'];
             this.hasRefresh = true;
         };

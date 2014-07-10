@@ -18,6 +18,7 @@ define(
 
             BindingHandler.call(this, 'spinner');
 
+            this.widgetEventPrefix = 'spin';
             this.options = ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
                 'numberFormat', 'page', 'step'];
             this.events = ['create', 'start', 'spin', 'stop', 'change'];
@@ -33,14 +34,17 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <param name='allBindingsAccessor' type='Function'></param>
 
-            var value = valueAccessor();
+            var widgetName, value;
 
             BindingHandler.prototype.init.apply(this, arguments);
+
+            widgetName = this.widgetName;
+            value = valueAccessor();
 
             if (value.value) {
                 ko.computed({
                     read: function () {
-                        $(element).spinner('value',
+                        $(element)[widgetName]('value',
                             ko.utils.unwrapObservable(value.value));
                     },
                     disposeWhenNodeIsRemoved: element
@@ -63,21 +67,16 @@ define(
             if (ko.isWriteableObservable(value.value)) {
                 if (allBindingsAccessor().valueUpdate) {
                     /*jslint unparam:true*/
-                    $(element).on('spin.spinner', function (ev, ui) {
+                    this.on(element, 'spin', function (ev, ui) {
                         value.value(ui.value);
                     });
                     /*jslint unparam:false*/
                 } else {
-                    $(element).on('spinchange.spinner', function () {
-                        value.value($(element).spinner('value'));
+                    this.on(element, 'change', function () {
+                        value.value($(element)[widgetName]('value'));
                     });
                 }
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.spinner');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };

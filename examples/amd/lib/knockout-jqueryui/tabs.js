@@ -9,7 +9,7 @@ define(
         'jquery-ui/tabs'
     ],
 
-    function ($, ko, BindingHandler, utils, tabs) {
+    function ($, ko, BindingHandler, utils) {
 
         'use strict';
 
@@ -25,7 +25,7 @@ define(
 
             if (ko.isWriteableObservable(value.selected)) {
                 /*jslint unparam:true*/
-                $(element).on('tabsshow.tabs', function (ev, ui) {
+                this.on(element, 'show', function (ev, ui) {
                     if ($(element)[0] === ev.target) {
                         // Only activate if this is the right tab widget.
                         value.selected(ui.index);
@@ -33,11 +33,6 @@ define(
                 });
                 /*jslint unparam:false*/
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.tabs');
-            });
         };
 
         postInitHandler = function (element, valueAccessor) {
@@ -50,7 +45,7 @@ define(
 
             if (ko.isWriteableObservable(value.active)) {
                 /*jslint unparam:true*/
-                $(element).on('tabsactivate.tabs', function (ev, ui) {
+                this.on(element, 'activate', function (ev, ui) {
                     if ($(element)[0] === ev.target) {
                         // Only activate if this is the right tab widget.
                         value.active(ui.newTab.index());
@@ -58,11 +53,6 @@ define(
                 });
                 /*jslint unparam:false*/
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.tabs');
-            });
         };
 
         Tabs = function () {
@@ -70,7 +60,7 @@ define(
 
             BindingHandler.call(this, 'tabs');
 
-            this.version = utils.parseVersionString(tabs.version);
+            this.version = utils.uiVersion;
 
             if (this.version.major === 1 && this.version.minor === 8) {
                 this.options = ['ajaxOptions', 'cache', 'collapsible', 'cookie',
@@ -100,9 +90,9 @@ define(
             BindingHandler.prototype.init.apply(this, arguments);
 
             if (this.version.major === 1 && this.version.minor === 8) {
-                postInitHandler18(element, valueAccessor);
+                postInitHandler18.call(this, element, valueAccessor);
             } else {
-                postInitHandler(element, valueAccessor);
+                postInitHandler.call(this, element, valueAccessor);
             }
 
             // the inner elements have already been taken care of

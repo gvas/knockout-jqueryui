@@ -52,10 +52,11 @@ define(
 
         BindingHandler = function (widgetName) {
             /// <summary>Constructor.</summary>
-            /// <param name='widgetName' type='String'>Name of the jQuery UI widget.
-            /// </param>
+            /// <param name='widgetName' type='String'>The jQuery UI widget's
+            /// name.</param>
 
             this.widgetName = widgetName;
+            this.widgetEventPrefix = widgetName;
             this.options = [];
             this.events = [];
             this.hasRefresh = false;
@@ -88,7 +89,7 @@ define(
             $(element)[widgetName](ko.utils.extend(unwrappedOptions, unwrappedEvents));
 
             if (this.hasRefresh) {
-                subscribeToRefreshOn(this.widgetName, element, value);
+                subscribeToRefreshOn(widgetName, element, value);
             }
 
             // store the element in the widget observable
@@ -125,6 +126,30 @@ define(
             // store the options' values so they can be checked for changes in the next
             // update() method
             ko.utils.domData.set(element, domDataKey, newOptions);
+        };
+
+        BindingHandler.prototype.on = function (element, type, callback) {
+            /// <summary>Attaches callback to a widget event.</summary>
+            /// <param name='element' type='DOMElement'></param>
+            /// <param name='type' type='String'></param>
+            /// <param name='callback' type='Function'></param>
+
+            var eventName;
+
+            // the same algorithm as in widget._trigger()
+            if (type === this.widgetEventPrefix) {
+                eventName = type;
+            } else {
+                eventName = this.widgetEventPrefix + type;
+            }
+            eventName = [eventName.toLowerCase(), '.', this.widgetName].join('');
+
+            $(element).on(eventName, callback);
+
+            // handle disposal
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).off(eventName);
+            });
         };
 
         return BindingHandler;

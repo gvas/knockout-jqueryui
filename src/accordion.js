@@ -9,18 +9,16 @@ define(
         'jquery-ui/accordion'
     ],
 
-    function ($, ko, utils, BindingHandler, widget) {
+    function ($, ko, utils, BindingHandler) {
 
         'use strict';
 
         var Accordion = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(widget.version);
-
             BindingHandler.call(this, 'accordion');
 
-            if (version.major === 1 && version.minor === 8) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
                 this.options = ['active', 'animated', 'autoHeight', 'clearStyle',
                     'collapsible', 'disabled', 'event', 'fillSpace', 'header', 'icons',
                     'navigation', 'navigationFilter'];

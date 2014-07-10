@@ -9,30 +9,28 @@ define(
         'jquery-ui/accordion'
     ],
 
-    function ($, ko, utils, BindingHandler, accordion) {
+    function ($, ko, utils, BindingHandler) {
 
         'use strict';
 
         var Accordion = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(accordion.version);
-
             BindingHandler.call(this, 'accordion');
 
-            if (version.major === 1 && version.minor === 8) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
                 this.options = ['active', 'animated', 'autoHeight', 'clearStyle',
                     'collapsible', 'disabled', 'event', 'fillSpace', 'header', 'icons',
                     'navigation', 'navigationFilter'];
                 this.events = ['change', 'changestart', 'create'];
                 this.hasRefresh = false;
-                this.eventToWatch = 'accordionchange.accordion';
+                this.eventToWatch = 'change';
             } else {
                 this.options = ['active', 'animate', 'collapsible', 'disabled', 'event',
                     'header', 'heightStyle', 'icons'];
                 this.events = ['activate', 'beforeActivate', 'create'];
                 this.hasRefresh = true;
-                this.eventToWatch = 'accordionactivate.accordion';
+                this.eventToWatch = 'activate';
             }
         };
 
@@ -46,20 +44,18 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var value = valueAccessor();
+            var widgetName, value;
+
+            widgetName = this.widgetName;
+            value = valueAccessor();
 
             BindingHandler.prototype.init.apply(this, arguments);
 
             if (ko.isWriteableObservable(value.active)) {
-                $(element).on(this.eventToWatch, function () {
-                    value.active($(element).accordion('option', 'active'));
+                this.on(element, this.eventToWatch, function () {
+                    value.active($(element)[widgetName]('option', 'active'));
                 });
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.accordion');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };
