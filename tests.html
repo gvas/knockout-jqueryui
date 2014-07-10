@@ -5,7 +5,7 @@ layout: default
 <script type="text/javascript" src="js/jasmine-html.js"></script>
 <script type="text/javascript" src="js/lib/jquery-simulate/jquery.simulate.js"></script>
 <script type="text/javascript" src="js/spec/common.spec.js"></script>
-<script type="text/javascript" src="js/spec/bindingFactory.spec.js"></script>
+<script type="text/javascript" src="js/spec/bindingHandler.spec.js"></script>
 <script type="text/javascript" src="js/spec/accordion.spec.js"></script>
 <script type="text/javascript" src="js/spec/autocomplete.spec.js"></script>
 <script type="text/javascript" src="js/spec/button.spec.js"></script>
@@ -14,6 +14,7 @@ layout: default
 <script type="text/javascript" src="js/spec/dialog.spec.js"></script>
 <script type="text/javascript" src="js/spec/menu.spec.js"></script>
 <script type="text/javascript" src="js/spec/progressbar.spec.js"></script>
+<script type="text/javascript" src="js/spec/selectmenu.spec.js"></script>
 <script type="text/javascript" src="js/spec/slider.spec.js"></script>
 <script type="text/javascript" src="js/spec/spinner.spec.js"></script>
 <script type="text/javascript" src="js/spec/tabs.spec.js"></script>
@@ -106,7 +107,7 @@ layout: default
         this.jQueryUIVersions = [];
         this.knockoutVersions = ['2.2.0', '2.2.1', '2.3.0', '3.0.0', '3.1.0'];
         this.jQuery = ko.observable('1.11.1');
-        this.jQueryUI = ko.observable('1.10.4');
+        this.jQueryUI = ko.observable('1.11.0');
         this.knockout = ko.observable('3.1.0');
 
         // initialize the array of jQuery versions
@@ -123,10 +124,11 @@ layout: default
         }
         this.jQueryUIVersions.push('1.9.0', '1.9.1', '1.9.2');
         this.jQueryUIVersions.push('1.10.0', '1.10.1', '1.10.2', '1.10.3', '1.10.4');
+        this.jQueryUIVersions.push('1.11.0');
 
         this.queryParameters = parseQueryParameters();
         this.jQuery(this.queryParameters.jquery || '1.11.1');
-        this.jQueryUI(this.queryParameters.jqueryui || '1.10.4');
+        this.jQueryUI(this.queryParameters.jqueryui || '1.11.0');
         this.knockout(this.queryParameters.knockout || '3.1.0');
 
         this.submitDisabled = ko.computed(function () {

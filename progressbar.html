@@ -12,7 +12,9 @@ exampleView: |
       <option value="75">75</option>
     </select>
   </p>
-  <div style="width: 100px; height: 15px;" data-bind="progressbar: { value: value }"></div>
+  <p>
+    <div style="width: 100px; height: 15px;" data-bind="progressbar: { value: value }"></div>
+  </p>
 exampleViewModel: |
   var ViewModel = function () {
     this.selected = ko.observable('25');

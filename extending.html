@@ -4,47 +4,46 @@ layout: default
 <h2>
     Extensibility</h2>
 <p>
-    The library has a factory object that can generate bindings for any jQuery UI widget.
-    It has a single method:
+    The library uses classical JavaScript inheritance which makes adding/extending the
+    bindings relatively simple.
 </p>
-{% highlight js %}bindingFactory.create(config){% endhighlight %}
+<img src="images/class diagram.png" alt="Class diagram" />
 <p>
-    It creates the new binding based on the received configuration object. The
-    configuration object has the following properties:
+    The <strong>BindingHandler</strong> class connects the widget's options/events and the
+    view model's properties/functions.
 </p>
-<dl>
-    <dt>name</dt>
-    <dd>String. The widget's name.</dd>
-    <dt>options</dt>
-    <dd>Array of strings. Names of the widget's options. The factory creates a binding
-    option for each of the widget's options. When any of their values change, the binding
-    will set the widget's corresponding option to the new value.</dd>
-    <dt>events</dt>
-    <dd>Array of strings. Names of the widget's events. The factory creates a binding 
-    option for each of the widget's events. Their values have to be functions. The binding
-    will bind them to the widget's events.</dd>
-    <dt>hasRefresh</dt>
-    <dd>Boolean, optional. Indicates whether the widget has a refresh() method. Most of
-    the jQuery UI widgets has. When set to true, then the factory creates a binding option
-    named 'refresh'. Changes in the value of this option will cause the binding to invoke
-    the widget's refresh() method. This is useful for refreshing container-like widgets
-    (tabs, accordion) when their items change. See the example on the tabs binding's
-    documentation.</dd>
-    <dt>preInit</dt>
-    <dd>Function, optional. The binding will invoke this function before it initializes
-    the widget.</dd>
-    <dt>postInit</dt>
-    <dd>Function, optional. The binding will invoke this function after it initializes the
-    widget. This is used for implementing the bindings' non-standard options, e.g. the
-    dialog binding's isOpen option.</dd>
-</dl>
+<p>
+    Properties:
+</p>
+<ul>
+    <li><i>widgetName</i>: Widget name</li>
+    <li><i>widgetEventPrefix</i>: Basically when the widget triggers an event it prefixes
+    the event name with this string. Actually the algorithm of constructing the event name
+    is more complex, you can find it in jQuery UI's Widget._trigger() method. This
+    property is only used by BindingHandler.on()</li>
+    <li><i>options</i>: Names of the widget's options.</li>
+    <li><i>events</i>: Names of the widget's events.</li>
+    <li><i>hasRefresh</i>: Does the widget have a refresh() function?</li>
+</ul>
+<p>
+    Methods:
+</p>
+<ul>
+    <li><i>init</i>: The binding's "init" callback as described in knockout's <a href="http://knockoutjs.com/documentation/custom-bindings.html">documentation</a>.</li>
+    <li><i>update</i>: The binding's "update" callback as described in knockout's <a href="http://knockoutjs.com/documentation/custom-bindings.html">documentation</a>.</li>
+    <li><i>on</i>: Helper method which subscribes to a widget-triggered event.</li>
+</ul>
 <h3>
     Simple widgets</h3>
 <p>
-    To create a binding for a widget you should invoke the factory object's create()
-    method with the widget-specific configuration object. The example below creates a
-    simple widget which changes the color of its element. Then a binding is created for
-    the widget.
+    To create a binding for a new widget you should derive a new class from BindingHandler,
+    set the <i>options</i>, <i>events</i> and <i>hasRefresh</i> properties, and optionally
+    override the <i>init()</i> and/or <i>update()</i> methods.
+</p>
+<img src="images/class diagram simple.png" alt="Class diagram for simple widgets" />
+<p>
+    The example below creates a simple widget which changes the color of its element.
+    Then a binding is created for the widget.
 </p>
 <h4>
     HTML</h4>
@@ -64,10 +63,11 @@ ko.applyBindings(vm1, document.getElementById("example1"));
 <h3>
     Derived widgets</h3>
 <p>
-    The factory copies the configuration object to the created binding's config
-    property.
-    This simplifies creating bindings for derived widgets; you can reuse the base
-    binding's configuration object.
+    Creating a binding for derived widgets is similar to creating bindings for simple
+    widgets, but you should derive from the widget's binding handler instead of BindingHandler.
+</p>
+<img src="images/class diagram derived.png" alt="Class diagram for derived widgets" />
+<p>
     The lengthy example below extends the dialog widget with a minimize/restore
     functionality, then creates a binding for it.
 </p>

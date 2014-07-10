@@ -4,9 +4,8 @@ layout: default
 <h2>
     Installation</h2>
 <p>
-    Knockout-jQueryUI can be used simply by referencing it in a script tag, but it
-    also registers itself as a CommonJS- or an anonymous AMD module in the presence of a
-    module loading system.
+    Knockout-jQueryUI has separate builds for referencing it in a script tag and for
+    using its binding handlers as AMD modules.
 </p>
 <h3>
     Script tag</h3>
@@ -17,45 +16,98 @@ layout: default
 <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
-<script src="js/lib/knockout-jqueryui.js"></script>
+<script src="lib/knockout-jqueryui/knockout-jqueryui.js"></script>
 {% endhighlight %}
 <h3>
-    With RequireJS</h3>
+    AMD</h3>
 <p>
-    Knockout-jQueryUI registers itself as an anonymous module which depends on the
-    'jquery', 'jquery-ui' and 'knockout' modules.
+    The binding handlers are separate AMD modules which only depend on the related jQuery
+    UI widgets. The simplest case is when jQuery UI is also modularized. As of jQuery UI
+    1.11, all of the library's source files are AMD modules. You can also modularize the
+    earlier versions using the https://github.com/jrburke/jqueryui-amd tool.
 </p>
+<h4>
+    Directory Structure</h4>
 <p>
-    index.html:
+    Now arrange the files into a similar directory structure:
+</p>
+<pre>
+├── index.html
+├── app
+│   ├── main.js
+│   └── viewModel.js
+└── lib
+    ├── jquery
+    │   └──  jquery.min.js
+    ├── jquery-ui
+    │   ├── accordion.js
+    │   ├── autocomplete.js
+    │   ├── ...
+    │   └── tooltip.js
+    ├── knockout
+    │   └──  knockout-3.1.0.js
+    ├── knockout-jqueryui
+    │   ├── accordion.js
+    │   ├── autocomplete.js
+    │   ├── ...
+    │   └── tooltip.js
+    └── requirejs
+        └──  require.js
+</pre>
+<h4>
+    Loading the Application</h4>
+<p>
+    Your index.html should look like this:
 </p>
 {% highlight html %}
 <html>
     <head>
-        <script type="text/javascript" data-main="main.js" src="lib/require.js"></script>
     </head>
     <body>
-        <div data-bind="button: {label: 'Test'}"></div>
+        ...
+        <script src="lib/requirejs/require.js" data-main="app/main"></script>
     </body>
 </html>
 {% endhighlight %}
+<h4>
+    RequireJS Configuration</h4>
 <p>
-    main.js:
+    You have to configure RequireJS and bootstrap your application in app/main.js:
 </p>
 {% highlight js %}
 require.config({
     paths: {
-        'jquery': '//code.jquery.com/jquery-1.9.1.min.js',
-        'jquery-ui': '//code.jquery.com/ui/1.10.3/jquery-ui.min.js',
-        'knockout': '//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js',
+        'jquery': 'lib/jquery/jquery.min',
+        'jquery-ui': 'lib/jquery-ui',
+        'knockout': 'lib/knockout/knockout-3.1.0',
         'knockout-jqueryui': '/lib/knockout-jqueryui'
-    },
-    shim: {
-        'knockout' : ['jquery'],
-        'jquery-ui': ['jquery']
     }
 });
 
-require(['knockout', 'knockout-jqueryui'], function (ko) {
-    ko.applyBindings();
+require(['knockout', 'app/viewModel'], function (ko, ViewModel) {
+    ko.applyBindings(new ViewModel);
 });
 {% endhighlight %}
+<h4>
+    Using the Modules</h4>
+<p>
+    Now you can require the individual bindings in the view model's module. The bindings
+    declare dependencies to the appropriate jQuery UI modules, you don't need to
+    explicitly require them.
+</p>
+{% highlight js %}
+define(['knockout', 'knockout-jqueryui/button'], function (ko) {
+    var ViewModel = function () {
+        ...
+    };
+    ...
+    return ViewModel;
+});
+{% endhighlight %}
+<h4>
+    Example</h4>
+<p>
+    There is an example setup in the project's
+    <a href="https://github.com/gvas/knockout-jqueryui/tree/master/examples/amd">github
+    repository</a>.
+</p>

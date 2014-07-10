@@ -5,13 +5,30 @@
 
     describe('The menu binding', function () {
         it('should handle each option of the widget', function () {
-            testWidgetOptions('menu', {
+
+            var optionsToTest = {
                 disabled: [false, true],
                 icons: [{ submenu: 'ui-icon-carat-1-e' }, { submenu: 'ui-icon-circle-triangle-e'}],
                 menus: ['ul', 'div'],
                 position: [{ my: 'left top', at: 'right top' }, { my: 'left top', at: 'right-5 top+5'}],
                 role: ['menu', null]
-            });
+            };
+
+            /*jslint white:true*/
+            switch (getMajorMinorVersion($.ui.version)) {
+                case '1.8':
+                case '1.9':
+                case '1.10':
+                    break;
+                default:
+                    $.extend(optionsToTest, {
+                        items: ['> *', '> li']
+                    });
+                    break;
+            }
+            /*jslint white:false*/
+
+            testWidgetOptions('menu', optionsToTest);
         });
 
         it('should handle each event of the widget', function () {

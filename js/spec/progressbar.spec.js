@@ -13,8 +13,9 @@
 
             /*jslint white:true*/
             switch (getMajorMinorVersion($.ui.version)) {
-                case '1.9':
-                case '1.10':
+                case '1.8':
+                    break;
+                default:
                     $.extend(optionsToTest, {
                         max: [0, 50]
                     });

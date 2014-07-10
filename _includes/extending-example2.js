@@ -60,36 +60,29 @@ $.widget("custom.minidialog", $.ui.dialog, {
     }
 });
 
-// clones and extends the dialog binding's configuration object
-var config = $.extend(true, {}, ko.bindingHandlers.dialog.config);
-config.name = "minidialog";
-config.events.push("minimize", "restore");
-config.postInit = function (element, valueAccessor) {
+// The binding's constructor function.
+var Minidialog = function () {
+    // invoke the base class's constructor
+    kojqui.Dialog.call(this);
+
+    // override/extend the base class's properties
+    this.widgetName = "minidialog";
+    this.widgetEventPrefix = "minidialog";
+    this.events.push("minimize", "restore");
+};
+
+// Set the prototype chain. kojqui.utils.createObject() is a simple wrapper around
+// Object.create() which also works with pre-ES5 browsers.
+Minidialog.prototype = kojqui.utils.createObject(kojqui.Dialog.prototype);
+Minidialog.prototype.constructor = Minidialog;
+
+Minidialog.prototype.init = function (element, valueAccessor) {
     var value = valueAccessor();
 
-    // copied from the dialog binding's source, changed the widget- and event names
-    if (value.isOpen) {
-        ko.computed({
-            read: function () {
-                if (ko.utils.unwrapObservable(value.isOpen)) {
-                    $(element).minidialog('open');
-                } else {
-                    $(element).minidialog('close');
-                }
-            },
-            disposeWhenNodeIsRemoved: element
-        });
-    }
-    if (ko.isWriteableObservable(value.isOpen)) {
-        $(element).on('minidialogopen.minidialog', function () {
-            value.isOpen(true);
-        });
-        $(element).on('minidialogclose.minidialog', function () {
-            value.isOpen(false);
-        });
-    }
+    // invokes the base class's init() method
+    kojqui.Dialog.prototype.init.apply(this, arguments);
 
-    // keeps the viewmodel's minimized observable in sync with the widget's state
+    // connects the viewmodel's 'minimized' observable to the widget
     if (value.minimized) {
         ko.computed({
             read: function () {
@@ -103,22 +96,21 @@ config.postInit = function (element, valueAccessor) {
         });
     }
     if (ko.isWriteableObservable(value.minimized)) {
-        $(element).on('minidialogminimize.minidialog', function () {
+        this.on(element, 'minimize', function () {
             value.minimized(true);
         });
-        $(element).on('minidialogrestore.minidialog', function () {
+        this.on(element, 'restore', function () {
             value.minimized(false);
         });
     }
 
-    // handles disposal
-    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-        $(element).off('.minidialog');
-    });
+    return { controlsDescendantBindings: true };
 };
-// creates the minidialog binding
-kojqui.bindingFactory.create(config);
 
+// Register the new binding handler with knockout.
+kojqui.utils.register(Minidialog);
+
+// It's time to test our new widget and binding handler.
 vm2 = {
     minimized: ko.observable(false),
     isOpen: ko.observable(false)

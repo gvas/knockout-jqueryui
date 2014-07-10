@@ -1,0 +1,40 @@
+---
+layout: default
+name: selectmenu
+description: Duplicates and extends the functionality of a native HTML select element to overcome the limitations of the native control.
+widgetApi: http://api.jqueryui.com/selectmenu
+hasRefresh: true
+extraParameters:
+    - name: isOpen [two-way binding]
+      description: Controls whether the menu is open.
+exampleView: |
+  <select data-bind="selectmenu: { width: 300, isOpen: isOpen, refreshOn: items, select: select }">
+    <!-- ko foreach: items -->
+    <option data-bind="attr: { 'value': id }, text: text"></option>
+    <!-- /ko -->
+  </select>
+  <br />
+  <p>
+    <input id="isOpen" name="isOpen" type="checkbox" data-bind="checked: isOpen" />
+    <label for="isOpen">Is open</label>
+    <br />
+    <span>Selected: </span><span data-bind="text: selected">
+  </p>
+exampleViewModel: |
+  var ViewModel = function () {
+    this.isOpen = ko.observable(false);
+    this.items = ko.observableArray([
+        { id: 1, text: 'First'},
+        { id: 2, text: 'Second'},
+        { id: 3, text: 'Third'},
+        { id: 4, text: 'Fourth'},
+    ]);
+    this.selected = ko.observable(this.items()[0].text);
+  };
+
+  ViewModel.prototype.select = function(ev, ui) {
+    this.selected(ui.item.label);
+  }
+---
+{% include parameters.html %}
+{% include example.html %}

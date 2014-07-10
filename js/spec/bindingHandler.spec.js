@@ -1,38 +1,11 @@
 /*global ko, kojqui, $, jasmine, describe, it, beforeEach, afterEach, spyOn, expect*/
 /*jslint maxlen:256*/
 (function () {
+
     'use strict';
 
-    describe('The binding factory', function () {
-        afterEach(function () {
-            delete $.fn.test;
-            delete ko.bindingHandlers.test;
-        });
-
-        it('should skip non-existent widgets', function () {
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
-
-            expect(ko.bindingHandlers.test).not.toBeDefined();
-        });
-
-        it('should create binding for an existing widget', function () {
-            $.fn.test = jasmine.createSpy();
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
-
-            expect(ko.bindingHandlers.test).toBeDefined();
-        });
-    });
-
     describe('The binding handler', function () {
-        var $element;
+        var createBindingHandler, $element;
 
         afterEach(function () {
             $element.remove();
@@ -40,101 +13,31 @@
             delete ko.bindingHandlers.test;
         });
 
+        createBindingHandler = function (options, events, hasRefresh) {
+            var Ctor;
+
+            Ctor = function () {
+                kojqui.BindingHandler.call(this, 'test');
+                this.options = options || [];
+                this.events = events || [];
+                this.hasRefresh = hasRefresh || false;
+            };
+
+            Ctor.prototype = kojqui.utils.createObject(kojqui.BindingHandler.prototype);
+            Ctor.prototype.constructor = Ctor;
+
+            kojqui.utils.register(Ctor);
+        };
+
         it('should instantiate the widget', function () {
             $element = $('<div data-bind="test: {}"></div>').prependTo('body');
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
+            createBindingHandler();
 
             ko.applyBindings({}, $element[0]);
 
             expect($.fn.test).toHaveBeenCalled();
-        });
-
-        it('should invoke the callbacks added to the preInitHandlers array', function () {
-            var callback1, callback2;
-
-            $element = $('<div data-bind="test: {}"></div>').prependTo('body');
-            $.fn.test = function () { };
-            callback1 = jasmine.createSpy();
-            callback2 = jasmine.createSpy();
-
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: [],
-                preInit: callback1
-            });
-            ko.bindingHandlers.test.preInitHandlers.push(callback2);
-
-            expect(callback1).not.toHaveBeenCalled();
-            expect(callback2).not.toHaveBeenCalled();
-
-            ko.applyBindings({}, $element[0]);
-
-            expect(callback1).toHaveBeenCalled();
-            expect(callback2).toHaveBeenCalled();
-        });
-
-        it('should invoke the callbacks added to the postInitHandlers array', function () {
-            var callback1, callback2;
-
-            $element = $('<div data-bind="test: {}"></div>').prependTo('body');
-            $.fn.test = function () { };
-            callback1 = jasmine.createSpy();
-            callback2 = jasmine.createSpy();
-
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: [],
-                postInit: callback1
-            });
-            ko.bindingHandlers.test.postInitHandlers.push(callback2);
-
-            expect(callback1).not.toHaveBeenCalled();
-            expect(callback2).not.toHaveBeenCalled();
-
-            ko.applyBindings({}, $element[0]);
-
-            expect(callback1).toHaveBeenCalled();
-            expect(callback2).toHaveBeenCalled();
-        });
-
-        it('should invoke the preInit callback before the widget instantiation', function () {
-            $element = $('<div data-bind="test: {}"></div>').prependTo('body');
-            $.fn.test = jasmine.createSpy();
-
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: [],
-                preInit: function () {
-                    expect($.fn.test).not.toHaveBeenCalled();
-                }
-            });
-
-            ko.applyBindings({}, $element[0]);
-        });
-
-        it('should invoke the postInit callback after the widget instantiation', function () {
-            $element = $('<div data-bind="test: {}"></div>').prependTo('body');
-            $.fn.test = jasmine.createSpy();
-
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: [],
-                postInit: function () {
-                    expect($.fn.test).toHaveBeenCalled();
-                }
-            });
-
-            ko.applyBindings({}, $element[0]);
         });
 
         it('should apply the descendant DOM elements\' bindings before instantiating the widget', function () {
@@ -148,11 +51,7 @@
                 expect(ko.bindingHandlers.descendantBindingHandler.init).toHaveBeenCalled();
             };
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
+            createBindingHandler();
 
             ko.applyBindings({}, $element[0]);
 
@@ -167,11 +66,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: ['foo'],
-                events: []
-            });
+            createBindingHandler(['foo']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -197,11 +92,7 @@
                 }
             };
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: ['bar']
-            });
+            createBindingHandler([], ['bar']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -218,11 +109,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: ['foo'],
-                events: []
-            });
+            createBindingHandler(['foo']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -241,11 +128,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: ['foo'],
-                events: []
-            });
+            createBindingHandler(['foo']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -260,11 +143,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: ['foo'],
-                events: []
-            });
+            createBindingHandler(['foo']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -284,11 +163,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: ['foo', 'bar'],
-                events: []
-            });
+            createBindingHandler(['foo', 'bar']);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -307,12 +182,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: [],
-                hasRefresh: true
-            });
+            createBindingHandler([], [], true);
 
             ko.applyBindings(vm, $element[0]);
 
@@ -328,11 +198,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
+            createBindingHandler();
 
             ko.applyBindings(vm, $element[0]);
 
@@ -348,11 +214,7 @@
 
             $.widget('ui.test', {});
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
+            createBindingHandler();
 
             ko.applyBindings(vm, $element[0]);
 
@@ -364,11 +226,7 @@
 
             $.fn.test = jasmine.createSpy();
 
-            kojqui.bindingFactory.create({
-                name: 'test',
-                options: [],
-                events: []
-            });
+            createBindingHandler(['foo']);
 
             ko.applyBindings({}, $element[0]);
 
@@ -377,4 +235,4 @@
             expect($.fn.test).toHaveBeenCalledWith('destroy');
         });
     });
-} ());
+}());
