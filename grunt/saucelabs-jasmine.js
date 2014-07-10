@@ -58,9 +58,7 @@ module.exports = function (grunt, options) {
                     ].join('&');
 
                     testUrls.push(
-                        'http://127.0.0.1:9999/spec/runner-1.html?' + queryString,
-                        'http://127.0.0.1:9999/spec/runner-2.html?' + queryString,
-                        'http://127.0.0.1:9999/spec/runner-3.html?' + queryString
+                        'http://127.0.0.1:9999/spec/runner-all.html?' + queryString
                     );
                 }
             });
@@ -86,7 +84,7 @@ module.exports = function (grunt, options) {
                     return q.reject('Failed to fetch Selenium log for job ' + jobId);
                 }
 
-                re = /runner-([123])\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
+                re = /runner-all\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
                 matches = body.match(re);
                 if (matches) {
                     grunt.log.writeln('Updating job\'s tags and name.');
@@ -95,10 +93,9 @@ module.exports = function (grunt, options) {
                         auth: auth,
                         json: {
                             tags: [
-                                '#:' + matches[1],
-                                'jq:' + matches[2],
-                                'jqui:' + matches[3],
-                                'ko:' + matches[4]
+                                'jq:' + matches[1],
+                                'jqui:' + matches[2],
+                                'ko:' + matches[3]
                             ]
                         }
                     });
