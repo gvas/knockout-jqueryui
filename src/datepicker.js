@@ -30,6 +30,7 @@ define(
                 'showOtherMonths', 'showWeek', 'stepMonths', 'weekHeader', 'yearRange',
                 'yearSuffix', 'beforeShow', 'beforeShowDay', 'onChangeMonthYear',
                 'onClose', 'onSelect'];
+            this.hasRefresh = true;
         };
 
         Datepicker.prototype = utils.createObject(BindingHandler.prototype);
