@@ -10,25 +10,23 @@ define(
         'jquery-ui/dialog'
     ],
 
-    function ($, ko, BindingHandler, utils, dialog) {
+    function ($, ko, BindingHandler, utils) {
 
         'use strict';
 
         var Dialog = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(dialog.version);
-
             BindingHandler.call(this, 'dialog');
 
-            if (version.major === 1 && version.minor === 8) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
                 this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
                     'dialogClass', 'disabled', 'draggable', 'height', 'maxHeight',
                     'maxWidth', 'minHeight', 'minWidth', 'modal', 'position', 'resizable',
                     'show', 'stack', 'title', 'width', 'zIndex'];
                 this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
                     'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
-            } else if (version.major === 1 && version.minor === 9) {
+            } else if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 9) {
                 this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
                     'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
                     'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
@@ -78,19 +76,20 @@ define(
                 ko.computed({
                     read: function () {
                         if (ko.utils.unwrapObservable(value.isOpen)) {
-                            $(element).dialog('open');
+                            $(element)[this.widgetName]('open');
                         } else {
-                            $(element).dialog('close');
+                            $(element)[this.widgetName]('close');
                         }
                     },
-                    disposeWhenNodeIsRemoved: element
+                    disposeWhenNodeIsRemoved: element,
+                    owner: this
                 });
             }
             if (ko.isWriteableObservable(value.isOpen)) {
-                $(element).on('dialogopen.dialog', function () {
+                this.on(element, 'open', function () {
                     value.isOpen(true);
                 });
-                $(element).on('dialogclose.dialog', function () {
+                this.on(element, 'close', function () {
                     value.isOpen(false);
                 });
             }
@@ -98,7 +97,7 @@ define(
             // make the width option two-way
             if (ko.isWriteableObservable(value.width)) {
                 /*jslint unparam:true*/
-                $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                this.on(element, 'resizestop', function (ev, ui) {
                     value.width(Math.round(ui.size.width));
                 });
                 /*jslint unparam:false*/
@@ -107,16 +106,11 @@ define(
             // make the height option two-way
             if (ko.isWriteableObservable(value.height)) {
                 /*jslint unparam:true*/
-                $(element).on('dialogresizestop.dialog', function (ev, ui) {
+                this.on(element, 'resizestop', function (ev, ui) {
                     value.height(Math.round(ui.size.height));
                 });
                 /*jslint unparam:false*/
             }
-
-            // handle disposal
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).off('.dialog');
-            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };

@@ -30,6 +30,7 @@ define(
                 'showOtherMonths', 'showWeek', 'stepMonths', 'weekHeader', 'yearRange',
                 'yearSuffix', 'beforeShow', 'beforeShowDay', 'onChangeMonthYear',
                 'onClose', 'onSelect'];
+            this.hasRefresh = true;
         };
 
         Datepicker.prototype = utils.createObject(BindingHandler.prototype);
@@ -42,20 +43,21 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var options, value, subscription, origOnSelect;
+            var widgetName, options, value, subscription, origOnSelect;
 
             BindingHandler.prototype.init.apply(this, arguments);
 
+            widgetName = this.widgetName;
             options = valueAccessor();
             value = ko.utils.unwrapObservable(options.value);
 
             if (value) {
-                $(element).datepicker('setDate', value);
+                $(element)[widgetName]('setDate', value);
             }
 
             if (ko.isObservable(options.value)) {
                 subscription = options.value.subscribe(function (newValue) {
-                    $(element).datepicker('setDate', newValue);
+                    $(element)[widgetName]('setDate', newValue);
                 });
 
                 ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
@@ -64,11 +66,11 @@ define(
             }
 
             if (ko.isWriteableObservable(options.value)) {
-                origOnSelect = $(element).datepicker('option', 'onSelect');
-                $(element).datepicker('option', 'onSelect', function (selectedText) {
+                origOnSelect = $(element)[widgetName]('option', 'onSelect');
+                $(element)[widgetName]('option', 'onSelect', function (selectedText) {
                     var format, date;
 
-                    format = $(element).datepicker('option', 'dateFormat');
+                    format = $(element)[widgetName]('option', 'dateFormat');
                     date = $.datepicker.parseDate(format, selectedText);
                     options.value(date);
 

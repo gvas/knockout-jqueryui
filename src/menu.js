@@ -7,22 +7,16 @@ define(
         'jquery-ui/menu'
     ],
 
-    function (BindingHandler, utils, widget) {
+    function (BindingHandler, utils) {
 
         'use strict';
 
         var Menu = function () {
             /// <summary>Constructor.</summary>
 
-            var version;
-
             BindingHandler.call(this, 'menu');
 
-            if (widget) {
-                version = utils.parseVersionString(widget.version);
-            }
-
-            if (version && version.major === 1 && version.minor < 11) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor < 11) {
                 this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
             } else {
                 this.options = ['disabled', 'icons', 'items', 'menus', 'position',

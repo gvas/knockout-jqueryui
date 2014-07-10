@@ -7,21 +7,19 @@ define(
         'jquery-ui/autocomplete'
     ],
 
-    function (BindingHandler, utils, autocomplete) {
+    function (BindingHandler, utils) {
 
         'use strict';
 
         var Autocomplete = function () {
             /// <summary>Constructor.</summary>
 
-            var version = utils.parseVersionString(autocomplete.version);
-
             BindingHandler.call(this, 'autocomplete');
 
             this.options = ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength',
                 'position', 'source'];
 
-            if (version.major === 1 && version.minor === 8) {
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
                 this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
                     'select'];
             } else {
