@@ -65,10 +65,12 @@
             expect(position.at).toEqual('center');
             expect(position.of).toEqual(window);
 
-            vm.position('center');
+            vm.position({ my: "left top", at: "left bottom", of: window });
 
             position = $element.dialog('option', 'position');
-            expect(position).toEqual('center');
+            expect(position.my).toEqual('left top');
+            expect(position.at).toEqual('left bottom');
+            expect(position.of).toEqual(window);
 
             ko.removeNode($element[0]);
         });
@@ -137,4 +139,4 @@
             ko.removeNode($element[0]);
         });
     });
-}());
+} ());
