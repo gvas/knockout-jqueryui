@@ -9,8 +9,8 @@ module.exports = function (grunt) {
             coreFiles: ['src/utils.js', 'src/bindingHandler.js'],
             widgets: ['src/accordion.js', 'src/autocomplete.js', 'src/button.js',
                 'src/buttonset.js', 'src/datepicker.js', 'src/dialog.js', 'src/menu.js',
-                'src/progressbar.js', 'src/slider.js', 'src/spinner.js', 'src/tabs.js',
-                'src/tooltip.js']
+                'src/progressbar.js', 'src/selectmenu.js', 'src/slider.js',
+                'src/spinner.js', 'src/tabs.js', 'src/tooltip.js']
         }
     });
 };

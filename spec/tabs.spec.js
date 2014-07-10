@@ -5,7 +5,7 @@
 
     describe('The tabs binding', function () {
 
-        var testOptions18, testOptions19, testSelectedOption, testActiveOption, testEvents, testWidget, testNested18, testNested19;
+        var testOptions18, testOptions, testSelectedOption, testActiveOption, testEvents, testWidget, testNested18, testNested;
 
         testOptions18 = function () {
 
@@ -23,7 +23,7 @@
             });
         };
 
-        testOptions19 = function () {
+        testOptions = function () {
 
             testWidgetOptions('tabs', {
                 collapsible: [false, true],
@@ -136,7 +136,7 @@
             ko.removeNode($element[0]);
         };
 
-        testNested19 = function () {
+        testNested = function () {
             var $element, vm;
 
             $element = $('<div data-bind="tabs: { active: outerActive }">' +
@@ -184,13 +184,12 @@
                 it('should write the element to the widget observable', testWidget);
                 it('should be able to handle nested tabs', testNested18);
                 break;
-            case '1.9':
-            case '1.10':
-                it('should handle each option of the widget', testOptions19);
+            default:
+                it('should handle each option of the widget', testOptions);
                 it('should handle the active option', testActiveOption);
                 it('should handle each event of the widget', testEvents);
                 it('should write the element to the widget observable', testWidget);
-                it('should be able to handle nested tabs', testNested19);
+                it('should be able to handle nested tabs', testNested);
                 break;
         }
         /*jslint white:false*/

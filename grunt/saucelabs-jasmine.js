@@ -45,7 +45,7 @@ module.exports = function (grunt, options) {
     // knockout
     testUrls = [];
     ['1.8.3', '1.10.2'].forEach(function (jQueryVersion) {
-        ['1.8.24', '1.9.2', '1.10.4'].forEach(function (jQueryUIVersion) {
+        ['1.8.24', '1.9.2', '1.10.4', '1.11.0'].forEach(function (jQueryUIVersion) {
             ['2.2.0', '3.1.0'].forEach(function (knockoutVersion) {
                 var queryString;
 

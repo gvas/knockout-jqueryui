@@ -41,7 +41,7 @@
                         zIndex: [1000, 100]
                     });
                     break;
-                case '1.10':
+                default:
                     $.extend(optionsToTest, {
                         hide: [null, 3]
                     });
