@@ -1,49 +1,70 @@
-/*global $, ko, versions, bindingFactory*/
-(function () {
-    'use strict';
+/*global define*/
+define(
 
-    var eventToWatch, postInit, options, events, hasRefresh;
+    [
+        'jquery',
+        'knockout',
+        './utils',
+        './bindingHandler',
+        'jquery-ui/accordion'
+    ],
 
-    postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the active binding property in sync with the widget's state.
-        /// </summary>
-        /// <param name='element' type='DOMNode'></param>
-        /// <param name='valueAccessor' type='Function'></param>
+    function ($, ko, utils, BindingHandler, widget) {
 
-        var value = valueAccessor();
+        'use strict';
 
-        if (ko.isWriteableObservable(value.active)) {
-            $(element).on(eventToWatch, function () {
-                value.active($(element).accordion('option', 'active'));
-            });
-        }
+        var Accordion = function () {
+            /// <summary>Constructor.</summary>
 
-        //handle disposal
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.accordion');
-        });
-    };
+            var version = utils.parseVersionString(widget.version);
 
-    if (versions.jQueryUI.major === 1 && versions.jQueryUI.minor === 8) {
-        options = ['active', 'animated', 'autoHeight', 'clearStyle', 'collapsible',
-            'disabled', 'event', 'fillSpace', 'header', 'icons', 'navigation',
-            'navigationFilter'];
-        events = ['change', 'changestart', 'create'];
-        hasRefresh = false;
-        eventToWatch = 'accordionchange.accordion';
-    } else {
-        options = ['active', 'animate', 'collapsible', 'disabled', 'event', 'header',
-            'heightStyle', 'icons'];
-        events = ['activate', 'beforeActivate', 'create'];
-        hasRefresh = true;
-        eventToWatch = 'accordionactivate.accordion';
+            BindingHandler.call(this, 'accordion');
+
+            if (version.major === 1 && version.minor === 8) {
+                this.options = ['active', 'animated', 'autoHeight', 'clearStyle',
+                    'collapsible', 'disabled', 'event', 'fillSpace', 'header', 'icons',
+                    'navigation', 'navigationFilter'];
+                this.events = ['change', 'changestart', 'create'];
+                this.hasRefresh = false;
+                this.eventToWatch = 'change';
+            } else {
+                this.options = ['active', 'animate', 'collapsible', 'disabled', 'event',
+                    'header', 'heightStyle', 'icons'];
+                this.events = ['activate', 'beforeActivate', 'create'];
+                this.hasRefresh = true;
+                this.eventToWatch = 'activate';
+            }
+        };
+
+        Accordion.prototype = utils.createObject(BindingHandler.prototype);
+        Accordion.prototype.constructor = Accordion;
+
+        Accordion.prototype.init = function (element, valueAccessor) {
+            /// <summary>Keeps the active binding property in sync with the widget's
+            /// state.</summary>
+            /// <param name='element' type='DOMNode'></param>
+            /// <param name='valueAccessor' type='Function'></param>
+            /// <returns type='Object'></returns>
+
+            var widgetName, value;
+
+            widgetName = this.widgetName;
+            value = valueAccessor();
+
+            BindingHandler.prototype.init.apply(this, arguments);
+
+            if (ko.isWriteableObservable(value.active)) {
+                this.on(element, this.eventToWatch, function () {
+                    value.active($(element)[widgetName]('option', 'active'));
+                });
+            }
+
+            // the inner elements have already been taken care of
+            return { controlsDescendantBindings: true };
+        };
+
+        utils.register(Accordion);
+
+        return Accordion;
     }
-
-    bindingFactory.create({
-        name: 'accordion',
-        options: options,
-        events: events,
-        postInit: postInit,
-        hasRefresh: hasRefresh
-    });
-}());
+);

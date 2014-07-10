@@ -46,8 +46,6 @@
             vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', headerSelected: 'ui-icon-triangle-1-s' }) };
             ko.applyBindings(vm, $element[0]);
 
-            jasmine.log('option: icons');
-
             icons = $element.accordion('option', 'icons');
             expect(icons.header).toEqual('ui-icon-triangle-1-e');
             expect(icons.headerSelected).toEqual('ui-icon-triangle-1-s');
@@ -67,8 +65,6 @@
             $element = $('<div data-bind="accordion: { icons: icons }"></div>').prependTo('body');
             vm = { icons: ko.observable({ header: 'ui-icon-triangle-1-e', activeHeader: 'ui-icon-triangle-1-s' }) };
             ko.applyBindings(vm, $element[0]);
-
-            jasmine.log('option: icons');
 
             icons = $element.accordion('option', 'icons');
             expect(icons.header).toEqual('ui-icon-triangle-1-e');
@@ -91,7 +87,6 @@
             vm = { active: ko.observable(0) };
             ko.applyBindings(vm, $element[0]);
 
-            jasmine.log('option: active');
             expect($element.accordion('option', 'active')).toEqual(0);
             vm.active(1);
             expect($element.accordion('option', 'active')).toEqual(1);
