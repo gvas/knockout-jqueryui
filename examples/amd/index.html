@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Knockout-jQueryUI with AMD</title>
+    <link href='lib/jquery-ui/themes/base/all.css' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <button data-bind="button: {}, click: click">Click me</button>
+    <br/>
+    <ul data-bind="foreach: log">
+        <li data-bind="text: $data"></li>
+    </ul>
+    <script src="lib/requirejs/require.js" data-main="app/main"></script>
+</body>
+</html>

@@ -1,12 +1,12 @@
 /*jslint maxlen:256 node:true*/
+
+'use strict';
+
 module.exports = function (grunt) {
-
-    'use strict';
-
     // the default task builds the library
-    grunt.registerTask('default', ['jshint:beforeconcat', 'concat', 'jshint:afterconcat', 'uglify']);
+    grunt.registerTask('default', ['jshint:beforeconcat', 'concat', 'jshint:afterconcat', 'uglify', 'compress']);
     // the dev task spins up a web server on localhost:9999
     grunt.registerTask('dev', ['connect', 'watch']);
     // the test task builds the library and starts the jasmine tests on SauceLabs
-    grunt.registerTask('test', ['default', 'connect', 'force:on', 'saucelabs-jasmine', 'force:restore', 'tag-jobs']);
+    grunt.registerTask('test', ['default', 'connect', 'sauce_tunnel', 'saucelabs-jasmine', 'sauce_tunnel_stop']);
 };

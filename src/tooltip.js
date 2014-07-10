@@ -1,49 +1,70 @@
-/*global $, ko, bindingFactory*/
-(function () {
-    'use strict';
+/*global define*/
+define(
 
-    var postInit;
+    [
+        'jquery',
+        'knockout',
+        './bindingHandler',
+        './utils',
+        'jquery-ui/tooltip'
+    ],
 
-    postInit = function (element, valueAccessor) {
-        /// <summary>Keeps the isOpen binding property in sync with the tooltip's state.
-        /// </summary>
-        /// <param name='element' type='DOMNode'></param>
-        /// <param name='valueAccessor' type='Function'></param>
+    function ($, ko, BindingHandler, utils) {
 
-        var value = valueAccessor();
+        'use strict';
 
-        if (value.isOpen) {
-            ko.computed({
-                read: function () {
-                    if (ko.utils.unwrapObservable(value.isOpen)) {
-                        $(element).tooltip('open');
-                    } else {
-                        $(element).tooltip('close');
-                    }
-                },
-                disposeWhenNodeIsRemoved: element
-            });
-        }
-        if (ko.isWriteableObservable(value.isOpen)) {
-            $(element).on('tooltipopen.tooltip', function () {
-                value.isOpen(true);
-            });
-            $(element).on('tooltipclose.tooltip', function () {
-                value.isOpen(false);
-            });
-        }
+        var Tooltip = function () {
+            /// <summary>Constructor.</summary>
 
-        //handle disposal
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-            $(element).off('.tooltip');
-        });
-    };
+            BindingHandler.call(this, 'tooltip');
 
-    bindingFactory.create({
-        name: 'tooltip',
-        options: ['content', 'disabled', 'hide', 'items', 'position', 'show',
-            'tooltipClass', 'track'],
-        events: ['create', 'open', 'close'],
-        postInit: postInit
-    });
-}());
+            this.options = ['content', 'disabled', 'hide', 'items', 'position', 'show',
+                'tooltipClass', 'track'];
+            this.events = ['create', 'open', 'close'];
+        };
+
+        Tooltip.prototype = utils.createObject(BindingHandler.prototype);
+        Tooltip.prototype.constructor = Tooltip;
+
+        Tooltip.prototype.init = function (element, valueAccessor) {
+            /// <summary>Keeps the isOpen binding property in sync with the tooltip's
+            /// state.
+            /// </summary>
+            /// <param name='element' type='DOMNode'></param>
+            /// <param name='valueAccessor' type='Function'></param>
+
+            var value = valueAccessor();
+
+            BindingHandler.prototype.init.apply(this, arguments);
+
+            if (value.isOpen) {
+                ko.computed({
+                    read: function () {
+                        if (ko.utils.unwrapObservable(value.isOpen)) {
+                            $(element)[this.widgetName]('open');
+                        } else {
+                            $(element)[this.widgetName]('close');
+                        }
+                    },
+                    disposeWhenNodeIsRemoved: element,
+                    owner: this
+                });
+            }
+            if (ko.isWriteableObservable(value.isOpen)) {
+                this.on(element, 'open', function () {
+                    value.isOpen(true);
+                });
+                this.on(element, 'close', function () {
+                    value.isOpen(false);
+                });
+            }
+
+            // the inner elements have already been taken care of
+            return { controlsDescendantBindings: true };
+        };
+
+        utils.register(Tooltip);
+
+        return Tooltip;
+    }
+);

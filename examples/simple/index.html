@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Knockout-jQueryUI with script tag</title>
+    <link href='http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://knockoutjs.com/downloads/knockout-3.1.0.js"></script>
+    <script type="text/javascript" src="lib/knockout-jqueryui/knockout-jqueryui.min.js"></script>
+</head>
+<body>
+    <button data-bind="button: {}, click: click">Click me</button>
+    <br/>
+    <ul data-bind="foreach: log">
+        <li data-bind="text: $data"></li>
+    </ul>
+    <script type="text/javascript">
+        var ViewModel = function () {
+            this.log = ko.observableArray();
+        };
+
+        ViewModel.prototype.click = function () {
+            this.log.push('Clicked at ' + (new Date()).toString());
+        };
+
+        ko.applyBindings(new ViewModel());
+    </script>
+</body>
+</html>
