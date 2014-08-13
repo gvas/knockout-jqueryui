@@ -23,6 +23,7 @@ define(
                 this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
                     'select'];
             } else {
+                this.options.push('messages');
                 this.events = ['change', 'close', 'create', 'focus', 'open', 'response',
                     'search', 'select'];
             }
