@@ -16,7 +16,7 @@ define(
 
             BindingHandler.call(this, 'autocomplete');
 
-            this.options = ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength',
+            this.options = ['appendTo', 'autoFocus', 'delay', 'disabled', 'messages', 'minLength',
                 'position', 'source'];
 
             if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
