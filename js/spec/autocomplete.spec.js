@@ -5,7 +5,7 @@
 
     describe('The autocomplete binding', function () {
         it('should handle each option of the widget', function () {
-            testWidgetOptions('autocomplete', {
+            var optionsToTest = {
                 appendTo: ['body', ':parent'],
                 autoFocus: [false, true],
                 delay: [300, 400],
@@ -13,7 +13,27 @@
                 minLength: [1, 2],
                 position: [{ my: 'left top', at: 'left bottom', collision: 'none' }, { my: 'right top', at: 'right bottom', collision: 'none'}],
                 source: [['a', 'b'], ['1', '2']]
-            });
+            }
+
+            /*jslint white:true*/
+            switch (getMajorMinorVersion($.ui.version)) {
+                case '1.8':
+                    break;
+                default:
+                    $.extend(optionsToTest, {
+                        messages: [{
+                            noResults: "No search results.",
+                            results: function () { }
+                        }, {
+                            noResults: "Empty.",
+                            results: function () { }
+                        }]
+                    });
+                    break;
+            }
+            /*jslint white:false*/
+
+            testWidgetOptions('autocomplete', optionsToTest);
         });
 
         it('should handle each event of the widget', function () {
@@ -45,4 +65,4 @@
             ko.removeNode($element[0]);
         });
     });
-}());
+} ());
