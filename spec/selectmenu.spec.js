@@ -60,5 +60,27 @@
 
             ko.removeNode($element[0]);
         });
+
+        it('should force knockout\'s value binding to update', function () {
+            var $element, vm, autoOpen;
+
+            $element = $([
+                '<select data-bind="selectmenu: {}, value: valueObservable">',
+                '  <option value="1">One</option>',
+                '  <option value="2">Two</option>',
+                '</select>'
+            ].join('')).prependTo('body');
+            vm = { valueObservable: ko.observable() };
+            ko.applyBindings(vm, $element[0]);
+
+            expect(vm.valueObservable()).toEqual('1');
+
+            $('.ui-selectmenu-button').click();
+            $('.ui-selectmenu-menu .ui-menu-item:nth-child(2)').click();
+
+            expect(vm.valueObservable()).toEqual('1');
+
+            ko.removeNode($element[0]);
+        });
     });
 }());
