@@ -38,6 +38,7 @@ define(
             /// invokes the prototype's init() method
             BindingHandler.prototype.init.apply(this, arguments);
 
+            // maintain the isOpen option
             if (value.isOpen) {
                 ko.computed({
                     read: function () {
@@ -59,6 +60,13 @@ define(
                     value.isOpen(false);
                 });
             }
+
+            // Trigger a change event on the underlying select element when the user
+            // selects an option. This way knockout's value- and selectedOptions bindings
+            // can react to the change.
+            this.on(element, 'change', function () {
+                $(element).trigger('change');
+            });
 
             // the inner elements have already been taken care of
             return { controlsDescendantBindings: true };
