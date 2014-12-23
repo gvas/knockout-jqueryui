@@ -8,33 +8,32 @@ extraParameters:
     - name: isOpen [two-way binding]
       description: Controls whether the menu is open.
 exampleView: |
-  <select data-bind="selectmenu: { width: 300, isOpen: isOpen, refreshOn: items, select: select }">
-    <!-- ko foreach: items -->
-    <option data-bind="attr: { 'value': id }, text: text"></option>
-    <!-- /ko -->
+  <!-- ko foreach: items -->
+  <input type="radio" name="radios" data-bind="attr: { value: id }, checked: $parent.value" />
+  <!-- /ko -->
+  <br/>
+  <select data-bind="value: value, selectmenu: { width: 300 }, options: items, optionsValue: 'id', optionsText: 'text'">
   </select>
   <br />
-  <p>
-    <input id="isOpen" name="isOpen" type="checkbox" data-bind="checked: isOpen" />
-    <label for="isOpen">Is open</label>
-    <br />
-    <span>Selected: </span><span data-bind="text: selected">
-  </p>
 exampleViewModel: |
   var ViewModel = function () {
-    this.isOpen = ko.observable(false);
     this.items = ko.observableArray([
-        { id: 1, text: 'First'},
-        { id: 2, text: 'Second'},
-        { id: 3, text: 'Third'},
-        { id: 4, text: 'Fourth'},
+        { id: '1', text: 'First' },
+        { id: '2', text: 'Second' },
+        { id: '3', text: 'Third' },
+        { id: '4', text: 'Fourth' }
     ]);
-    this.selected = ko.observable(this.items()[0].text);
+    this.value = ko.observable('1');
   };
-
-  ViewModel.prototype.select = function(ev, ui) {
-    this.selected(ui.item.label);
-  }
 ---
 {% include parameters.html %}
+<h3>Notes</h3>
+<p>When both <i>selectmenu</i> and <i>value</i> are applied to the same <i>&lt;select&gt;</i> element,
+the two bindings cooperate. When the value of the <i>value</i> binding changes, the
+<i>selectmenu</i> widget will switch to the appropriate option, and vice versa. However with a
+pre-3.0 version of knockout it is important to declare <i>value</i> before <i>selectmenu</i>:</p>
+{% highlight html %}
+Good: <select data-bind="value: valueObservable, selectmenu: {}">...</select>
+Bad: <select data-bind="selectmenu: {}, value: valueObservable">...</select>
+{% endhighlight %}
 {% include example.html %}

@@ -5,11 +5,9 @@ description: Themable button sets.
 widgetApi: http://api.jqueryui.com/button
 hasRefresh: true
 exampleView: |
-  <div data-bind="buttonset: { refreshOn: items }">
-    <!-- ko foreach: items -->
+  <div data-bind="foreach: items, buttonset: { refreshOn: items }">
     <input type="checkbox" data-bind="attr: { id: id }" />
     <label data-bind="attr: { 'for': id }, text: label"></label>
-    <!-- /ko -->
   </div>
   <p>
     <button data-bind="click: onAdd">Add</button>
@@ -21,7 +19,10 @@ exampleViewModel: |
     this.label = id.toString();
   };
   var ViewModel = function () {
-    this.items = ko.observableArray([new ItemViewModel(1), new ItemViewModel(2)]);
+    this.items = ko.observableArray([
+      new ItemViewModel(1),
+      new ItemViewModel(2)
+    ]);
   };
   ViewModel.prototype.onAdd = function() {
     this.items.push(new ItemViewModel((++counter)));

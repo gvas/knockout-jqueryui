@@ -9,12 +9,10 @@ extraParameters:
       description: Which panel is currently open.
 exampleView: |
   <div data-bind="tabs: { refreshOn: items }">
-    <ul>
-      <!-- ko foreach: items -->
+    <ul data-bind="foreach: items">
       <li data-bind="attr: { 'aria-controls': id }">  
           <a data-bind="attr: { title: title, href: href }, text: title"></a>  
       </li>  
-      <!-- /ko -->
     </ul>
     <!-- ko foreach: items -->
     <div data-bind="attr: { id: id }">

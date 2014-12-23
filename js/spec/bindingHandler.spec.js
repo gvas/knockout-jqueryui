@@ -5,7 +5,7 @@
     'use strict';
 
     describe('The binding handler', function () {
-        var createBindingHandler, $element;
+        var createBindingHandler, $element, match;
 
         afterEach(function () {
             $element.remove();
@@ -57,6 +57,37 @@
 
             delete ko.bindingHandlers.descendantBindingHandler;
         });
+
+        it('should not throw any exception when a foreach binding is applied to the same element', function () {
+
+            var $element = $('<div data-bind="foreach: [], test: {}"></div>').prependTo('body');
+
+            $.fn.test = function () { };
+
+            createBindingHandler();
+
+            ko.applyBindings({}, $element[0]);
+        });
+
+        match = ko.version.match(/^(\d)\.(\d+)/);
+        if (match && parseInt(match[1], 10) >= 3) {
+            it('should instantiate the widget after the standard foreach binding is processed', function () {
+
+                var $element;
+
+                $element = $('<div data-bind="test: {}, foreach: []"></div>').prependTo('body');
+
+                spyOn(ko.bindingHandlers.foreach, 'init').andCallThrough();
+
+                $.fn.test = function () {
+                    expect(ko.bindingHandlers.foreach.init).toHaveBeenCalled();
+                };
+
+                createBindingHandler();
+
+                ko.applyBindings({}, $element[0]);
+            });
+        }
 
         it('should set the options specified in the binding on the widget', function () {
             var vm;
@@ -235,4 +266,4 @@
             expect($.fn.test).toHaveBeenCalledWith('destroy');
         });
     });
-}());
+} ());
