@@ -13,7 +13,11 @@ define(
 
         'use strict';
 
-        var Selectmenu = function () {
+        var domDataKey, Selectmenu;
+
+        domDataKey = '__kojqui_selectmenu_value';
+
+        Selectmenu = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'selectmenu');
@@ -27,13 +31,11 @@ define(
         Selectmenu.prototype = utils.createObject(BindingHandler.prototype);
         Selectmenu.prototype.constructor = Selectmenu;
 
-        Selectmenu.prototype.init = function (element, valueAccessor,
-            allBindingsAccessor) {
+        Selectmenu.prototype.init = function (element, valueAccessor) {
             /// <summary>Connects the view model and the widget via the isOpen property.
             // </summary>
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
-            /// <param name='allBindingsAccessor' type='Object'></param>
             /// <returns type='Object'></returns>
 
             var value, result;
@@ -66,17 +68,6 @@ define(
                 });
             }
 
-            // synchronize the selected option with knockout's standard value binding
-            if (allBindingsAccessor().hasOwnProperty('value')) {
-                ko.computed({
-                    read: function () {
-                        ko.utils.unwrapObservable(allBindingsAccessor().value);
-                        $(element).selectmenu('refresh');
-                    },
-                    disposeWhenNodeIsRemoved: element
-                });
-            }
-
             // Notify knockout's value- and selectedOptions bindings that the selected
             // option has been changed.
             this.on(element, 'change', function () {
@@ -85,6 +76,29 @@ define(
 
             return result;
         };
+
+        /*jslint unparam:true*/
+        Selectmenu.prototype.update = function (element, valueAccessor,
+            allBindingsAccessor) {
+            /// <summary>Refreshes the widget if the value binding changes.</summary>
+            /// <param name='element' type='DOMNode'></param>
+            /// <param name='valueAccessor' type='Function'></param>
+            /// <param name='allBindingsAccessor' type='Object'></param>
+
+            var oldValue, newValue;
+
+            BindingHandler.prototype.update.apply(this, arguments);
+
+            // synchronize the selected option with knockout's standard value binding
+            if (allBindingsAccessor().hasOwnProperty('value')) {
+                oldValue = ko.utils.domData.get(element, domDataKey);
+                newValue = ko.utils.unwrapObservable(allBindingsAccessor().value);
+                if (oldValue !== newValue) {
+                    $(element).selectmenu('refresh');
+                }
+            }
+        };
+        /*jslint unparam:false*/
 
         utils.register(Selectmenu);
 
