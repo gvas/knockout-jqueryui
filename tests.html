@@ -105,16 +105,16 @@ layout: default
     VM = function () {
         this.jQueryVersions = [];
         this.jQueryUIVersions = [];
-        this.knockoutVersions = ['2.2.0', '2.2.1', '2.3.0', '3.0.0', '3.1.0'];
-        this.jQuery = ko.observable('1.11.1');
-        this.jQueryUI = ko.observable('1.11.0');
-        this.knockout = ko.observable('3.1.0');
+        this.knockoutVersions = ['2.2.0', '2.2.1', '2.3.0', '3.0.0', '3.1.0', '3.2.0'];
+        this.jQuery = ko.observable('1.11.2');
+        this.jQueryUI = ko.observable('1.11.2');
+        this.knockout = ko.observable('3.2.0');
 
         // initialize the array of jQuery versions
         this.jQueryVersions.push('1.8.0', '1.8.1', '1.8.2', '1.8.3');
         this.jQueryVersions.push('1.9.0', '1.9.1');
         this.jQueryVersions.push('1.10.0', '1.10.1', '1.10.2');
-        this.jQueryVersions.push('1.11.0', '1.11.1');
+        this.jQueryVersions.push('1.11.0', '1.11.1', '1.11.2');
         this.jQueryVersions.push('2.0.0', '2.0.1', '2.0.2', '2.0.3');
         this.jQueryVersions.push('2.1.0', '2.1.1');
 
@@ -124,12 +124,12 @@ layout: default
         }
         this.jQueryUIVersions.push('1.9.0', '1.9.1', '1.9.2');
         this.jQueryUIVersions.push('1.10.0', '1.10.1', '1.10.2', '1.10.3', '1.10.4');
-        this.jQueryUIVersions.push('1.11.0');
+        this.jQueryUIVersions.push('1.11.0', '1.11.1', '1.11.2');
 
         this.queryParameters = parseQueryParameters();
-        this.jQuery(this.queryParameters.jquery || '1.11.1');
-        this.jQueryUI(this.queryParameters.jqueryui || '1.11.0');
-        this.knockout(this.queryParameters.knockout || '3.1.0');
+        this.jQuery(this.queryParameters.jquery || '1.11.2');
+        this.jQueryUI(this.queryParameters.jqueryui || '1.11.2');
+        this.knockout(this.queryParameters.knockout || '3.2.0');
 
         this.submitDisabled = ko.computed(function () {
             return this.jQueryVersions.indexOf(this.jQuery()) < 0
