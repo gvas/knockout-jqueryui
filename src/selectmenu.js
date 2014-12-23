@@ -33,10 +33,12 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var value = valueAccessor();
+            var value, result;
+
+            value = valueAccessor();
 
             /// invokes the prototype's init() method
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             // maintain the isOpen option
             if (value.isOpen) {
@@ -68,8 +70,7 @@ define(
                 $(element).trigger('change');
             });
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Selectmenu);

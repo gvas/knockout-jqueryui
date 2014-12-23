@@ -37,9 +37,9 @@ define(
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
 
-            var value, changeEvent;
+            var result, value, changeEvent;
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             value = valueAccessor();
             changeEvent = value.realtime ? 'slide' : 'change';
@@ -73,8 +73,7 @@ define(
                 /*jslint unparam:false*/
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Slider);

@@ -4,10 +4,11 @@ define(
     [
         'jquery',
         'knockout',
+        './utils',
         'jquery-ui/widget'
     ],
 
-    function ($, ko) {
+    function ($, ko, utils) {
 
         'use strict';
 
@@ -59,6 +60,7 @@ define(
             this.widgetEventPrefix = widgetName;
             this.options = [];
             this.events = [];
+            this.after = [];
             this.hasRefresh = false;
         };
 
@@ -66,15 +68,29 @@ define(
         BindingHandler.prototype.init = function (element, valueAccessor,
             allBindingsAccessor, viewModel, bindingContext) {
 
-            var widgetName, value, unwrappedOptions, unwrappedEvents;
+            var widgetName, value, unwrappedOptions, unwrappedEvents,
+                shouldApplyBindingsToDescendants;
 
             widgetName = this.widgetName;
             value = valueAccessor();
             unwrappedOptions = filterAndUnwrapProperties(value, this.options);
             unwrappedEvents = filterAndUnwrapProperties(value, this.events);
 
-            // allow inner elements' bindings to finish before initializing the widget
-            ko.applyBindingsToDescendants(bindingContext, element);
+            // There can be control flow- or other bindings on some of the descendant
+            // elements which affect the shape of the element-rooted DOM subtree. These
+            // should be processed before instantiating the jQuery UI widget, because they
+            // can add pages to the tabs widget, menu items to the menu widget, etc.
+            shouldApplyBindingsToDescendants = !ko.utils.arrayFirst(
+                utils.descendantControllingBindings,
+                function (bindingName) {
+                    return this.hasOwnProperty(bindingName);
+                },
+                allBindingsAccessor()
+            );
+            if (shouldApplyBindingsToDescendants) {
+                // process descendant bindings
+                ko.applyBindingsToDescendants(bindingContext, element);
+            }
 
             // store the options' values so they can be checked for changes in the
             // update() method
@@ -102,8 +118,7 @@ define(
                 $(element)[widgetName]('destroy');
             });
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return { controlsDescendantBindings: shouldApplyBindingsToDescendants };
         };
         /*jslint unparam:false*/
 

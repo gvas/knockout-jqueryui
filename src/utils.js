@@ -11,7 +11,7 @@ define(
 
         'use strict';
 
-        var match, uiVersion, createObject, register;
+        var match, uiVersion, descendantControllingBindings, createObject, register;
 
         /*jslint regexp:true*/
         match = ($.ui.version || '').match(/^(\d)\.(\d+)/);
@@ -25,6 +25,9 @@ define(
                 minor: parseInt(match[2], 10)
             };
         }
+
+        descendantControllingBindings = ['foreach', 'if', 'ifnot', 'with', 'html', 'text',
+            'options'];
 
         createObject = Object.create || function (prototype) {
             /// <summary>Simple (incomplete) shim for Object.create().</summary>
@@ -44,6 +47,9 @@ define(
             var handler = new Constructor();
 
             ko.bindingHandlers[handler.widgetName] = {
+                after: ko.utils.arrayGetDistinctValues(
+                    descendantControllingBindings.concat(handler.after || [])
+                ),
                 init: handler.init.bind(handler),
                 update: handler.update.bind(handler)
             };
@@ -51,6 +57,7 @@ define(
 
         return {
             uiVersion: uiVersion,
+            descendantControllingBindings: descendantControllingBindings,
             createObject: createObject,
             register: register
         };

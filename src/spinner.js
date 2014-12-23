@@ -34,9 +34,9 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <param name='allBindingsAccessor' type='Function'></param>
 
-            var widgetName, value;
+            var result, widgetName, value;
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             widgetName = this.widgetName;
             value = valueAccessor();
@@ -78,8 +78,7 @@ define(
                 }
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Spinner);
