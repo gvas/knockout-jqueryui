@@ -61,24 +61,31 @@
             ko.removeNode($element[0]);
         });
 
-        it('should force knockout\'s value binding to update', function () {
+        it('should synchronize with knockout\'s value binding', function () {
             var $element, vm, autoOpen;
 
             $element = $([
-                '<select data-bind="selectmenu: {}, value: valueObservable">',
-                '  <option value="1">One</option>',
+                '<select data-bind="value: valueObservable, selectmenu: {}">',
+                '  <option value="1" selected="selected">One</option>',
                 '  <option value="2">Two</option>',
                 '</select>'
             ].join('')).prependTo('body');
             vm = { valueObservable: ko.observable() };
             ko.applyBindings(vm, $element[0]);
 
-            expect(vm.valueObservable()).toEqual('1');
+            expect(vm.valueObservable()).toBe('1');
 
+            // selectmenu -> value
             $('.ui-selectmenu-button').click();
+            $('.ui-selectmenu-menu .ui-menu-item:nth-child(2)').trigger('mouseenter');
             $('.ui-selectmenu-menu .ui-menu-item:nth-child(2)').click();
 
-            expect(vm.valueObservable()).toEqual('1');
+            expect(vm.valueObservable()).toBe('2');
+
+            // value -> selectmenu
+            vm.valueObservable('1');
+
+            expect($('.ui-selectmenu-text').text()).toBe('One');
 
             ko.removeNode($element[0]);
         });

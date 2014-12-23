@@ -18,6 +18,7 @@ define(
 
             BindingHandler.call(this, 'selectmenu');
 
+            this.after = ['value'];
             this.options = ['appendTo', 'disabled', 'icons', 'position', 'width'];
             this.events = ['change', 'close', 'create', 'focus', 'open', 'select'];
             this.hasRefresh = true;
@@ -26,11 +27,13 @@ define(
         Selectmenu.prototype = utils.createObject(BindingHandler.prototype);
         Selectmenu.prototype.constructor = Selectmenu;
 
-        Selectmenu.prototype.init = function (element, valueAccessor) {
+        Selectmenu.prototype.init = function (element, valueAccessor,
+            allBindingsAccessor) {
             /// <summary>Connects the view model and the widget via the isOpen property.
             // </summary>
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
+            /// <param name='allBindingsAccessor' type='Object'></param>
             /// <returns type='Object'></returns>
 
             var value, result;
@@ -41,7 +44,7 @@ define(
             result = BindingHandler.prototype.init.apply(this, arguments);
 
             // maintain the isOpen option
-            if (value.isOpen) {
+            if (value.hasOwnProperty('isOpen')) {
                 ko.computed({
                     read: function () {
                         if (ko.utils.unwrapObservable(value.isOpen)) {
@@ -63,9 +66,19 @@ define(
                 });
             }
 
-            // Trigger a change event on the underlying select element when the user
-            // selects an option. This way knockout's value- and selectedOptions bindings
-            // can react to the change.
+            // synchronize the selected option with knockout's standard value binding
+            if (allBindingsAccessor().hasOwnProperty('value')) {
+                ko.computed({
+                    read: function () {
+                        ko.utils.unwrapObservable(allBindingsAccessor().value);
+                        $(element).selectmenu('refresh');
+                    },
+                    disposeWhenNodeIsRemoved: element
+                });
+            }
+
+            // Notify knockout's value- and selectedOptions bindings that the selected
+            // option has been changed.
             this.on(element, 'change', function () {
                 $(element).trigger('change');
             });
