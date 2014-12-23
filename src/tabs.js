@@ -87,7 +87,7 @@ define(
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            var result = BindingHandler.prototype.init.apply(this, arguments);
 
             if (this.version.major === 1 && this.version.minor === 8) {
                 postInitHandler18.call(this, element, valueAccessor);
@@ -95,8 +95,7 @@ define(
                 postInitHandler.call(this, element, valueAccessor);
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Tabs);
