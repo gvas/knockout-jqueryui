@@ -55,7 +55,7 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var marker, value;
+            var marker, result, value;
 
             /// sets up the correct disposal
             marker = document.createElement('DIV');
@@ -67,7 +67,7 @@ define(
             });
 
             /// invokes the prototype's init() method
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             /// sets up handling of the isOpen option
             value = valueAccessor();
@@ -112,8 +112,7 @@ define(
                 /*jslint unparam:false*/
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Dialog);

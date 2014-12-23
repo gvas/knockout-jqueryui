@@ -33,9 +33,11 @@ define(
             /// <param name='element' type='DOMNode'></param>
             /// <param name='valueAccessor' type='Function'></param>
 
-            var value = valueAccessor();
+            var value, result;
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            value = valueAccessor();
+
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             if (value.isOpen) {
                 ko.computed({
@@ -59,8 +61,7 @@ define(
                 });
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Tooltip);

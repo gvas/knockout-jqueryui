@@ -43,9 +43,9 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var widgetName, options, value, subscription, origOnSelect;
+            var result, widgetName, options, value, subscription, origOnSelect;
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             widgetName = this.widgetName;
             options = valueAccessor();
@@ -80,8 +80,7 @@ define(
                 });
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Datepicker);

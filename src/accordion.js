@@ -44,12 +44,12 @@ define(
             /// <param name='valueAccessor' type='Function'></param>
             /// <returns type='Object'></returns>
 
-            var widgetName, value;
+            var widgetName, value, result;
 
             widgetName = this.widgetName;
             value = valueAccessor();
 
-            BindingHandler.prototype.init.apply(this, arguments);
+            result = BindingHandler.prototype.init.apply(this, arguments);
 
             if (ko.isWriteableObservable(value.active)) {
                 this.on(element, this.eventToWatch, function () {
@@ -57,8 +57,7 @@ define(
                 });
             }
 
-            // the inner elements have already been taken care of
-            return { controlsDescendantBindings: true };
+            return result;
         };
 
         utils.register(Accordion);
