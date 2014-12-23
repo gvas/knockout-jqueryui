@@ -116,6 +116,7 @@ module.exports = function (grunt, options) {
                 browsers: browsers,
                 tunneled: false,
                 maxRetries: 1,
+                maxPollRetries: 5,
                 onTestComplete: tagJob,
                 sauceConfig: {
                     'video-upload-on-pass': false,
