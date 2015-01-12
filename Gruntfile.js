@@ -3,6 +3,8 @@ module.exports = function (grunt) {
 
     'use strict';
 
+    grunt.task.loadTasks('tasks');
+
     require('load-grunt-config')(grunt, {
         data: {
             tunnelId: Math.floor((new Date()).getTime() / 1000 - 1230768000).toString(),

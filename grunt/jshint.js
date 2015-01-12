@@ -31,7 +31,7 @@ module.exports = function (grunt, options) {
                 kojqui: false
             }
         },
-        beforeconcat: ['Gruntfile.js', options.coreFiles, options.widgets],
-        afterconcat: ['<%= concat.concat.dest %>']
+        build: ['Gruntfile.js', 'build/<%= meta.name %>.js', 'src/*.js'],
+        release: ['dist/<%= meta.name %>.js', 'dist/amd/*.js']
     };
 };

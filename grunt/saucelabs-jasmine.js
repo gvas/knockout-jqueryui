@@ -74,35 +74,64 @@ module.exports = function (grunt, options) {
                 auth: auth,
                 json: {}
             })
-            .then(function (result) {
-                var response, body, re, matches;
+            .then(
+                function (result) {
+                    var response, body, re, matches;
 
-                response = result[0];
-                body = result[1];
+                    response = result[0];
+                    body = result[1];
 
-                if (response.statusCode !== 200) {
-                    return q.reject('Failed to fetch Selenium log for job ' + jobId);
+                    if (response.statusCode !== 200) {
+                        grunt.log.error([
+                            'GET',
+                            [baseUrl, jobId, 'assets/selenium-server.log'].join('/'),
+                            '->',
+                            response.statusCode
+                        ].join(' '));
+                        return;
+                    }
+
+                    re = /runner-all\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
+                    matches = body.match(re);
+                    if (matches) {
+                        return q
+                            .nfcall(request.put, {
+                                uri: [baseUrl, jobId].join('/'),
+                                auth: auth,
+                                json: {
+                                    tags: [
+                                        'jq:' + matches[1],
+                                        'jqui:' + matches[2],
+                                        'ko:' + matches[3]
+                                    ]
+                                }
+                            })
+                            .fail(function (error) {
+                                grunt.log.error([
+                                    'PUT',
+                                    [baseUrl, jobId].join('/'),
+                                    '->',
+                                    error.stack
+                                ].join(' '));
+                            });
+                    }
+
+                    grunt.log.error([
+                        'GET',
+                        [baseUrl, jobId, 'assets/selenium-server.log'].join('/'),
+                        '->',
+                        'Unexpected log format'
+                    ].join(' '));
+                },
+                function (error) {
+                    grunt.log.error([
+                        'GET',
+                        [baseUrl, jobId, 'assets/selenium-server.log'].join('/'),
+                        '->',
+                        error.stack
+                    ].join(' '));
                 }
-
-                re = /runner-all\.html\?jquery=([\d\.]+)&jqueryui=([\d\.]+)&knockout=([\d\.]+)/;
-                matches = body.match(re);
-                if (matches) {
-                    grunt.log.writeln('Updating job\'s tags and name.');
-                    return q.nfcall(request.put, {
-                        uri: [baseUrl, jobId].join('/'),
-                        auth: auth,
-                        json: {
-                            tags: [
-                                'jq:' + matches[1],
-                                'jqui:' + matches[2],
-                                'ko:' + matches[3]
-                            ]
-                        }
-                    });
-                }
-
-                return q.reject('Unexpected selenium server log format. ' + request.url);
-            })
+            )
             .thenResolve(result.passed)
             .nodeify(callback);
     };

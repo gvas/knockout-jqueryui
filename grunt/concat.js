@@ -61,16 +61,18 @@ module.exports = function (grunt, options) {
 
     return {
         options: {
-            nonull: true
+            nonull: true,
+            separator: '\r\n',
+            banner: '<%= meta.banner %>',
+            process: convert
         },
-        concat: {
-            options: {
-                separator: '\r\n',
-                banner: '<%= meta.banner %>',
-                process: convert
-            },
+        build: {
             src: [options.coreFiles, options.widgets],
             dest: 'build/<%= meta.name %>.js'
+        },
+        release: {
+            src: [options.coreFiles, options.widgets],
+            dest: 'dist/<%= meta.name %>.js'
         }
     };
 };

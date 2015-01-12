@@ -1,7 +1,7 @@
 /*jslint node:true*/
 module.exports = {
-    build: {
-        src: '<%= concat.concat.dest %>',
-        dest: 'build/<%= meta.name %>.min.js'
+    release: {
+        src: 'dist/<%= meta.name %>.js',
+        dest: 'dist/<%= meta.name %>.min.js'
     }
 };

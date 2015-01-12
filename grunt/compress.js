@@ -1,10 +1,10 @@
 /*jslint node:true*/
 module.exports = {
-    build: {
+    release: {
         options: {
-            archive: 'build/<%= meta.name %>-amd.zip',
+            archive: 'dist/<%= meta.name %>.zip',
             pretty: true
         },
-        files: [{ expand: true, src: ['*.js'], cwd: 'src' }]
+        files: [{ expand: true, src: ['**/*.js'], cwd: 'dist' }]
     }
 };
