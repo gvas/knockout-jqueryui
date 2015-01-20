@@ -1,9 +1,9 @@
-/*! knockout-jqueryui - v2.2.1 - 1/12/2015
+/*! knockout-jqueryui - v2.2.2 - 1/20/2015
 * https://gvas.github.io/knockout-jqueryui/
 * Copyright (c) 2015 Vas Gabor <gvas.munka@gmail.com> Licensed MIT */
 /*jslint browser:true*/
 
-window.kojqui = { version: '2.2.1' };
+window.kojqui = { version: '2.2.2' };
 
 (function (root, factory) {
 
