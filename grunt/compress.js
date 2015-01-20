@@ -2,9 +2,9 @@
 module.exports = {
     release: {
         options: {
-            archive: 'dist/<%= meta.name %>.zip',
+            archive: 'dist/<%= meta.name %>-amd.zip',
             pretty: true
         },
-        files: [{ expand: true, src: ['**/*.js'], cwd: 'dist' }]
+        files: [{ expand: true, src: ['**/*.js'], cwd: 'dist/amd' }]
     }
 };
