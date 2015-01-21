@@ -11,7 +11,8 @@
     "grunt/",
     "lib/",
     "spec/",
-    "src/"
+    "src/",
+    "tasks/"
   ],
   "keywords": [
     "knockout",
