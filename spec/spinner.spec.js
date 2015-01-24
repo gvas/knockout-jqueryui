@@ -44,51 +44,16 @@
             vm = { value: ko.observable(1) };
             ko.applyBindings(vm, $element[0]);
 
-            expect(vm.value.peek()).toEqual(1);
             $element.spinner('value', 55);
             expect(vm.value.peek()).toEqual(55);
+
             $element.spinner('stepUp');
             expect(vm.value.peek()).toEqual(56);
 
-            // This spec tests that the view model's bound property is only updated when
-            // the spinner's input is blurred.
-            // The spinner widget ensures that the focus is set to the input when the up-
-            // or down button is clicked, but IE raises the focus/blur events
-            // asynchronously, so we also have to test it asynchronously.
-            runs(function () {
-                $element.spinner('widget').find('.ui-spinner-up')
-                    .mousedown()
-                    .mouseup();
-                setTimeout(function () {
-                    expect($element.spinner('value')).toEqual(57);
-                    expect(vm.value.peek()).toEqual(56); // Focus is still on the input, so the spinner hasn't fired spinchange yet.
-                    $element.blur();
-                    setTimeout(function () { flag = true; }, 150); // open the latch
-                }, 150);
-            });
-
-            waitsFor(function () {
-                return flag;
-            }, 'latch wasn\'t opened', 1000);
-
-            runs(function () {
-                expect(vm.value.peek()).toEqual(57); // *Now* the observable should be mutated.
-
-                ko.removeNode($element[0]);
-            });
-        });
-
-        it('should write the widget\'s value immediately to the viewmodel\'s bound property when it changes if "valueUpdate" binding is also used on the input.', function () {
-            var $element, vm;
-
-            $element = $('<input data-bind="valueUpdate: \'afterkeydown\', spinner: { value: value }" />').prependTo('body');
-
-            vm = { value: ko.observable(100) };
-            ko.applyBindings(vm, $element[0]);
             $element.spinner('widget').find('.ui-spinner-up')
                 .mousedown()
                 .mouseup();
-            expect(vm.value.peek()).toEqual(101);
+            expect(vm.value.peek()).toEqual(57);
 
             ko.removeNode($element[0]);
         });
