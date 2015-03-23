@@ -63,6 +63,7 @@ define(
                 // When input value is changed update the observable as well
                 ko.utils.registerEventHandler(element, 'change', function() {
                     var date = $(element)[widgetName]('getDate');
+                    
                     // If the date is changed in datepicker
                     if(options.value && options.value() - date !== 0) {
                         options.value($(element)[widgetName]('getDate'));
