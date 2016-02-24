@@ -15,6 +15,17 @@ Build
     npm install
     grunt
 
+SystemJS
+-----
+Install
+```bash
+jspm install knockout-jqueryui
+```
+Usage
+```js
+System.import('knockout-jqueryui/datepicker');
+```
+
 Tests
 -----
 [http://gvas.github.com/knockout-jqueryui/tests.html](http://gvas.github.com/knockout-jqueryui/tests.html)
