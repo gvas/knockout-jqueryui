@@ -23,6 +23,5 @@ Tests
 Compatibility
 -----
 
-From jQuery UI 1.8 to jQuery UI 1.11.x.
-jQuery UI 1.12 deprecated some API and the "compatibility layer" is broken.
+From jQuery UI 1.8 to jQuery UI 1.12.x.
 

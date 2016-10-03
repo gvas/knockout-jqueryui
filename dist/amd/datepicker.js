@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -10,8 +11,6 @@ define(
     ],
 
     function ($, ko, BindingHandler, utils) {
-
-        'use strict';
 
         var Datepicker = function () {
             /// <summary>Constructor.</summary>

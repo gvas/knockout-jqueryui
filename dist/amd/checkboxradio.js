@@ -5,17 +5,17 @@ define(
     [
         './bindingHandler',
         './utils',
-        'jquery-ui/button'
+        'jquery-ui/checkboxradio'
     ],
 
     function (BindingHandler, utils) {
 
-        var Button = function () {
+        var Checkboxradio = function () {
             /// <summary>Constructor.</summary>
 
-            BindingHandler.call(this, 'button');
+            BindingHandler.call(this, 'checkboxradio');
 
-            this.options = ['disabled', 'label'];
+            this.options = ['classes', 'disabled', 'icon', 'label'];
             this.events = ['create'];
             if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 8 && utils.uiVersion.minor <= 11)) {
                 this.options.push('icons');
@@ -29,11 +29,11 @@ define(
             this.hasRefresh = true;
         };
 
-        Button.prototype = utils.createObject(BindingHandler.prototype);
-        Button.prototype.constructor = Button;
+        Checkboxradio.prototype = utils.createObject(BindingHandler.prototype);
+        Checkboxradio.prototype.constructor = Checkboxradio;
 
-        utils.register(Button);
+        utils.register(Checkboxradio);
 
-        return Button;
+        return Checkboxradio;
     }
 );

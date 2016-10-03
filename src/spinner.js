@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -11,8 +12,6 @@ define(
 
     function ($, ko, BindingHandler, utils) {
 
-        'use strict';
-
         var Spinner = function () {
             /// <summary>Constructor.</summary>
 
@@ -22,6 +21,10 @@ define(
             this.options = ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
                 'numberFormat', 'page', 'step'];
             this.events = ['create', 'start', 'spin', 'stop', 'change'];
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Spinner.prototype = utils.createObject(BindingHandler.prototype);

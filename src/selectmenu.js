@@ -1,4 +1,5 @@
-﻿/*global define*/
+﻿/*jshint strict: false */
+/*global define*/
 define(
 
     [
@@ -10,8 +11,6 @@ define(
     ],
 
     function ($, ko, BindingHandler, utils) {
-
-        'use strict';
 
         var domDataKey, Selectmenu;
 
@@ -26,6 +25,10 @@ define(
             this.options = ['appendTo', 'disabled', 'icons', 'position', 'width'];
             this.events = ['change', 'close', 'create', 'focus', 'open', 'select'];
             this.hasRefresh = true;
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor !== 11) {
+                this.options.push('classes');
+            }
         };
 
         Selectmenu.prototype = utils.createObject(BindingHandler.prototype);

@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -9,8 +10,6 @@ define(
     ],
 
     function ($, ko, utils) {
-
-        'use strict';
 
         var domDataKey, filterAndUnwrapProperties, subscribeToRefreshOn, BindingHandler;
 

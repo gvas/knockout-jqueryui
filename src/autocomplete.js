@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -9,8 +10,6 @@ define(
 
     function (BindingHandler, utils) {
 
-        'use strict';
-
         var Autocomplete = function () {
             /// <summary>Constructor.</summary>
 
@@ -18,14 +17,17 @@ define(
 
             this.options = ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength',
                 'position', 'source'];
+            this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
+                'select'];
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
-                    'select'];
-            } else {
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
+                this.events.push('response');
                 this.options.push('messages');
-                this.events = ['change', 'close', 'create', 'focus', 'open', 'response',
-                    'search', 'select'];
+            } else {
+                this.events.push('response');
+                this.options.push('messages');
+                this.options.push('classes');
+                
             }
         };
 

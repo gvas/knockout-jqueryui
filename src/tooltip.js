@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -11,8 +12,6 @@ define(
 
     function ($, ko, BindingHandler, utils) {
 
-        'use strict';
-
         var Tooltip = function () {
             /// <summary>Constructor.</summary>
 
@@ -21,6 +20,10 @@ define(
             this.options = ['content', 'disabled', 'hide', 'items', 'position', 'show',
                 'tooltipClass', 'track'];
             this.events = ['create', 'open', 'close'];
+
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Tooltip.prototype = utils.createObject(BindingHandler.prototype);

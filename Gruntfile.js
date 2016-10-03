@@ -10,9 +10,9 @@ module.exports = function (grunt) {
             tunnelId: Math.floor((new Date()).getTime() / 1000 - 1230768000).toString(),
             coreFiles: ['src/utils.js', 'src/bindingHandler.js'],
             widgets: ['src/accordion.js', 'src/autocomplete.js', 'src/button.js',
-                'src/buttonset.js', 'src/datepicker.js', 'src/dialog.js', 'src/menu.js',
-                'src/progressbar.js', 'src/selectmenu.js', 'src/slider.js',
-                'src/spinner.js', 'src/tabs.js', 'src/tooltip.js']
+                'src/buttonset.js', 'src/checkboxradio.js', 'src/controlgroup.js', 'src/custom.combobox.js',
+				'src/datepicker.js', 'src/dialog.js', 'src/menu.js', 'src/progressbar.js', 'src/selectmenu.js',
+				'src/slider.js', 'src/spinner.js', 'src/tabs.js', 'src/tooltip.js']
         }
     });
 };
