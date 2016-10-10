@@ -2,7 +2,7 @@
   "name": "knockout-jqueryui",
   "description": "knockout binding handlers for jQuery UI",
   "homepage": "https://gvas.github.io/knockout-jqueryui/",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "author": {
     "name": "Vas Gabor <gvas.munka@gmail.com>"
   },
