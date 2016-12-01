@@ -26,7 +26,7 @@
     "url": "https://github.com/gvas/knockout-jqueryui.git"
   },
   "dependencies": {
-    "jquery-ui": ">=1.8",
+    "jquery-ui": "1.8 - 1.11",
     "knockout": ">=2.2"
   },
   "devDependencies": {
