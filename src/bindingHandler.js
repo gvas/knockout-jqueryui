@@ -114,7 +114,9 @@ define(
 
             // handle disposal
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element)[widgetName]('destroy');
+                if ($.data(element, widgetName)) {
+                    $(element)[widgetName]('destroy');
+                }
             });
 
             return { controlsDescendantBindings: shouldApplyBindingsToDescendants };
