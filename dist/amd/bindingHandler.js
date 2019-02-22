@@ -114,7 +114,7 @@ define(
 
             // handle disposal
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                if ($.data(element, widgetName)) {
+                if ($.data(element, 'ui' + widgetName.substr(0,1).toUpperCase() + widgetName.substr(1))) {
                     $(element)[widgetName]('destroy');
                 }
             });
