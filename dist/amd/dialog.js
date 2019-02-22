@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 /*jslint browser:true*/
 define(
@@ -12,34 +13,33 @@ define(
 
     function ($, ko, BindingHandler, utils) {
 
-        'use strict';
-
         var Dialog = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'dialog');
 
+            this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
+                'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            this.options = ['autoOpen', 'buttons', 'closeOnEscape',
+                'closeText', 'dialogClass', 'draggable', 'height',
+                'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'modal', 'position',
+                'resizable', 'show', 'title', 'width'];
+            
             if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                    'dialogClass', 'disabled', 'draggable', 'height', 'maxHeight',
-                    'maxWidth', 'minHeight', 'minWidth', 'modal', 'position', 'resizable',
-                    'show', 'stack', 'title', 'width', 'zIndex'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('disabled');
+                this.options.push('stack');
+                this.options.push('zIndex');
             } else if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 9) {
-                this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                    'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
-                    'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
-                    'stack', 'title', 'width', 'zIndex'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('stack');
+                this.options.push('zIndex');
+                this.options.push('hide');
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor === 10 || utils.uiVersion.minor === 11)) {
+                this.options.push('appendTo');
+                this.options.push('hide');
             } else {
-                this.options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape',
-                    'closeText', 'dialogClass', 'draggable', 'height', 'hide',
-                    'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'modal', 'position',
-                    'resizable', 'show', 'title', 'width'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('appendTo');
+                this.options.push('hide');
+                this.options.push('classes');
             }
         };
 

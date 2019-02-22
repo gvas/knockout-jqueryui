@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -9,20 +10,20 @@ define(
 
     function (BindingHandler, utils) {
 
-        'use strict';
-
         var Progressbar = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'progressbar');
 
+            this.options = ['disabled', 'value'];
             this.events = ['change', 'create', 'complete'];
             this.hasRefresh = true;
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.options = ['disabled', 'value'];
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
+                this.options.push('max');
             } else {
-                this.options = ['disabled', 'max', 'value'];
+                this.options.push('max');
+                this.options.push('classes');
             }
         };
 

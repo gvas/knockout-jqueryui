@@ -27,36 +27,34 @@ module.exports = function (grunt, options) {
                 if (match) {
                     // './BindingHandler' -> root.kojqui.BindingHandler
                     if (match[1] === 'utils') {
-                        return 'root.kojqui.utils';
+                        return 'kojqui.utils';
                     }
-                    return 'root.kojqui.' + changeCase.pascalCase(match[1]);
+                    return 'kojqui.' + changeCase.pascalCase(match[1]);
                 }
 
                 match = dependency.match(/^jquery-ui\/(.*)/);
                 if (match) {
                     // 'jquery-ui/autocomplete' -> root.jQuery.ui.autocomplete
-                    return 'root.jQuery.ui.' + match[1];
+                    return 'jQuery.ui.' + match[1];
                 }
 
                 if (dependency === 'jquery') {
                     // 'jquery' -> root.jQuery
-                    return 'root.jQuery';
+                    return 'jQuery';
                 }
 
                 if (dependency === 'knockout') {
                     // 'knockout' -> root.ko
-                    return 'root.ko';
+                    return 'ko';
                 }
 
                 throw new Error('Unexpected dependency: ' + dependency);
             })
             .join(', ');
 
-        return '(function (root, factory) {\r\n\r\n' +
-            '    \'use strict\';\r\n\r\n' +
-            '    root.kojqui.' + name + ' = factory(' + dependencies + ');\r\n' +
-            '}(this,\r\n' +
-            '    ' + match[2] + '));';
+        return '    (function (factory) {\r\n\r\n' +
+            '        kojqui.' + name + ' = factory(' + dependencies + ');\r\n' +
+            '    }(' + match[2] + '));';
     }
 
     return {
@@ -64,6 +62,7 @@ module.exports = function (grunt, options) {
             nonull: true,
             separator: '\r\n',
             banner: '<%= meta.banner %>',
+            footer: '<%= meta.footer %>',
             process: convert
         },
         build: {

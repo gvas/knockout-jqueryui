@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -8,8 +9,6 @@ define(
     ],
 
     function ($, ko) {
-
-        'use strict';
 
         var match, uiVersion, descendantControllingBindings, createObject, register;
 

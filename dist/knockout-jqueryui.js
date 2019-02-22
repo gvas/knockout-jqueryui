@@ -1,19 +1,32 @@
-/*! knockout-jqueryui - v2.2.3 - 10/07/2016
+/*! knockout-jqueryui - v2.2.6 - 4/6/2017
 * https://gvas.github.io/knockout-jqueryui/
-* Copyright (c) 2016 Vas Gabor <gvas.munka@gmail.com> Licensed MIT */
+* Copyright (c) 2017 Vas Gabor <gvas.munka@gmail.com> Licensed MIT */
 /*jslint browser:true*/
+/*globals global, self, window, require, module, define*/
 
-window.kojqui = { version: '2.2.3' };
-
-(function (root, factory) {
-
+(function (factory, global) {
     'use strict';
 
-    root.kojqui.utils = factory(root.jQuery, root.ko, root.jQuery.ui.core);
-}(this,
-    function ($, ko) {
+    // Module systems magic dance.
+    if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
+        // CommonJS or Node: hard-coded dependency on 'knockout'
+        module.exports = factory(require('jquery'), require('knockout'), require('jquery-ui'));
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD anonymous module with hard-coded dependency on 'knockout'
+        define(['jquery', 'knockout', 'jquery-ui', 'exports'], factory);
+    } else {
+        // <script> tag: use the global `ko` object
+        global.kojqui = factory(jQuery, ko, jQuery.ui);
+    }
+}(function (jQuery, ko) {
+    'use strict';
 
-        'use strict';
+    var kojqui = { version: '2.2.6' };
+
+    (function (factory) {
+
+        kojqui.utils = factory(jQuery, ko, jQuery.ui.core);
+    }(function ($, ko) {
 
         var match, uiVersion, descendantControllingBindings, createObject, register;
 
@@ -67,15 +80,10 @@ window.kojqui = { version: '2.2.3' };
         };
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.BindingHandler = factory(root.jQuery, root.ko, root.kojqui.utils, root.jQuery.ui.widget);
-}(this,
-    function ($, ko, utils) {
-
-        'use strict';
+        kojqui.BindingHandler = factory(jQuery, ko, kojqui.utils, jQuery.ui.widget);
+    }(function ($, ko, utils) {
 
         var domDataKey, filterAndUnwrapProperties, subscribeToRefreshOn, BindingHandler;
 
@@ -180,7 +188,9 @@ window.kojqui = { version: '2.2.3' };
 
             // handle disposal
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element)[widgetName]('destroy');
+                if ($.data(element, widgetName)) {
+                    $(element)[widgetName]('destroy');
+                }
             });
 
             return { controlsDescendantBindings: shouldApplyBindingsToDescendants };
@@ -235,15 +245,10 @@ window.kojqui = { version: '2.2.3' };
         return BindingHandler;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Accordion = factory(root.jQuery, root.ko, root.kojqui.utils, root.kojqui.BindingHandler, root.jQuery.ui.accordion);
-}(this,
-    function ($, ko, utils, BindingHandler) {
-
-        'use strict';
+        kojqui.Accordion = factory(jQuery, ko, kojqui.utils, kojqui.BindingHandler, jQuery.ui.accordion);
+    }(function ($, ko, utils, BindingHandler) {
 
         var Accordion = function () {
             /// <summary>Constructor.</summary>
@@ -257,9 +262,15 @@ window.kojqui = { version: '2.2.3' };
                 this.events = ['change', 'changestart', 'create'];
                 this.hasRefresh = false;
                 this.eventToWatch = 'change';
-            } else {
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
                 this.options = ['active', 'animate', 'collapsible', 'disabled', 'event',
                     'header', 'heightStyle', 'icons'];
+                this.events = ['activate', 'beforeActivate', 'create'];
+                this.hasRefresh = true;
+                this.eventToWatch = 'activate';
+            } else {
+                this.options = ['active', 'animate', 'classes', 'collapsible', 'disabled',
+                     'event', 'header', 'heightStyle', 'icons'];
                 this.events = ['activate', 'beforeActivate', 'create'];
                 this.hasRefresh = true;
                 this.eventToWatch = 'activate';
@@ -297,15 +308,10 @@ window.kojqui = { version: '2.2.3' };
         return Accordion;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Autocomplete = factory(root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.autocomplete);
-}(this,
-    function (BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Autocomplete = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.autocomplete);
+    }(function (BindingHandler, utils) {
 
         var Autocomplete = function () {
             /// <summary>Constructor.</summary>
@@ -314,14 +320,17 @@ window.kojqui = { version: '2.2.3' };
 
             this.options = ['appendTo', 'autoFocus', 'delay', 'disabled', 'minLength',
                 'position', 'source'];
+            this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
+                'select'];
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.events = ['change', 'close', 'create', 'focus', 'open', 'search',
-                    'select'];
-            } else {
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
+                this.events.push('response');
                 this.options.push('messages');
-                this.events = ['change', 'close', 'create', 'focus', 'open', 'response',
-                    'search', 'select'];
+            } else {
+                this.events.push('response');
+                this.options.push('messages');
+                this.options.push('classes');
+                
             }
         };
 
@@ -333,23 +342,27 @@ window.kojqui = { version: '2.2.3' };
         return Autocomplete;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Button = factory(root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.button);
-}(this,
-    function (BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Button = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.button);
+    }(function (BindingHandler, utils) {
 
         var Button = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'button');
 
-            this.options = ['disabled', 'icons', 'label', 'text'];
+            this.options = ['disabled', 'label'];
             this.events = ['create'];
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 8 && utils.uiVersion.minor <= 11)) {
+                this.options.push('icons');
+                this.options.push('text');
+            } else {
+                this.options.push('classes');
+                this.options.push('icon');
+                this.options.push('iconPosition');
+                this.options.push('showLabel');
+            }
             this.hasRefresh = true;
         };
 
@@ -361,15 +374,10 @@ window.kojqui = { version: '2.2.3' };
         return Button;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Buttonset = factory(root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.button);
-}(this,
-    function (BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Buttonset = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.button);
+    }(function (BindingHandler, utils) {
 
         var Buttonset = function () {
             /// <summary>Constructor.</summary>
@@ -389,15 +397,87 @@ window.kojqui = { version: '2.2.3' };
         return Buttonset;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
+        kojqui.Checkboxradio = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.checkboxradio);
+    }(function (BindingHandler, utils) {
 
-    root.kojqui.Datepicker = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.datepicker);
-}(this,
-    function ($, ko, BindingHandler, utils) {
+        var Checkboxradio = function () {
+            /// <summary>Constructor.</summary>
 
-        'use strict';
+            BindingHandler.call(this, 'checkboxradio');
+
+            this.options = ['classes', 'disabled', 'icon', 'label'];
+            this.events = ['create'];
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 8 && utils.uiVersion.minor <= 11)) {
+                this.options.push('icons');
+                this.options.push('text');
+            } else {
+                this.options.push('classes');
+                this.options.push('icon');
+                this.options.push('iconPosition');
+                this.options.push('showLabel');
+            }
+            this.hasRefresh = true;
+        };
+
+        Checkboxradio.prototype = utils.createObject(BindingHandler.prototype);
+        Checkboxradio.prototype.constructor = Checkboxradio;
+
+        utils.register(Checkboxradio);
+
+        return Checkboxradio;
+    }
+));
+    (function (factory) {
+
+        kojqui.Controlgroup = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.controlgroup);
+    }(function (BindingHandler, utils) {
+
+        var Controlgroup = function () {
+            /// <summary>Constructor.</summary>
+
+            BindingHandler.call(this, 'controlgroup');
+
+            this.options = ['classes', 'direction', 'disabled', 'items', 'onlyVisible'];
+            this.events = ['create'];
+            this.hasRefresh = true;
+        };
+
+        Controlgroup.prototype = utils.createObject(BindingHandler.prototype);
+        Controlgroup.prototype.constructor = Controlgroup;
+
+        utils.register(Controlgroup);
+
+        return Controlgroup;
+    }
+));
+    (function (factory) {
+
+        kojqui.CustomCombobox = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.autocomplete, jQuery.ui.button, jQuery.ui.tooltip);
+    }(function (BindingHandler, utils) {
+
+        var CustomCombobox = function () {
+            /// <summary>Constructor.</summary>
+
+            BindingHandler.call(this, 'combobox');
+
+            this.options = ['removeIfInvalid', 'buttonTooltip'];
+            this.events = [];
+        };
+
+        CustomCombobox.prototype = utils.createObject(BindingHandler.prototype);
+        CustomCombobox.prototype.constructor = CustomCombobox;
+
+        utils.register(CustomCombobox);
+
+        return CustomCombobox;
+    }
+));
+    (function (factory) {
+
+        kojqui.Datepicker = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.datepicker);
+    }(function ($, ko, BindingHandler, utils) {
 
         var Datepicker = function () {
             /// <summary>Constructor.</summary>
@@ -474,42 +554,38 @@ window.kojqui = { version: '2.2.3' };
         return Datepicker;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Dialog = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.dialog);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Dialog = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.dialog);
+    }(function ($, ko, BindingHandler, utils) {
 
         var Dialog = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'dialog');
 
+            this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
+                'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+            this.options = ['autoOpen', 'buttons', 'closeOnEscape',
+                'closeText', 'dialogClass', 'draggable', 'height',
+                'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'modal', 'position',
+                'resizable', 'show', 'title', 'width'];
+            
             if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                    'dialogClass', 'disabled', 'draggable', 'height', 'maxHeight',
-                    'maxWidth', 'minHeight', 'minWidth', 'modal', 'position', 'resizable',
-                    'show', 'stack', 'title', 'width', 'zIndex'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('disabled');
+                this.options.push('stack');
+                this.options.push('zIndex');
             } else if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 9) {
-                this.options = ['autoOpen', 'buttons', 'closeOnEscape', 'closeText',
-                    'dialogClass', 'draggable', 'height', 'hide', 'maxHeight', 'maxWidth',
-                    'minHeight', 'minWidth', 'modal', 'position', 'resizable', 'show',
-                    'stack', 'title', 'width', 'zIndex'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('stack');
+                this.options.push('zIndex');
+                this.options.push('hide');
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor === 10 || utils.uiVersion.minor === 11)) {
+                this.options.push('appendTo');
+                this.options.push('hide');
             } else {
-                this.options = ['appendTo', 'autoOpen', 'buttons', 'closeOnEscape',
-                    'closeText', 'dialogClass', 'draggable', 'height', 'hide',
-                    'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'modal', 'position',
-                    'resizable', 'show', 'title', 'width'];
-                this.events = ['beforeClose', 'create', 'open', 'focus', 'dragStart',
-                    'drag', 'dragStop', 'resizeStart', 'resize', 'resizeStop', 'close'];
+                this.options.push('appendTo');
+                this.options.push('hide');
+                this.options.push('classes');
             }
         };
 
@@ -590,26 +666,22 @@ window.kojqui = { version: '2.2.3' };
         return Dialog;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Menu = factory(root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.menu);
-}(this,
-    function (BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Menu = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.menu);
+    }(function (BindingHandler, utils) {
 
         var Menu = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'menu');
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor < 11) {
-                this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 11) {
+                this.options.push('items');
             } else {
-                this.options = ['disabled', 'icons', 'items', 'menus', 'position',
-                    'role'];
+                this.options.push('items');
+                this.options.push('classes');
             }
 
             this.events = ['blur', 'create', 'focus', 'select'];
@@ -624,28 +696,25 @@ window.kojqui = { version: '2.2.3' };
         return Menu;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Progressbar = factory(root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.progressbar);
-}(this,
-    function (BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Progressbar = factory(kojqui.BindingHandler, kojqui.utils, jQuery.ui.progressbar);
+    }(function (BindingHandler, utils) {
 
         var Progressbar = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'progressbar');
 
+            this.options = ['disabled', 'value'];
             this.events = ['change', 'create', 'complete'];
             this.hasRefresh = true;
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 8) {
-                this.options = ['disabled', 'value'];
+            if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
+                this.options.push('max');
             } else {
-                this.options = ['disabled', 'max', 'value'];
+                this.options.push('max');
+                this.options.push('classes');
             }
         };
 
@@ -657,15 +726,10 @@ window.kojqui = { version: '2.2.3' };
         return Progressbar;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Selectmenu = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.selectmenu);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Selectmenu = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.selectmenu);
+    }(function ($, ko, BindingHandler, utils) {
 
         var domDataKey, Selectmenu;
 
@@ -680,6 +744,10 @@ window.kojqui = { version: '2.2.3' };
             this.options = ['appendTo', 'disabled', 'icons', 'position', 'width'];
             this.events = ['change', 'close', 'create', 'focus', 'open', 'select'];
             this.hasRefresh = true;
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor !== 11) {
+                this.options.push('classes');
+            }
         };
 
         Selectmenu.prototype = utils.createObject(BindingHandler.prototype);
@@ -759,15 +827,10 @@ window.kojqui = { version: '2.2.3' };
         return Selectmenu;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Slider = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.slider);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Slider = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.slider);
+    }(function ($, ko, BindingHandler, utils) {
 
         var domDataKey, Slider;
 
@@ -782,6 +845,10 @@ window.kojqui = { version: '2.2.3' };
             this.options = ['animate', 'disabled', 'max', 'min', 'orientation', 'range',
                 'step', 'value', 'values'];
             this.events = ['create', 'start', 'slide', 'change', 'stop'];
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Slider.prototype = utils.createObject(BindingHandler.prototype);
@@ -837,15 +904,10 @@ window.kojqui = { version: '2.2.3' };
         return Slider;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Spinner = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.spinner);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Spinner = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.spinner);
+    }(function ($, ko, BindingHandler, utils) {
 
         var Spinner = function () {
             /// <summary>Constructor.</summary>
@@ -856,6 +918,10 @@ window.kojqui = { version: '2.2.3' };
             this.options = ['culture', 'disabled', 'icons', 'incremental', 'max', 'min',
                 'numberFormat', 'page', 'step'];
             this.events = ['create', 'start', 'spin', 'stop', 'change'];
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Spinner.prototype = utils.createObject(BindingHandler.prototype);
@@ -909,15 +975,10 @@ window.kojqui = { version: '2.2.3' };
         return Spinner;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Tabs = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.tabs);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Tabs = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.tabs);
+    }(function ($, ko, BindingHandler, utils) {
 
         var postInitHandler18, postInitHandler, Tabs;
 
@@ -975,8 +1036,14 @@ window.kojqui = { version: '2.2.3' };
                 this.events = ['add', 'create', 'disable', 'enable', 'load', 'remove',
                     'select', 'show'];
                 this.hasRefresh = false;
-            } else {
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
                 this.options = ['active', 'collapsible', 'disabled', 'event',
+                    'heightStyle', 'hide', 'show'];
+                this.events = ['activate', 'beforeActivate', 'beforeLoad', 'create',
+                    'load'];
+                this.hasRefresh = true;
+            } else {
+                this.options = ['active', 'classes', 'collapsible', 'disabled', 'event',
                     'heightStyle', 'hide', 'show'];
                 this.events = ['activate', 'beforeActivate', 'beforeLoad', 'create',
                     'load'];
@@ -1009,15 +1076,10 @@ window.kojqui = { version: '2.2.3' };
         return Tabs;
     }
 ));
-(function (root, factory) {
+    (function (factory) {
 
-    'use strict';
-
-    root.kojqui.Tooltip = factory(root.jQuery, root.ko, root.kojqui.BindingHandler, root.kojqui.utils, root.jQuery.ui.tooltip);
-}(this,
-    function ($, ko, BindingHandler, utils) {
-
-        'use strict';
+        kojqui.Tooltip = factory(jQuery, ko, kojqui.BindingHandler, kojqui.utils, jQuery.ui.tooltip);
+    }(function ($, ko, BindingHandler, utils) {
 
         var Tooltip = function () {
             /// <summary>Constructor.</summary>
@@ -1027,6 +1089,10 @@ window.kojqui = { version: '2.2.3' };
             this.options = ['content', 'disabled', 'hide', 'items', 'position', 'show',
                 'tooltipClass', 'track'];
             this.events = ['create', 'open', 'close'];
+
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Tooltip.prototype = utils.createObject(BindingHandler.prototype);
@@ -1075,3 +1141,6 @@ window.kojqui = { version: '2.2.3' };
         return Tooltip;
     }
 ));
+
+    return kojqui;
+}, typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {}));

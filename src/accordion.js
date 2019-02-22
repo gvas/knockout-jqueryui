@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -11,8 +12,6 @@ define(
 
     function ($, ko, utils, BindingHandler) {
 
-        'use strict';
-
         var Accordion = function () {
             /// <summary>Constructor.</summary>
 
@@ -25,9 +24,15 @@ define(
                 this.events = ['change', 'changestart', 'create'];
                 this.hasRefresh = false;
                 this.eventToWatch = 'change';
-            } else {
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
                 this.options = ['active', 'animate', 'collapsible', 'disabled', 'event',
                     'header', 'heightStyle', 'icons'];
+                this.events = ['activate', 'beforeActivate', 'create'];
+                this.hasRefresh = true;
+                this.eventToWatch = 'activate';
+            } else {
+                this.options = ['active', 'animate', 'classes', 'collapsible', 'disabled',
+                     'event', 'header', 'heightStyle', 'icons'];
                 this.events = ['activate', 'beforeActivate', 'create'];
                 this.hasRefresh = true;
                 this.eventToWatch = 'activate';

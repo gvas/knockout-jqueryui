@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -10,8 +11,6 @@ define(
     ],
 
     function ($, ko, BindingHandler, utils) {
-
-        'use strict';
 
         var domDataKey, Slider;
 
@@ -26,6 +25,10 @@ define(
             this.options = ['animate', 'disabled', 'max', 'min', 'orientation', 'range',
                 'step', 'value', 'values'];
             this.events = ['create', 'start', 'slide', 'change', 'stop'];
+            
+            if (utils.uiVersion.major !== 1 || utils.uiVersion.minor > 11) {
+                this.options.push('classes');
+            }
         };
 
         Slider.prototype = utils.createObject(BindingHandler.prototype);

@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -10,8 +11,6 @@ define(
     ],
 
     function ($, ko, BindingHandler, utils) {
-
-        'use strict';
 
         var postInitHandler18, postInitHandler, Tabs;
 
@@ -69,8 +68,14 @@ define(
                 this.events = ['add', 'create', 'disable', 'enable', 'load', 'remove',
                     'select', 'show'];
                 this.hasRefresh = false;
-            } else {
+            } else if (utils.uiVersion.major === 1 && (utils.uiVersion.minor >= 9 && utils.uiVersion.minor <= 11)) {
                 this.options = ['active', 'collapsible', 'disabled', 'event',
+                    'heightStyle', 'hide', 'show'];
+                this.events = ['activate', 'beforeActivate', 'beforeLoad', 'create',
+                    'load'];
+                this.hasRefresh = true;
+            } else {
+                this.options = ['active', 'classes', 'collapsible', 'disabled', 'event',
                     'heightStyle', 'hide', 'show'];
                 this.events = ['activate', 'beforeActivate', 'beforeLoad', 'create',
                     'load'];

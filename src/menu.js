@@ -1,3 +1,4 @@
+/*jshint strict: false */
 /*global define*/
 define(
 
@@ -9,18 +10,17 @@ define(
 
     function (BindingHandler, utils) {
 
-        'use strict';
-
         var Menu = function () {
             /// <summary>Constructor.</summary>
 
             BindingHandler.call(this, 'menu');
 
-            if (utils.uiVersion.major === 1 && utils.uiVersion.minor < 11) {
-                this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            this.options = ['disabled', 'icons', 'menus', 'position', 'role'];
+            if (utils.uiVersion.major === 1 && utils.uiVersion.minor === 11) {
+                this.options.push('items');
             } else {
-                this.options = ['disabled', 'icons', 'items', 'menus', 'position',
-                    'role'];
+                this.options.push('items');
+                this.options.push('classes');
             }
 
             this.events = ['blur', 'create', 'focus', 'select'];
