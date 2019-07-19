@@ -29,7 +29,8 @@ module.exports = function (grunt, options) {
                 jQuery: false,
                 ko: false,
                 kojqui: false
-            }
+            },
+            reporterOutput: ''
         },
         build: ['Gruntfile.js', 'build/<%= meta.name %>.js', 'src/*.js'],
         release: ['dist/<%= meta.name %>.js', 'dist/amd/*.js']
