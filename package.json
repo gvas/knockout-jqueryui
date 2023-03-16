@@ -32,7 +32,7 @@
     "grunt-saucelabs": "~8.5.0",
     "load-grunt-config": "~0.16.0",
     "q": "~1.1.2",
-    "request": "~2.51.0"
+    "request": "~2.88.2"
   },
   "scripts": {
     "test": "grunt test"
